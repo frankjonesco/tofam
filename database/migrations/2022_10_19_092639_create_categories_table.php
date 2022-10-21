@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->string('color', 6);
+            $table->string('color', 6)->nullable();
             $table->timestamps(); 
             $table->string('status');
         });

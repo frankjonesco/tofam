@@ -15,6 +15,15 @@
                 <p class="card-text">
                     Articles: {{$user->article_count}}
                 </p>
+                <div class="d-flex mt-auto">
+                    <a href="/dashboard/users/{{$user->hex}}/edit" class="btn btn-success btn-sm me-1">
+                        <i class="fa-solid fa-pencil"></i> Edit
+                    </a>
+                    <a type="button" class="btn btn-danger  btn-sm me-1" data-bs-toggle="modal" data-bs-target="#deleteUserModal{{$user->hex}}">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </a>
+                    <x-popup-modal :user="$user" />
+                </div>
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ class Article extends Model
 {
     use HasFactory;
 
+    // Set route key name
     public function getRouteKeyName()
     {
         return 'hex';

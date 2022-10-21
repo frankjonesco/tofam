@@ -57,7 +57,7 @@ class ArticleController extends Controller
 
         $categories = Category::orderBy('name', 'asc')->get();
 
-        return view('articles.create', [
+        return view('dashboard.articles.create', [
             'categories' => $categories
         ]);
     }
@@ -116,7 +116,7 @@ class ArticleController extends Controller
 
     // Show article edit form
     public function edit(Article $article){
-        return view('articles.edit', [
+        return view('dashboard.articles.edit', [
             'article' => $article
         ]);
     }

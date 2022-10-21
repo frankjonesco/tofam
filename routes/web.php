@@ -44,11 +44,11 @@ Route::controller(SiteController::class)->group(function(){
 
 // Auth routes for ArticleController
 Route::controller(ArticleController::class)->middleware('auth')->group(function() {
-    Route::get('/articles/create', 'create');
-    Route::post('/articles/store', 'store');
-    Route::get('/articles/{article}/edit', 'edit');
-    Route::put('/articles/{article}/update', 'update');
-    Route::delete('/articles/{article}/delete', 'destroy');
+    Route::get('/dashboard/articles/create', 'create');
+    Route::post('/dashboard/articles/store', 'store');
+    Route::get('/dashboard/articles/{article}/edit', 'edit');
+    Route::put('/dashboard/articles/{article}/update', 'update');
+    Route::delete('/dashboard/articles/{article}/delete', 'destroy');
 });
 
 // Public routes for ArticleController
@@ -65,11 +65,11 @@ Route::controller(ArticleController::class)->group(function(){
 
 // Auth routes for CategoryController
 Route::controller(CategoryController::class)->middleware('auth')->group(function(){
-    Route::get('/categories/create', 'create');
-    Route::post('/categories/store', 'store');
-    Route::get('categories/{categoy}/edit', 'edit');
-    Route::put('/categories/{category}/update', 'update');
-    Route::delete('/categories/{category}/delete', 'destroy');
+    Route::get('/dashboard/categories/create', 'create');
+    Route::post('/dashboard/categories/store', 'store');
+    Route::get('/dashboard/categories/{category}/edit', 'edit');
+    Route::put('/dashboard/categories/{category}/update', 'update');
+    Route::delete('/dashboard/categories/{category}/delete', 'destroy');
 });
 
 // Public routes for CategoryController
@@ -86,15 +86,20 @@ Route::controller(CategoryController::class)->group(function(){
 
 // Auth routes for UserController
 Route::controller(UserController::class)->middleware('auth')->group(function(){
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard/users/create', 'create');
+    Route::post('/dashboard/users/store', 'store');
+    Route::get('/dashboard/users/{user}/edit', 'edit');
+    Route::put('/dashboard/users/{user}/update', 'update');
+    Route::get('/dashboard/users/{user}/password', 'editPassword');
+    Route::put('/dashboard/users/{user}/password', 'updatePassword');
+    Route::delete('/dashboard/users/{user}/delete', 'destroy');
     Route::post('/logout', 'logout');
-    
 });
 
 // Guest routes for UserController
 Route::controller(UserController::class)->middleware('guest')->group(function(){
-    Route::get('/register', 'create')->name('register');
-    Route::post('/users/create', 'store');
+    Route::get('/register', 'register')->name('register');
+    Route::post('/users/create', 'storeSignup');
     Route::get('/login', 'login')->name('login');
     Route::post('/users/authenticate', 'authenticate');
 });
@@ -112,8 +117,7 @@ Route::controller(UserController::class)->group(function(){
 
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
-    Route::get('/dashboard', 'index');
-    Route::get('/dashboard/users/create', 'createUser');
+    Route::get('/dashboard', 'index')->name('dashboard');
 });
 
 

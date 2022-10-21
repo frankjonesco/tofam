@@ -6,7 +6,7 @@
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
             @auth
-                <a class="btn btn-success btn-sm" href="/articles/create">
+                <a class="btn btn-success btn-sm" href="/dashboard/articles/create">
                     <i class="fa-solid fa-newspaper"></i> Create article
                 </a>
             @endauth

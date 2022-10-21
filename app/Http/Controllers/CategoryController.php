@@ -14,7 +14,7 @@ class CategoryController extends Controller
     // Show all categories
     public function index(){
 
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = Category::where('status', 'public')->orderBy('name', 'asc')->get();
 
         foreach($categories as $key => $category){
             $articles = Article::where('category_id', $category->id)->count();
@@ -37,7 +37,7 @@ class CategoryController extends Controller
 
     // Show form for create a category
     public function create(){
-        return view('categories.create');
+        return view('dashboard.categories.create');
     }
 
     // Store category in database
@@ -63,6 +63,7 @@ class CategoryController extends Controller
             'name' => ucfirst($formFields['name']),
             'slug' => Str::slug($formFields['name']),
             'description' => $formFields['description'],
+            'color' => DB::table('colors')->orderBy(DB::raw('RAND()'))->first()->id,
             'status' => $formFields['status']
         ];
 
@@ -73,7 +74,7 @@ class CategoryController extends Controller
 
     // Show form for edit category
     public function edit(Category $category){
-        return view('categories.edit', [
+        return view('dashboard.categories.edit', [
             'category' => $category
         ]);
     }

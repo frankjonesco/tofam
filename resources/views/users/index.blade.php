@@ -12,6 +12,7 @@
             @endauth
         </x-buttons-bar>
         <h1>Users</h1>
+        <x-static-message />
         <div class="row g-2">
             @foreach($users as $user)
                 <x-user-card :user="$user" />

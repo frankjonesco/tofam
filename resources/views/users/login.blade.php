@@ -17,7 +17,7 @@
             </label>
             <input type="email" class="form-control mb-3" name="email" placeholder="Email" value="{{old('email')}}">
             @error('email')
-                <p>{{$message}}</p>
+                <p class="text-danger">{{$message}}</p>
             @enderror
 
             <label for="password">
@@ -25,7 +25,7 @@
             </label>
             <input type="password" class="form-control mb-3" name="password" placeholder="Password" value="{{old('password')}}">
             @error('password')
-                <p>{{$message}}</p>
+                <p class="text-danger">{{$message}}</p>
             @enderror
 
             <button type="submit" class="btn btn-success btn-sm mb-2">

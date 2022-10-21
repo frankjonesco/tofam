@@ -7,7 +7,7 @@
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
             @auth
-                <a class="btn btn-success btn-sm" href="/articles/{{$article->hex}}/edit">
+                <a class="btn btn-success btn-sm" href="/dashboard/articles/{{$article->hex}}/edit">
                     <i class="fa-solid fa-pencil"></i> Edit article
                 </a>   
                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteArticleModal">

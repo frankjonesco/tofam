@@ -7,16 +7,17 @@
             </a>
         </x-buttons-bar>
 
-        <h1>Create user</h1>
+        <h1>Edit user</h1>
 
-        <form action="/dashboard/users/store" method="post" class="w-25">
+        <form action="/dashboard/users/{{$user->hex}}/update" method="post" class="w-25">
             @csrf
-                
+            @method('PUT')
+                           
             {{-- First name --}}
             <label for="first_name">
                 First name
             </label>
-            <input type="text" class="form-control mb-3" name="first_name" placeholder="First name" value="{{old('first_name')}}">
+            <input type="text" class="form-control mb-3" name="first_name" placeholder="First name" value="{{$user->first_name}}">
             @error('first_name')
                 <p class="text-danger">{{$message}}</p>
             @enderror
@@ -25,7 +26,7 @@
             <label for="last_name">
                 Last name
             </label>
-            <input type="text" class="form-control mb-3" name="last_name" placeholder="Last name" value="{{old('last_name')}}">
+            <input type="text" class="form-control mb-3" name="last_name" placeholder="Last name" value="{{old('last_name') ? old('last_name') : $user->last_name}}">
             @error('last_name')
                 <p class="text-danger">{{$message}}</p>
             @enderror
@@ -37,10 +38,10 @@
                 class="form-select mb-3"
             >   
                 <option value="" disabled selected>Select a gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="trans">Trans</option>
-                <option value="prefer_not_to_say">Prefer not to say</option>
+                <option value="male" {{$user->gender == 'male' ? 'selected' : null}}>Male</option>
+                <option value="female" {{$user->gender == 'female' ? 'selected' : null}}>Female</option>
+                <option value="trans" {{$user->gender == 'trans' ? 'selected' : null}}>Trans</option>
+                <option value="prefer_not_to_say" {{$user->gender == 'prefer_not_to_say' ? 'selected' : null}}>Prefer not to say</option>
             </select>
             @error('gender')
                 <p class="text-danger">{{$message}}</p>
@@ -50,7 +51,7 @@
             <label for="username">
                 Username
             </label>
-            <input type="text" class="form-control mb-3" name="username" placeholder="Username" value="{{old('username')}}">
+            <input type="text" class="form-control mb-3" name="username" placeholder="Username" value="{{$user->username}}">
             @error('username')
                 <p class="text-danger">{{$message}}</p>
             @enderror
@@ -59,30 +60,17 @@
             <label for="email">
                 Email
             </label>
-            <input type="email" class="form-control mb-3" name="email" placeholder="Email" value="{{old('email')}}">
+            <input type="email" class="form-control mb-3" name="email" placeholder="Email" value="{{$user->email}}">
             @error('email')
                 <p class="text-danger">{{$message}}</p>
             @enderror
 
-            {{-- Password --}}
-            <label for="password">
-                Password
-            </label>
-            <input type="password" class="form-control mb-3" name="password" placeholder="Password">
-            @error('password')
-                <p class="text-danger">{{$message}}</p>
-            @enderror
-
-            {{-- Password confirmation --}}
-            <label for="password_confirmation">
-                Confirm password
-            </label>
-            <input type="password" class="form-control mb-3" name="password_confirmation" placeholder="Confirm password" value="{{old('password_confirmation')}}">
-
             {{-- Submit --}}
             <button type="submit" class="btn btn-success btn-sm mb-2">
-                Create user
+                Update user
             </button>
+
+            <p>Want to change your password? <a href="/dashboard/users/{{$user->hex}}/password">Click here</a></p>
 
         </form>
 
