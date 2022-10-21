@@ -7,7 +7,7 @@
             </a>
         </x-buttons-bar>
         <h1>Change password</h1>
-
+        <x-static-message />
         <form action="/dashboard/users/{{$user->hex}}/password" method="post" class="w-25">
             @csrf
             @method('PUT')

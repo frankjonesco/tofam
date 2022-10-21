@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -152,6 +153,22 @@ class UserController extends Controller
         return view('dashboard.users.edit-password', [
             'user' => $user
         ]);
+    }
+
+    // Admin: Update password
+    public function updatePassword(User $user, Request $request){
+        $formFields = $request->validate([
+            'old_password' => 'required|min:6',
+            'new_password' => 'required|confirmed|min:6',
+        ]);
+        // dd($user);
+        if(Hash::check($request->old_password, $user->password) == false){
+            return back()->with('staticError', 'Your old password is not correct. Try again.');
+        }
+
+        $user->update(['password' => bcrypt($formFields['new_password'])]);
+
+        return redirect('/users')->with('message', 'User password updated!');
     }
 
     // Admin: Delete user
