@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -39,7 +40,7 @@ class ArticleController extends Controller
             $article['tags'] = explode(',', $article->tags);
         }
 
-        $other_articles = Article::latest()->where('id', '!=' , $article->id)->paginate(3);
+        $other_articles = Article::where('id', '!=' , $article->id)->orderByRaw('RAND()')->take(3)->get();;
         foreach($other_articles as $key => $other_article){
             $other_articles[$key]['tags'] = explode(',', $other_article->tags);
         }

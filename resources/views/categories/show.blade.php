@@ -6,9 +6,9 @@
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
             @auth
-                <a class="btn btn-success btn-sm" href="/categories/create">
-                    <i class="fa-solid fa-folder-open"></i> Create category
-                </a>
+                <a class="btn btn-success btn-sm" href="/categories/{{$category->hex}}/edit">
+                    <i class="fa-solid fa-pencil"></i> Edit category
+                </a>  
                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal">
                     <i class="fa-solid fa-trash"></i> Delete
                 </button>

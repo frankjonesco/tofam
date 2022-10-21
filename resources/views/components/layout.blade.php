@@ -27,11 +27,6 @@
     <x-flash-message />
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function(event) {
-            console.log("DOM fully loaded and parsed");
-            document.body.style.display='block';
-          });
-    </script>
+
 </body>
 </html>

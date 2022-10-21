@@ -7,6 +7,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,8 +86,9 @@ Route::controller(CategoryController::class)->group(function(){
 
 // Auth routes for UserController
 Route::controller(UserController::class)->middleware('auth')->group(function(){
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::post('/logout', 'logout');
-    Route::get('dashboard', 'dashboard')->name('dashboard');
+    
 });
 
 // Guest routes for UserController
@@ -96,6 +98,24 @@ Route::controller(UserController::class)->middleware('guest')->group(function(){
     Route::get('/login', 'login')->name('login');
     Route::post('/users/authenticate', 'authenticate');
 });
+
+// Public routes for UserController
+Route::controller(UserController::class)->group(function(){
+    Route::get('/users', 'index');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routes for DashboardController
+|--------------------------------------------------------------------------
+*/
+
+// All dashboard routes must be authenticated
+Route::controller(DashboardController::class)->middleware('auth')->group(function(){
+    Route::get('/dashboard', 'index');
+    Route::get('/dashboard/users/create', 'createUser');
+});
+
 
 
 

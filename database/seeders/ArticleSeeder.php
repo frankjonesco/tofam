@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Article;
 use App\Models\Sponsor;
 use App\Models\Category;
@@ -41,10 +42,16 @@ class ArticleSeeder extends Seeder
                 $sponsor_id = $sponsor ? $sponsor->id : null;
             }
 
+            $user_id = null;
+            if($row->user_id){
+                $user = User::where('old_id', $row->user_id)->first();
+                $user_id = $user ? $user->id : null;
+            }
+
             $articles[] = [
                 'old_id' => $row->id,
                 'hex' => Str::random(11),
-                'user_id' => 1,
+                'user_id' => $user_id,
                 'sponsor_id' => $sponsor_id,
                 'title' => $row->title,
                 'slug' => Str::slug($row->title),
@@ -111,25 +118,6 @@ class ArticleSeeder extends Seeder
  
                 $row->save();
             }
-
-            
-
-            
- 
-            
-
-
-
-
-
-
-
-
-
-
-            
-
-            
 
         }
 

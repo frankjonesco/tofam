@@ -49,7 +49,7 @@
                     <p>{{$message}}</p>
                 @enderror
 
-                <button type="submit" class="btn btn-success mb-3">
+                <button type="submit" class="btn btn-success btn-sm">
                     Create category
                 </button>
 

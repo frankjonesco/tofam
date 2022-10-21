@@ -4,7 +4,7 @@
             <div class="view-article-img">
                 <a href="/articles/{{$article->hex}}/{{$article->slug}}">
                     <img 
-                        src="{{$article->image ? asset('/images/articles/'.$article->hex.'/'.$article->image) : asset('/images/no-image.png')}}" 
+                        src="{{$article->image ? asset('/images/articles/'.$article->hex.'/tn-'.$article->image) : asset('/images/no-image.png')}}" 
                         class="card-img-top" 
                         alt="{{$article->title}}"
                     >

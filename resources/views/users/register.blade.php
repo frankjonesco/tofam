@@ -47,7 +47,7 @@
             </label>
             <input type="password" class="form-control mb-3" name="password_confirmation" placeholder="Confirm password" value="{{old('password_confirmation')}}">
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success btn-sm mb-2">
                 Create user
             </button>
 

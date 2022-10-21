@@ -75,8 +75,9 @@
                 @enderror
 
                 <img 
-                    src="{{$article->image ? asset('images/articles/'.$article->hex.'/'.$article->image) : asset('images/no-image.png')}}" 
+                    src="{{$article->image ? asset('images/articles/'.$article->hex.'/tn-'.$article->image) : asset('images/no-image.png')}}" 
                     alt=""
+                    class="mb-3 w-100"
                 >
 
                 {{-- Article tags --}}
@@ -106,7 +107,7 @@
                     <p>{{$message}}</p>
                 @enderror
 
-                <button type="submit" class="btn btn-success mb-3">
+                <button type="submit" class="btn btn-success btn-sm">
                     Update artilce
                 </button>
 

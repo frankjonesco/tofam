@@ -9,6 +9,13 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    // Show all users
+    public function index(){
+        return view('users.index', [
+            'users' => User::all()
+        ]);
+    }
+    
     public function create(){
         return view('users.register');
     }
@@ -78,13 +85,6 @@ class UserController extends Controller
 
     }
 
-    // View dashboard
-    public function dashboard(){
-        if(!auth()->id()){
-            return redirect('login')->with('staticAlert', 'Unauthorized access! You must log in to perform this action.');
-        }
-
-        return view('users.dashboard');
-    }
+    
 
 }

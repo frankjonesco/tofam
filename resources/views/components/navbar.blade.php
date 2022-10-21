@@ -17,6 +17,7 @@
                 <a class="nav-link {{ (request()->segment(1) == null) ? 'active' : null }}" aria-current="page" href="/">Home</a>
                 <a class="nav-link {{ (request()->segment(1) == 'articles') ? 'active' : null }}" href="/articles">Articles</a>
                 <a class="nav-link {{ (request()->segment(1) == 'categories') ? 'active' : null }}" href="/categories">Categories</a>
+                <a class="nav-link {{ (request()->segment(1) == 'users') ? 'active' : null }}" href="/users">Users</a>
 
                 @auth
                     <a class="nav-link {{ (Route::currentRouteName() == 'dashboard') ? 'active' : null }}" href="/dashboard">Dashboard</a>

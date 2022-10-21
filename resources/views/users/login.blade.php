@@ -28,7 +28,7 @@
                 <p>{{$message}}</p>
             @enderror
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn btn-success btn-sm mb-2">
                 Log in
             </button>
 
