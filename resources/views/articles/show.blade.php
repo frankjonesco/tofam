@@ -35,6 +35,7 @@
                 <div class="card-body d-flex flex-column">
                     <h1>{{$article->title}}</h1>
                     <h3>{{$article->caption}}</h3>
+                    <h5>{{$article->teaser}}</h5>
 
                     {{-- Article tags --}}
                     @if($article->tags && is_array($article->tags))

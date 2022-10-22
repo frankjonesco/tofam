@@ -12,17 +12,23 @@ class UserController extends Controller
 {
     // Show all users
     public function index(){
+
+        $name = 'Frank Jones';
+
         return view('users.index', [
             'users' => User::all()
         ]);
     }
     
+    // Show registration form
     public function register(){
         return view('users.register');
     }
 
-    public function storestoreSignup(Request $request){
+    // Store registration
+    public function storeRegistration(Request $request){
         
+        // Validate form fields
         $formFields = $request->validate([
             'first_name' => 'required|min:2',
             'last_name' => 'required|min:2',
@@ -30,13 +36,7 @@ class UserController extends Controller
             'password' => 'required|confirmed|min:6'
         ]);
 
-        // Generare a random hex that does not already exist
-        $hex = Str::random('11');
-        while(User::where('hex', $hex)->exists()){
-            $hex = Str::random('11');
-        }
-
-        $formFields['hex'] = $hex;
+        $formFields['hex'] = uniqueHex('users');
 
         // Set the user type id
         $formFields['user_type_id'] = 1;
@@ -69,7 +69,7 @@ class UserController extends Controller
     }
 
     // Authenticate user
-    public function authenticate(Request $request){
+    public function authenticateLogin(Request $request){
         
         $formFields = $request->validate([
             'email' => 'required|email',
@@ -82,8 +82,6 @@ class UserController extends Controller
         }
 
         return back()->withErrors(['email' => 'Invalid credentials.'])->onlyInput('email');
-
-
     }
 
     // Admin: Show form for create user

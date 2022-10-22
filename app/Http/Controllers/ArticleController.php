@@ -13,19 +13,8 @@ class ArticleController extends Controller
 {
     // Show all articles
     public function index(){
-
-        // dd(config('global.messages.unauthorized'));
-
-        $articles = Article::where('status', 'public')->orderBy('created_at', 'DESC')->paginate(9);
-
-        foreach($articles as $key => $article){
-            if($article->tags){
-                $articles[$key]['tags'] = explode(',', $article->tags);
-            }
-        }
-
         return view('articles.index', [
-            'articles' => $articles
+            'articles' => Article::paginateArticlesExplodeTags()
         ]);
     }
 
@@ -33,18 +22,27 @@ class ArticleController extends Controller
     // Show single article
     public function show(Article $article, $slug){
 
-        $article->views = ++$article->views; //$var+1
+        // Increment the number of views
+        $article->views = ($article->view + 1);
         $article->save();
 
+        // Explode article tags into an array
         if($article->tags){
             $article['tags'] = explode(',', $article->tags);
         }
 
-        $other_articles = Article::where('id', '!=' , $article->id)->orderByRaw('RAND()')->take(3)->get();;
+        // Fetch other articles
+        $other_articles = Article::where('id', '!=' , $article->id)
+            ->orderByRaw('RAND()')
+            ->take(3)
+            ->get();
+
+        // Explode article tag into an array
         foreach($other_articles as $key => $other_article){
             $other_articles[$key]['tags'] = explode(',', $other_article->tags);
         }
 
+        // Load the view
         return view('articles.show', [
             'article' => $article,
             'other_articles' => $other_articles
@@ -55,8 +53,10 @@ class ArticleController extends Controller
     // Show create form
     public function create(){
 
+        // Fetch categories
         $categories = Category::orderBy('name', 'asc')->get();
 
+        // Return the view
         return view('dashboard.articles.create', [
             'categories' => $categories
         ]);
@@ -66,7 +66,7 @@ class ArticleController extends Controller
     // Store article in database
     public function store(Request $request){
 
-        //  Validate form fields
+        // Validate form fields
         $formFields = $request->validate([
             'title' => 'required',
             'caption' => 'required',

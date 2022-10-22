@@ -26,14 +26,14 @@ use App\Http\Controllers\DashboardController;
 |--------------------------------------------------------------------------
 */
 
+
+
 // Public routes for SiteController
 Route::controller(SiteController::class)->group(function(){
     Route::get('/', 'home')->name('home');
     Route::get('/tags/{term}', 'tags');
     Route::get('/search/{term}', 'searchRetrieve');
     Route::post('/search', 'search');
-
-    Route::get('/json', 'json');
 });
 
 /*
@@ -99,9 +99,9 @@ Route::controller(UserController::class)->middleware('auth')->group(function(){
 // Guest routes for UserController
 Route::controller(UserController::class)->middleware('guest')->group(function(){
     Route::get('/register', 'register')->name('register');
-    Route::post('/users/create', 'storeSignup');
+    Route::post('/users/create', 'storeRegistration');
     Route::get('/login', 'login')->name('login');
-    Route::post('/users/authenticate', 'authenticate');
+    Route::post('/users/authenticate', 'authenticateLogin');
 });
 
 // Public routes for UserController
@@ -119,7 +119,3 @@ Route::controller(UserController::class)->group(function(){
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
 });
-
-
-
-

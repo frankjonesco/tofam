@@ -56,32 +56,4 @@ class SiteController extends Controller
             'count' => $articles->total()
         ]);
     }
-
-    public function json(){
-
-        $input = Category::on('mysql_import_old_stuff')->get();
-
-        $categories = [];
-
-        foreach($input as $row){
-            $categories[] = [
-                'old_id' => $row->id,
-                'hex' => Str::random(11),
-                'user_id' => 1,
-                'name' => $row->name,
-                'slug' => Str::slug($row->name),
-                'description' => null,
-                'image' => $row->image,
-                'color' => $row->color
-            ];
-        }
-
-        dd($categories);
-
-        $output = $input;
-
-        return view('json', [
-            'output' => $output
-        ]);
-    }
 }
