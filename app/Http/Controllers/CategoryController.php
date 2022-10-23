@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Site;
 use App\Models\Article;
 use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends BaseController
 {
 
+    private $site;
+    private $category;
     private $article;
 
-    public function __construct()
+    public function __construct(Site $site, Category $category, Article $article)
     {
-        
+        $this->site = $site;
+        $this->category = $category;
+        $this->article = $article;
     }
     
     // SHOW ALL CATEGOIES
@@ -26,7 +28,8 @@ class CategoryController extends BaseController
         ]);
     }
 
-    // Show single category
+
+    // SHOW SINGLE CATEGORY
     public function show(Category $category){
         return view('categories.show', [
             'category' => $category,
@@ -34,75 +37,50 @@ class CategoryController extends BaseController
         ]);
     }
 
-    // Show form for create a category
+
+    // SHOW CREATE ARTICLE FORM
     public function create(){
         return view('dashboard.categories.create');
     }
 
-    // Store category in database
-    public function store(Request $request){
+
+    // STORE CATEGORY
+    public function store(Request $request, Category $category){
         // Validate form fields
         $formFields = $request->validate([
             'name' => 'required',
             'status' => 'required'
         ]);
 
-        $formFields['description'] = $request->description;
-
-        // Generate a random hex that does not already exist
-        $hex = Str::random(11);
-        while(Category::where('hex', $hex)->exists()){
-            $hex = Str::random(11);
-        }
-
-        $formFields = [
-            'hex' => $hex, 
-            'user_id' => User::pluck('id')->random(),
-            'name' => ucfirst($formFields['name']),
-            'slug' => Str::slug($formFields['name']),
-            'description' => $formFields['description'],
-            'color' => DB::table('colors')->orderBy(DB::raw('RAND()'))->first()->id,
-            'status' => $formFields['status']
-        ];
-
-        Category::create($formFields);
+        // Create category
+        $category->createCategory($request, $category);
 
         return redirect('categories')->with('message', 'Category created!');
     }
 
-    // Show form for edit category
+
+    // SHOW CATEGORY EDIT FORM
     public function edit(Category $category){
         return view('dashboard.categories.edit', [
             'category' => $category
         ]);
     }
 
-    // Update category
-    public function update(Category $category, Request $request){
-
-        // Validate form
+    // UPDATE CATEGORY
+    public function update(Request $request, Category $category){
+        // Validate form fields
         $formFields = $request->validate([
             'name' => 'required',
             'status' => 'required'
         ]);
 
-        $formFields['description'] = $request->description;
-
-        $formFields = [
-            'user_id' => User::pluck('id')->random(),
-            'name' => ucfirst($formFields['name']),
-            'slug' => Str::slug($formFields['name']),
-            'description' => $formFields['description'],
-            'status' => $formFields['status']
-        ];
-
-        $category->update($formFields);
+        // Save changes to this category
+        $category->saveCategory($request, $category);
 
         return redirect('categories')->with('message', 'Category updated!');
-
     }
 
-    // Delete category
+    // DELETE CATEGORY
     public function destroy(Category $category){
         $category->delete();
         return redirect('categories')->with('message', 'Category deleted!');

@@ -6,59 +6,59 @@ use App\Models\Site;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
+    private $site;
+    private $category;
     private $article;
 
-    public function __construct()
+    public function __construct(Site $site, Category $category, Article $article)
     {
-        
+        $this->site = $site;
+        $this->category = $category;
+        $this->article = $article;
     }
 
     // SHOW ALL ARTICLES
     public function index(){
         return view('articles.index', [
-            'articles' => Article::getPublicArticlesExplodeTags()
+            'articles' => $this->site->publicArticles()
+            // 'articles' => Site::publicArticles()
         ]);
     }
 
+
     // SHOW SINGLE ARTICLE
-    public function show(Article $article, $slug){
+    public function show(Article $article, $slug = null){
         // Increment the number of views
         $article->addView($article);
 
         // Explode this article's tags to an array
         $article->tagsToArrayFromOne($article);
 
-        // Fetch other articles
-        $other_articles = $article->getOtherPublicArticles($article->hex)->take(3)->get();
-
-        // Explode each article's tags to arrays
-        $other_articles = Article::tagsToArrayFromMany($other_articles);
-
         // Load the view
         return view('articles.show', [
             'article' => $article,
-            'other_articles' => $other_articles
+            'other_articles' => $article->otherPublicArticles($article->hex)
         ]);
     }
 
-    // SHOW CREATE FORM
-    public function create(Site $site){
+
+    // SHOW CREATE ARTICLE FORM
+    public function create(){
         // Fetch categories
-        $categories = $site->getAllCategories();
+        $categories = $this->site->publicCategories();
 
         return view('dashboard.articles.create', [
             'categories' => $categories
         ]);
     }
 
+
     // STORE ARTICLE 
-    public function store(Request $request, Article $article, Site $site){
+    public function store(Request $request){
         // Validate form fields
         $formFields = $request->validate([
             'title' => 'required',
@@ -69,24 +69,23 @@ class ArticleController extends Controller
         ]);
 
         // Create article
-        $article->createArticle($request, $formFields, $site);
+        $this->article->createArticle($request);
 
         return redirect('articles')->with('message', 'Article created!');
     }
 
+
     // SHOW ARTICLE EDIT FORM
     public function edit(Article $article){
-        // foreach(Site::publicCategories() as $category){
-            
-        // }
         return view('dashboard.articles.edit', [
             'article' => $article,
             'categories' => Site::publicCategories()
         ]);
     }
 
+
     // UPDATE ARTICLE
-    public function update(Article $article, Request $request){
+    public function update(Request $request, Article $article){
         // Validate form fields 
         $formFields = $request->validate([
             'title' => 'required',
@@ -97,10 +96,11 @@ class ArticleController extends Controller
         ]);
 
         // Save changes to this article
-        $article->saveArticle($request, $article, $formFields);
+        $article->saveArticle($request, $article);
 
         return redirect('articles/'.$article->hex.'/'.$article->slug)->with('message', 'Article updated!');
     }
+
 
     // DELETE ARTICLE
     public function destroy(Article $article){

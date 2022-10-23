@@ -55,6 +55,7 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
 Route::controller(ArticleController::class)->group(function(){
     Route::get('/articles', 'index');
     Route::get('/articles/{article}/{slug}', 'show');
+    Route::get('/articles/{article}', 'show');
 });
 
 /*

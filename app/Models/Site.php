@@ -11,9 +11,10 @@ class Site extends Model
 {
     use HasFactory;
 
-    // Get all categories
-    public function getAllCategories(){
-        return Category::orderBy('name', 'asc')->get();
+    
+
+    public function randomColorId(){
+        return DB::table('colors')->orderBy(DB::raw('RAND()'))->first()->id;
     }
 
     // Find unique hex for 'table'
@@ -25,7 +26,29 @@ class Site extends Model
         return $hex;
     }
 
+    // Get all categories
+    public function getAllCategories(){
+        return Category::orderBy('name', 'asc')->get();
+    }
+
     public static function publicCategories(){
         return Category::where('status', 'public')->orderBy('name', 'ASC')->get();
     }
+
+    // Get all public articls
+    public static function getArticles(string $status){
+        return Article::where('status', 'public');
+    }
+
+    // Get all public articles with exploaded tags
+    public static function publicArticles(){
+        $articles = self::getArticles('public')->latest()->paginate(6);
+        foreach($articles as $key => $article){
+            $articles[$key] = Article::tagsToArrayFromOne($article);
+        }
+        return $articles;
+    }
+
+    
+    
 }

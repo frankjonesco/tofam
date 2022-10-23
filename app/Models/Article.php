@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,18 +35,31 @@ class Article extends Model
     }
 
     // Get all public articls
-    public static function getPublicArticles(){
+    public static function getArticles(string $status){
         return Article::where('status', 'public');
     }
 
     // Get all public articles with exploaded tags
-    public static function getPublicArticlesExplodeTags(){
-        $articles = self::getPublicArticles()->latest()->paginate(6);
+    public static function getPublicArticles(){
+        $articles = self::getArticles('public')->latest()->paginate(6);
         foreach($articles as $key => $article){
             $articles[$key] = self::tagsToArrayFromOne($article);
         }
         return $articles;
     }
+
+     // Get other public articles with exploaded tags
+     public static function otherPublicArticles($hex){
+        $articles = self::getArticles('public')->where('hex', '!=' , $hex)->orderBy(DB::raw('RAND()'))->take(3)->get();
+        foreach($articles as $key => $article){
+            $articles[$key] = self::tagsToArrayFromOne($article);
+        }
+        // dd($articles);
+        return $articles;
+    }
+
+
+    
 
     // Accessor for retrieving and formatting 'created_at'
     public function getThumbnail($article){
@@ -104,24 +118,13 @@ class Article extends Model
         $article->save();
     }
 
-    // Get other articles
-    public static function getOtherPublicArticles(string $hex){
-        return self::getPublicArticles()->where('hex', '!=' , $hex)->orderByRaw('RAND()');
-    }
+
 
     // Find unique hex for articles
     public function uniqueHex($site, string $field = 'hex', int $length = 11){
         return $site->uniqueHex('articles');
     }
 
-    // Compile article data
-    public function compileArticleData($request, $article){
-        $article['user_id'] = auth()->id();
-        $article['category_id'] = ($request->category == '') ? null : $request->category;
-        $article['slug'] = Str::slug($request->title);
-        $article['tags'] = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));        
-        return $article;
-    }
 
     // Handle image upload
     public function handleImageUpload($request, $article){
@@ -136,23 +139,39 @@ class Article extends Model
         return $article;
     }
 
-    // Create a new article
-    public function createArticle($request, $article, $site){
-        $article['hex'] = self::uniqueHex($site);
-        $article = self::compileArticleData($request, $article);
-        $article = self::handleImageUpload($request, $article);
-        Article::create($article);
+
+    // Compile category data
+    public function compileArticleData($request, $article = null){
+        $site = new Site();
+        $article = empty($article) ? new Article() : $article;
+        $article->hex = ($article->hex) ? $article->hex : self::uniqueHex($site);    
+        $article->user_id = auth()->id();
+        $article->category_id = ($request->category) ? $request->category : null;
+        $article->title = $request->title;
+        $article->slug = Str::slug($request->title);
+        $article->caption = $request->caption;
+        $article->teaser = $request->teaser;
+        $article->body = $request->body;
+        $article->tags = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));   
+        $article->status = $request->status;     
+        return $article;
     }
 
-    // Save changes to an existing article
-    public function saveArticle($request, $article, $formFields){
-        $formFields['hex'] = $article->hex;
-        $formFields['category_id'] = ($request->category == '') ? null : $request->category;
-        $formFields['slug'] = Str::slug($request->title);
-        $formFields['tags'] = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))))); 
-        $article = $formFields;
+
+    // Create article (insert)
+    public function createArticle($request){
+        $article = self::compileArticleData($request);
         $article = self::handleImageUpload($request, $article);
-        Article::update($article); 
+        $article->save();
+    }
+
+    // Save article (update)
+    public function saveArticle($request, $article){
+        $article = self::compileArticleData($request, $article);
+        // dd($article);
+        $article = self::handleImageUpload($request, $article);
+
+        $article->save();
     }
 
     // Check user is article owner

@@ -17,12 +17,17 @@
         </x-buttons-bar>
         <h1>Category: {{$category->name}}</h1>
 
-        @if($articles)
-            @foreach($articles as $article)
-                <x-article-card :article="$article" />
-            @endforeach
+        @if(count($articles))
+            <div class="container mb-4">
+                <div class="row g-2">
+                    @foreach($articles as $article)
+                        <x-article-card :article="$article" />
+                    @endforeach
+                </div>
+            </div>
+            {{ $articles->links() }}
         @else
-            <p>There is nothing in this category.</p>
+            <p>There are no articles to display.</p>
         @endif
     </x-card>
 </x-layout>
