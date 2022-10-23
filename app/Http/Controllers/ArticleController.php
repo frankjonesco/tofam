@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
@@ -11,36 +12,40 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
-    // Show all articles
+    private $article;
+
+    public function __construct()
+    {
+        
+    }
+
+    // SHOW ALL ARTICLES
     public function index(){
+        // Fetch articles and paginate
+        $articles = Article::getPublicArticles()->latest()->paginate(9);
+        
+        // Explode each article's tags to arrays
+        $articles = Article::tagsToArrayFromMany($articles);
+
         return view('articles.index', [
-            'articles' => Article::paginateArticlesExplodeTags()
+            'articles' => $articles
         ]);
     }
 
 
-    // Show single article
+    // SHOW SINGLE ARTICLE
     public function show(Article $article, $slug){
-
         // Increment the number of views
-        $article->views = ($article->view + 1);
-        $article->save();
+        $article->addView($article);
 
-        // Explode article tags into an array
-        if($article->tags){
-            $article['tags'] = explode(',', $article->tags);
-        }
+        // Explode this article's tags to an array
+        $article->tagsToArrayFromOne($article);
 
         // Fetch other articles
-        $other_articles = Article::where('id', '!=' , $article->id)
-            ->orderByRaw('RAND()')
-            ->take(3)
-            ->get();
+        $other_articles = $article->getOtherPublicArticles($article->hex)->take(3)->get();
 
-        // Explode article tag into an array
-        foreach($other_articles as $key => $other_article){
-            $other_articles[$key]['tags'] = explode(',', $other_article->tags);
-        }
+        // Explode each article's tags to arrays
+        $other_articles = Article::tagsToArrayFromMany($other_articles);
 
         // Load the view
         return view('articles.show', [
@@ -51,12 +56,11 @@ class ArticleController extends Controller
 
 
     // Show create form
-    public function create(){
+    public function create(Site $site){
 
         // Fetch categories
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = $site->getAllCategories();
 
-        // Return the view
         return view('dashboard.articles.create', [
             'categories' => $categories
         ]);
@@ -64,7 +68,7 @@ class ArticleController extends Controller
 
 
     // Store article in database
-    public function store(Request $request){
+    public function store(Request $request, Article $article, Site $site){
 
         // Validate form fields
         $formFields = $request->validate([
@@ -75,39 +79,24 @@ class ArticleController extends Controller
             'status' => 'required'
         ]);
 
-        // Generare a random hex that does not already exist
-        $hex = Str::random('11');
-        while(Article::where('hex', $hex)->exists()){
-            $hex = Str::random('11');
-        }   
+        $formFields['hex'] = $article->uniqueHex($site);
         
-        // Additaional non input dependent fields
-        $formFields['hex'] = $hex;
-        $formFields['user_id'] = auth()->id();
-        $formFields['category_id'] = ($request->category == '') ? null : $request->category;
-        $formFields['slug'] = Str::slug($request->title);
-        $formFields['tags'] = strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))));
+        
 
 
         // Handle the image if it exists
-        if($request->hasFile('image')){
-            $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
+        $article->handleImageUpload($request, $formFields);
 
-            // Store in public folder
-            $request->image->move(public_path('images/articles/'.$hex), $imageName);
+        
 
-            // // Store in storage folder
-            // $request->image->storeAs('images', $imageName);
+        // Compile form fields and non-input-dependent fields
+        $article = $article->compileArticleData($request, $formFields, $site);
 
-            // // Store in s3
-            // $request->image->storeAs('images', $imageName, 's3');
+        
 
-            // Add image name to form fields
-            $formFields['image'] = $imageName;
-        }
-
+        // dd($article);
         // Create article
-        Article::create($formFields);
+        Article::create($article);
 
         // Redirect with success message
         return redirect('articles')->with('message', 'Article created!');

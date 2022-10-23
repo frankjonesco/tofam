@@ -17,7 +17,7 @@
         </x-buttons-bar>
         <h1>Category: {{$category->name}}</h1>
 
-        @if(count($articles))
+        @if($articles)
             @foreach($articles as $article)
                 <x-article-card :article="$article" />
             @endforeach

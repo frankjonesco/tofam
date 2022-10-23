@@ -74,8 +74,10 @@ Route::controller(CategoryController::class)->middleware('auth')->group(function
 
 // Public routes for CategoryController
 Route::controller(CategoryController::class)->group(function(){
+    Route::get('/categories/test', 'test');
+    
     Route::get('/categories', 'index')->name('categories');
-    Route::get('categories/{category:slug}', 'show');
+    Route::get('/categories/{category:slug}', 'show');
 });
 
 /*

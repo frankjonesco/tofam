@@ -12,9 +12,6 @@ class UserController extends Controller
 {
     // Show all users
     public function index(){
-
-        $name = 'Frank Jones';
-
         return view('users.index', [
             'users' => User::all()
         ]);
