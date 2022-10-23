@@ -57,7 +57,6 @@ class ArticleController extends Controller
 
     // Show create form
     public function create(Site $site){
-
         // Fetch categories
         $categories = $site->getAllCategories();
 
@@ -69,7 +68,6 @@ class ArticleController extends Controller
 
     // Store article in database
     public function store(Request $request, Article $article, Site $site){
-
         // Validate form fields
         $formFields = $request->validate([
             'title' => 'required',
@@ -82,7 +80,6 @@ class ArticleController extends Controller
         // Create article
         $article->createArticle($request, $formFields, $site);
 
-        // Redirect with success message
         return redirect('articles')->with('message', 'Article created!');
     }
 
@@ -97,8 +94,7 @@ class ArticleController extends Controller
 
     // Update article
     public function update(Article $article, Request $request){
-
-        // Validate the form 
+        // Validate form fields 
         $formFields = $request->validate([
             'title' => 'required',
             'caption' => 'required',
@@ -107,25 +103,8 @@ class ArticleController extends Controller
             'status' => 'required',
         ]);
 
-        // Slug the title
-        $formFields['slug'] = Str::slug($request->title);
-
-        // Handle a new image was added
-        if($request->hasFile('image')){
-            $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
-
-            // Store in public folder
-            $request->image->move(public_path('images/articles/'.$article->hex), $imageName);
-
-            // Add image name to form fields
-            $formFields['image'] = $imageName;
-        }
-
-        $formFields['tags'] = strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))));
-        
-        $article->update($formFields);
-        
-        //dd($article->update($formFields));
+        // Save changes to this article
+        $article->saveArticle($request, $article, $formFields);
 
         return redirect('articles/'.$article->hex.'/'.$article->slug)->with('message', 'Article updated!');
     }
@@ -133,6 +112,8 @@ class ArticleController extends Controller
 
     // Delete article
     public function destroy(Article $article){
+
+        $article->checkUserIsOwner($article);
 
         // Make sure the logged in user is the owner
         if($article->user_id != auth()->id()){

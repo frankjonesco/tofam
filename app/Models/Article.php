@@ -60,8 +60,7 @@ class Article extends Model
 
             return asset('images/articles/'.$article->hex.'/'.$image);
         }
-        else{
-            
+        else{            
             return asset('images/no-image.png');
         }
     }
@@ -107,7 +106,7 @@ class Article extends Model
         $article['user_id'] = auth()->id();
         $article['category_id'] = ($request->category == '') ? null : $request->category;
         $article['slug'] = Str::slug($request->title);
-        $article['tags'] = strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))));        
+        $article['tags'] = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));        
         return $article;
     }
 
@@ -120,17 +119,39 @@ class Article extends Model
             $request->image->move(public_path('images/articles/'.$article['hex']), $imageName);
             // Add image name to article array
             $article['image'] = $imageName;
-            return $article;
         }
+        return $article;
     }
 
+    // Create a new article
     public function createArticle($request, $article, $site){
         $article['hex'] = self::uniqueHex($site);
         $article = self::compileArticleData($request, $article);
         $article = self::handleImageUpload($request, $article);
-
         Article::create($article);
-    }   
+    }
+
+    // Save changes to an existing article
+    public function saveArticle($request, $article, $formFields){
+        $formFields['hex'] = $article->hex;
+        $formFields['category_id'] = ($request->category == '') ? null : $request->category;
+        $formFields['slug'] = Str::slug($request->title);
+        $formFields['tags'] = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))))); 
+        $article = $formFields;
+        $article = self::handleImageUpload($request, $article);
+        Article::update($article); 
+    }
+
+    // Check user is article owner
+    public function checkUserIsOwner($article){
+         // Make sure the logged in user is the owner
+         if($article->user_id != auth()->id()){
+            // abort(403, 'Unathorised Action.');
+            return back()->with('staticError', 'You do not have permission to delete this article.');
+        }
+    }
+
+    
     
 
 
