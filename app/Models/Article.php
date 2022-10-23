@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ class Article extends Model
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 
+
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
@@ -31,6 +33,40 @@ class Article extends Model
     public static function getPublicArticles(){
         return Article::where('status', 'public');
     }
+
+    // Accessor for retrieving and formatting 'created_at'
+    public function getThumbnail($article){
+        
+        if($article->image){
+            $path = public_path('images/articles/'.$article->hex);
+            $image = $article->image;
+            $imagePath = $path.'/'.$image;
+
+            $thumbnail = 'tn-'.$article->image;
+            $thumbnailPath = $path.'/'.$thumbnail;
+
+            switch($image){
+                case(File::exists($thumbnailPath)):
+                    $image = $thumbnail;
+                    break;
+
+                case(File::exists($imagePath)):
+                    $image = $image;
+                    break;
+                    
+                default:
+                    $image = 'no-image.png';
+            }
+
+            return asset('images/articles/'.$article->hex.'/'.$image);
+        }
+        else{
+            
+            return asset('images/no-image.png');
+        }
+    }
+
+
 
     // Explode tags to arrays for all articles
     public static function tagsToArrayFromMany($articles = []){
@@ -67,28 +103,34 @@ class Article extends Model
     }
 
     // Compile article data
-    public function compileArticleData($request, $formFields, $site){
-        $formFields['user_id'] = auth()->id();
-        $formFields['category_id'] = ($request->category == '') ? null : $request->category;
-        $formFields['slug'] = Str::slug($request->title);
-        $formFields['tags'] = strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))));        
-        return $formFields;
+    public function compileArticleData($request, $article){
+        $article['user_id'] = auth()->id();
+        $article['category_id'] = ($request->category == '') ? null : $request->category;
+        $article['slug'] = Str::slug($request->title);
+        $article['tags'] = strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))));        
+        return $article;
     }
 
     // Handle image upload
-    public function handleImageUpload($request, $formFields){
+    public function handleImageUpload($request, $article){
         if($request->hasFile('image')){
+            // Define a name for the image
             $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
-
             // Store in public folder
-            $request->image->move(public_path('images/articles/'.$formFields['hex']), $imageName);
-
-            // Add image name to form fields
-            $formFields['image'] = $imageName;
-
-            return $formFields;
+            $request->image->move(public_path('images/articles/'.$article['hex']), $imageName);
+            // Add image name to article array
+            $article['image'] = $imageName;
+            return $article;
         }
     }
+
+    public function createArticle($request, $article, $site){
+        $article['hex'] = self::uniqueHex($site);
+        $article = self::compileArticleData($request, $article);
+        $article = self::handleImageUpload($request, $article);
+
+        Article::create($article);
+    }   
     
 
 

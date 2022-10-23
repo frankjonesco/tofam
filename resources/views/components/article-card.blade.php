@@ -3,8 +3,9 @@
         <div class="card mb-3 h-100">
             <div class="view-article-img">
                 <a href="/articles/{{$article->hex}}/{{$article->slug}}">
+                    {{-- {{dd($article->image)}} --}}
                     <img 
-                        src="{{$article->image ? asset('/images/articles/'.$article->hex.'/tn-'.$article->image) : asset('/images/no-image.png')}}" 
+                        src="{{$article->getThumbnail($article)}}" 
                         class="card-img-top" 
                         alt="{{$article->title}}"
                     >

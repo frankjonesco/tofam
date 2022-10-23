@@ -79,24 +79,8 @@ class ArticleController extends Controller
             'status' => 'required'
         ]);
 
-        $formFields['hex'] = $article->uniqueHex($site);
-        
-        
-
-
-        // Handle the image if it exists
-        $article->handleImageUpload($request, $formFields);
-
-        
-
-        // Compile form fields and non-input-dependent fields
-        $article = $article->compileArticleData($request, $formFields, $site);
-
-        
-
-        // dd($article);
         // Create article
-        Article::create($article);
+        $article->createArticle($request, $formFields, $site);
 
         // Redirect with success message
         return redirect('articles')->with('message', 'Article created!');

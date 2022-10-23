@@ -14,7 +14,7 @@
 
     
 </head>
-<body x-data="{'isModalOpen': false}" x-on:keydown.escape="isModalOpen=false" class="d-flex flex-column min-vh-100" style="display:none !important;">
+<body x-data="{'isModalOpen': false}" x-on:keydown.escape="isModalOpen=false" class="d-flex flex-column min-vh-100">
 
     <x-navbar />
     
