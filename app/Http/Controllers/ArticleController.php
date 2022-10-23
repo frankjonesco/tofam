@@ -122,7 +122,7 @@ class ArticleController extends Controller
             'body' => 'required',
             'status' => 'required',
         ]);
-        
+
         // Slug the title
         $formFields['slug'] = Str::slug($request->title);
 
