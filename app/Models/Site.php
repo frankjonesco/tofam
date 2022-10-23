@@ -24,4 +24,8 @@ class Site extends Model
         }
         return $hex;
     }
+
+    public static function publicCategories(){
+        return Category::where('status', 'public')->orderBy('name', 'ASC')->get();
+    }
 }

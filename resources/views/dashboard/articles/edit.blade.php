@@ -6,11 +6,30 @@
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
         </x-buttons-bar>
-        <h1>Edit</h1>
+        <h1>Edit article</h1>
         <div class="w-100 justify-content-center">
             <form action="/dashboard/articles/{{$article->hex}}/update" method="POST" enctype="multipart/form-data" class="w-25">
                 @csrf
                 @method('PUT')
+
+                {{-- Article category --}}
+                <label for="category">Category</label>
+                <select 
+                    name="category" 
+                    class="form-select mb-3"
+                >
+                    <option value="">Select category</option>
+                    
+                    @if(count($categories) > 0)
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}" {{$category->id == $article->category_id ? 'selected' : null}}>{{$category->name}}</option>
+                        @endforeach
+                    @endif
+                    
+                </select>
+                @error('category')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
 
                 {{-- Article title --}}
                 <label for="title">Title</label>

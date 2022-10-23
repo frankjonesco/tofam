@@ -12,53 +12,25 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends BaseController
 {
 
-    // // Category model
-    // private $category;
+    private $article;
 
-    // // Constructor. It's purpose is to inject dependencies
-    // public function __construct($category){
-    //     $this->category = $category;
-    // }
-
-    private $category = null;
     public function __construct()
     {
-        $this->category = new Category();
+        
     }
-
-    /**
-    * Categories Construct
-    *
-    * @return Categories
-    */
     
-    // Show all categories
+    // SHOW ALL CATEGOIES
     public function index(){
-
-
-        // dd($this->goose);
-
-        // $categories = Category::where('status', 'public')->orderBy('name', 'asc')->get();
-
-        // foreach($categories as $key => $category){
-        //     $articles = Article::where('category_id', $category->id)->count();
-        //     $categories[$key]['articles'] = $articles;
-        //     $categories[$key]['color'] = DB::table('colors')->find($category->color)->color;
-        // }
         return view('categories.index', [
-            'categories' => $this->category->getAllPublicCategories()
+            'categories' => Category::getPublicCategories()
         ]);
-        // return view('categories.index', [
-        //     'categories' => $categories
-        // ]);
     }
 
     // Show single category
     public function show(Category $category){
-        $category = Category::changeName($category);
         return view('categories.show', [
             'category' => $category,
-            'articles' => Article::where('category_id', $category->id)->get()
+            'articles' => Category::getPublicArticlesExplodeTags($category)
         ]);
     }
 
@@ -69,8 +41,7 @@ class CategoryController extends BaseController
 
     // Store category in database
     public function store(Request $request){
-
-        // Validate the form
+        // Validate form fields
         $formFields = $request->validate([
             'name' => 'required',
             'status' => 'required'

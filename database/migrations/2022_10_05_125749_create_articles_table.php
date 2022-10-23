@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('old_id')->length(11)->nullable();
             $table->string('hex', 11)->unique();
             $table->string('user_id');
-            $table->integer('category_id')->nullable();
-            $table->string('sponsor_id')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained();
+            $table->foreignId('sponsor_id')->nullable()->constrained();
             $table->string('title');
             $table->string('slug');
             $table->string('caption')->nullable();

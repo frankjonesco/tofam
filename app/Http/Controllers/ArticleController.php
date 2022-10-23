@@ -21,12 +21,10 @@ class ArticleController extends Controller
 
     // SHOW ALL ARTICLES
     public function index(){
-        $articles = Article::getPublicArticlesExplodeTags();
         return view('articles.index', [
-            'articles' => $articles
+            'articles' => Article::getPublicArticlesExplodeTags()
         ]);
     }
-
 
     // SHOW SINGLE ARTICLE
     public function show(Article $article, $slug){
@@ -49,7 +47,6 @@ class ArticleController extends Controller
         ]);
     }
 
-
     // SHOW CREATE FORM
     public function create(Site $site){
         // Fetch categories
@@ -59,7 +56,6 @@ class ArticleController extends Controller
             'categories' => $categories
         ]);
     }
-
 
     // STORE ARTICLE 
     public function store(Request $request, Article $article, Site $site){
@@ -78,11 +74,14 @@ class ArticleController extends Controller
         return redirect('articles')->with('message', 'Article created!');
     }
 
-
     // SHOW ARTICLE EDIT FORM
     public function edit(Article $article){
+        // foreach(Site::publicCategories() as $category){
+            
+        // }
         return view('dashboard.articles.edit', [
-            'article' => $article
+            'article' => $article,
+            'categories' => Site::publicCategories()
         ]);
     }
 

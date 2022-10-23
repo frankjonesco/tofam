@@ -18,6 +18,11 @@ class Article extends Model
         return 'hex';
     }
 
+    // Relationship to category
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
     // Accessor for retrieving and formatting 'created_at'
     public function getCreatedAtAttribute($value){
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
