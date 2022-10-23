@@ -21,12 +21,7 @@ class ArticleController extends Controller
 
     // SHOW ALL ARTICLES
     public function index(){
-        // Fetch articles and paginate
-        $articles = Article::getPublicArticles()->latest()->paginate(9);
-        
-        // Explode each article's tags to arrays
-        $articles = Article::tagsToArrayFromMany($articles);
-
+        $articles = Article::getPublicArticlesExplodeTags();
         return view('articles.index', [
             'articles' => $articles
         ]);
@@ -55,7 +50,7 @@ class ArticleController extends Controller
     }
 
 
-    // Show create form
+    // SHOW CREATE FORM
     public function create(Site $site){
         // Fetch categories
         $categories = $site->getAllCategories();
@@ -66,7 +61,7 @@ class ArticleController extends Controller
     }
 
 
-    // Store article in database
+    // STORE ARTICLE 
     public function store(Request $request, Article $article, Site $site){
         // Validate form fields
         $formFields = $request->validate([
@@ -84,15 +79,14 @@ class ArticleController extends Controller
     }
 
 
-    // Show article edit form
+    // SHOW ARTICLE EDIT FORM
     public function edit(Article $article){
         return view('dashboard.articles.edit', [
             'article' => $article
         ]);
     }
 
-
-    // Update article
+    // UPDATE ARTICLE
     public function update(Article $article, Request $request){
         // Validate form fields 
         $formFields = $request->validate([
@@ -109,15 +103,9 @@ class ArticleController extends Controller
         return redirect('articles/'.$article->hex.'/'.$article->slug)->with('message', 'Article updated!');
     }
 
-
-    // Delete article
+    // DELETE ARTICLE
     public function destroy(Article $article){
-        if($article->userIsOwner($article)){
-            $article->delete();
-            return redirect('articles')->with('message', 'Article deleted!');
-        }else{ 
-            return back()->with('staticError', 'You do not have permission to delete this article.');
-        }
+        $article->checkOwnerDeleteOrDie($article);
     }
     
 }

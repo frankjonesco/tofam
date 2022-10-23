@@ -32,7 +32,7 @@ use App\Http\Controllers\DashboardController;
 Route::controller(SiteController::class)->group(function(){
     Route::get('/', 'home')->name('home');
     Route::get('/tags/{term}', 'tags');
-    Route::get('/search/{term}', 'searchRetrieve');
+    Route::get('/search/{term}', 'searchRetrieve')->name('searchRetrieve');
     Route::post('/search', 'search');
 });
 

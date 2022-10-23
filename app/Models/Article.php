@@ -23,7 +23,6 @@ class Article extends Model
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 
-
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
@@ -32,6 +31,15 @@ class Article extends Model
     // Get all public articls
     public static function getPublicArticles(){
         return Article::where('status', 'public');
+    }
+
+    // Get all public articles with exploaded tags
+    public static function getPublicArticlesExplodeTags(){
+        $articles = self::getPublicArticles()->latest()->paginate(6);
+        foreach($articles as $key => $article){
+            $articles[$key] = self::tagsToArrayFromOne($article);
+        }
+        return $articles;
     }
 
     // Accessor for retrieving and formatting 'created_at'
@@ -146,6 +154,15 @@ class Article extends Model
     public function userIsOwner($article){
         if($article->user_id == auth()->id()){
             return true;
+        }
+    }
+
+    public function checkOwnerDeleteOrDie($article){
+        if(self::userIsOwner($article)){
+            $article->delete();
+            return redirect('articles')->with('message', 'Article deleted!');
+        }else{ 
+            return back()->with('staticError', 'You do not have permission to delete this article.');
         }
     }
 

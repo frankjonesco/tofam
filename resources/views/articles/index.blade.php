@@ -15,8 +15,8 @@
         <h1>Articles</h1> 
 
         @include('partials._search')
-
-        @if(Session::has('searchTerm'))
+        
+        @if(Session::has('searchTerm') && Route::currentRouteName() == 'searchRetrieve')
             <p>Showing {{$count}} results for search term '{{Session::get('searchTerm')}}'</p>
         @endif
 

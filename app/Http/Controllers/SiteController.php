@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 
@@ -42,7 +43,9 @@ class SiteController extends Controller
     }
 
     public function searchRetrieve($term){
-
+        if(Session::has('searchTerm')){
+            Session::flash('searchTerm', $term);
+        }
         $articles = Article::where('title', 'like', '%'.$term.'%')
             ->orWhere('body', 'like', '%'.$term.'%')
             ->orWhere('tags', 'like', '%'.$term.'%')->paginate(3);
