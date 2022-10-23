@@ -143,12 +143,11 @@ class Article extends Model
     }
 
     // Check user is article owner
-    public function checkUserIsOwner($article){
-         // Make sure the logged in user is the owner
-         if($article->user_id != auth()->id()){
-            // abort(403, 'Unathorised Action.');
-            return back()->with('staticError', 'You do not have permission to delete this article.');
+    public function userIsOwner($article){
+        if($article->user_id != auth()->id()){
+            return false;
         }
+        return true;
     }
 
     

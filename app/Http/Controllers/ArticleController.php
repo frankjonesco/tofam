@@ -112,18 +112,12 @@ class ArticleController extends Controller
 
     // Delete article
     public function destroy(Article $article){
-
-        $article->checkUserIsOwner($article);
-
-        // Make sure the logged in user is the owner
-        if($article->user_id != auth()->id()){
-            // abort(403, 'Unathorised Action.');
+        if($article->userIsOwner($article)){
+            $article->delete();
+            return redirect('articles')->with('message', 'Article deleted!');
+        }else{ 
             return back()->with('staticError', 'You do not have permission to delete this article.');
         }
-
-        $article->delete();
-
-        return redirect('articles')->with('message', 'Article deleted!');
     }
     
 }
