@@ -144,10 +144,9 @@ class Article extends Model
 
     // Check user is article owner
     public function userIsOwner($article){
-        if($article->user_id != auth()->id()){
-            return false;
+        if($article->user_id == auth()->id()){
+            return true;
         }
-        return true;
     }
 
     
