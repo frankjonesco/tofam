@@ -65,7 +65,11 @@ class ArticleController extends Controller
             'title' => 'required',
             'body' => 'required',
             'image' => 'image|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'tags' => 'regex:/^[a-zA-Z0-9 ,]+$/',
             'status' => 'required'
+        ],
+        [
+            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\''
         ]);
 
         // Create article
@@ -95,7 +99,7 @@ class ArticleController extends Controller
             'status' => 'required',
         ],
         [
-            'tags.regex' => 'Tags formatting incorrect. Numbers and special character are not allowed.'
+            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\''
         ]);
 
         // Save changes to this article

@@ -27,12 +27,6 @@ use App\Http\Controllers\DashboardController;
 |--------------------------------------------------------------------------
 */
 
-Route::controller(ImageController::class)->group(function(){
-    Route::get('image-upload', 'index');
-    Route::post('image-upload', 'store')->name('image.store');
-});
-
-
 
 // Public routes for SiteController
 Route::controller(SiteController::class)->group(function(){
@@ -47,8 +41,6 @@ Route::controller(SiteController::class)->group(function(){
 | Routes for ArticleController
 |--------------------------------------------------------------------------
 */
-Route::get('crop-image', [DashboardController::class, 'cropIndex']);
-Route::post('crop-image', [DashboardController::class, 'uploadCropImage'])->name('croppie.upload-image');
 
 // Auth routes for ArticleController
 Route::controller(ArticleController::class)->middleware('auth')->group(function() {
@@ -131,3 +123,11 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::get('/dashboard/images/check', 'checkImages');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Routes for Sandbox Stuff
+|--------------------------------------------------------------------------
+*/
+// Route::get('crop-image', [DashboardController::class, 'cropIndex']);
+// Route::post('crop-image', [DashboardController::class, 'uploadCropImage'])->name('croppie.upload-image');
