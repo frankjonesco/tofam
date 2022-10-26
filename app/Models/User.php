@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,5 +68,88 @@ class User extends Authenticatable
     public function getArticleCountAttribute(){
         return Article::where('user_id', $this->id)->count();
     }
+
+    // Find unique hex for users
+    public function uniqueHex($site, string $field = 'hex', int $length = 11){
+        return $site->uniqueHex('users');
+    }
+
+
+    // Log user in
+    public function logUserIn($user){
+        auth()->login($user);
+    }
+
+    public function logUserInRegenerateSession($request, $formFields){
+        if(auth()->attempt($formFields)){
+            $request->session()->regenerate();
+        }
+    }
+
+    // Log user out
+    public function logUserOut($request){
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    }
+
+    // Compile category data
+    public function compileUserData($request, $user){
+        $site = new Site();
+        $user->hex = ($user->hex) ? $user->hex : self::uniqueHex($site);
+        $user->user_type_id = 1;
+        $user->first_name = ucfirst($request->first_name);
+        $user->last_name = ucfirst($request->last_name);
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->email_verified_at = now();
+        $user->password = bcrypt($request->password);
+        $user->remember_token = Str::random(10);
+        $user->gender = $request->gender;
+        $user->country = null;
+        $user->color = $site->randomColorId();
+        $user->blocked = null;
+
+        $user->image = $user->image;
+        if($request->hasFile('image')){
+            $user->image = $site->handleImageUpload($request, 'users', $user->hex);
+        }
+        
+        return $user;
+    }
+
+    // Create category (insert)
+    public function createUser($request, $user){
+        $user = self::compileUserData($request, $user);
+        $user->save();
+    }
+
+    public function createUserAndLogIn($request, $user){
+        self::createUser($request, $user);
+        self::logUserIn($user);
+    }
+
+    // Save User (update)
+    public function saveUser($request, $user){
+        $user = self::compileUserData($request, $user);
+        $user->save();
+    }
+
+    public function oldPasswordIncorrect($request, $user){
+        return Hash::check($request->old_password, $user->password);
+    }
+
+    public function savePassword($request, $user){
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+    }
+
+    public function isLoggedInUser($user){
+        if($user->id == auth()->id()){
+            return true;
+        }
+        return false;
+    }
+
 
 }

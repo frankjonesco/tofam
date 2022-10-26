@@ -7,6 +7,8 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+use Image;
+
 class ArticleController extends Controller
 {
     private $site;
@@ -20,11 +22,11 @@ class ArticleController extends Controller
         $this->article = $article;
     }
 
+
     // SHOW ALL ARTICLES
     public function index(){
         return view('articles.index', [
             'articles' => $this->site->publicArticles()
-            // 'articles' => Site::publicArticles()
         ]);
     }
 
@@ -59,7 +61,7 @@ class ArticleController extends Controller
     // STORE ARTICLE 
     public function store(Request $request){
         // Validate form fields
-        $formFields = $request->validate([
+        $request->validate([
             'title' => 'required',
             'caption' => 'required',
             'teaser' => 'required',
@@ -86,7 +88,7 @@ class ArticleController extends Controller
     // UPDATE ARTICLE
     public function update(Request $request, Article $article){
         // Validate form fields 
-        $formFields = $request->validate([
+        $request->validate([
             'title' => 'required',
             'caption' => 'required',
             'teaser' => 'required',

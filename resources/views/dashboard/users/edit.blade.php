@@ -9,7 +9,7 @@
 
         <h1>Edit user</h1>
 
-        <form action="/dashboard/users/{{$user->hex}}/update" method="post" class="w-25">
+        <form action="/dashboard/users/{{$user->hex}}/update" method="post" class="w-25" enctype="multipart/form-data">
             @csrf
             @method('PUT')
                            
@@ -46,6 +46,23 @@
             @error('gender')
                 <p class="text-danger">{{$message}}</p>
             @enderror
+
+            {{-- Image --}}
+            <label for="image">Image</label>
+            <input 
+                type="file"
+                class="form-control mb-3"
+                name="image"
+            >
+            @error('image')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
+            <img 
+                src="{{$user->image ? asset('images/users/'.$user->hex.'/tn-'.$user->image) : asset('images/no-image.png')}}" 
+                alt=""
+                class="mb-3 w-100"
+            >
 
             {{-- Username --}}
             <label for="username">

@@ -3,7 +3,7 @@
         <div class="card mb-3 h-100">
             <div class="view-article-img">
                 <img 
-                    src="{{$user->image ? asset('/images/users/'.$user->hex.'/'.$user->image) : asset('/images/no-image.png')}}" 
+                    src="{{$user->image ? asset('/images/users/'.$user->hex.'/tn-'.$user->image) : asset('/images/no-image.png')}}" 
                     class="card-img-top" 
                     alt="{{$user->full_name}}"
                 >

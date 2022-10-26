@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -25,6 +26,11 @@ use App\Http\Controllers\DashboardController;
 | Routes for SiteController
 |--------------------------------------------------------------------------
 */
+
+Route::controller(ImageController::class)->group(function(){
+    Route::get('image-upload', 'index');
+    Route::post('image-upload', 'store')->name('image.store');
+});
 
 
 

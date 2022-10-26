@@ -129,7 +129,12 @@ class Article extends Model
         $article->body = $request->body;
         $article->tags = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));   
         $article->status = $request->status;   
-        $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
+
+        $article->image = $article->image;
+        if($request->hasFile('image')){
+            $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
+        }
+
         return $article;
     }
 

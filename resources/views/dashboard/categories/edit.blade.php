@@ -48,6 +48,12 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
+                <img 
+                    src="{{$category->image ? asset('images/categories/'.$category->hex.'/tn-'.$category->image) : asset('images/no-image.png')}}" 
+                    alt=""
+                    class="mb-3 w-100"
+                >
+
                 {{-- Category status --}}
                 <label for="status">Status</label>
                 <select 

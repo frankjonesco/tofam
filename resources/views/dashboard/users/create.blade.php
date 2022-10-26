@@ -9,7 +9,7 @@
 
         <h1>Create user</h1>
 
-        <form action="/dashboard/users/store" method="post" class="w-25">
+        <form action="/dashboard/users/store" method="post" class="w-25" enctype="multipart/form-data">
             @csrf
                 
             {{-- First name --}}
@@ -37,12 +37,23 @@
                 class="form-select mb-3"
             >   
                 <option value="" disabled selected>Select a gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="trans">Trans</option>
-                <option value="prefer_not_to_say">Prefer not to say</option>
+                <option value="male" {{old('gender') == 'male' ? 'selected' : null}}>Male</option>
+                <option value="female" {{old('gender') == 'female' ? 'selected' : null}}>Female</option>
+                <option value="trans" {{old('gender') == 'trans' ? 'selected' : null}}>Trans</option>
+                <option value="prefer_not_to_say" {{old('gender') == 'prefer_not_to_say' ? 'selected' : null}}>Prefer not to say</option>
             </select>
             @error('gender')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
+            {{-- Image --}}
+            <label for="image">Image</label>
+            <input 
+                type="file"
+                class="form-control mb-3"
+                name="image"
+            >
+            @error('image')
                 <p class="text-danger">{{$message}}</p>
             @enderror
 

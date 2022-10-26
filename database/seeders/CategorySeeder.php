@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Site;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -75,6 +76,9 @@ class CategorySeeder extends Seeder
                 // Assign new filename to article object and save
                 $category->image = $new_filename;
                 $category->save();
+
+                $site = new Site();
+                $site->makeImageThumbnail($destination_path, $new_filename);
             }
         }
     }

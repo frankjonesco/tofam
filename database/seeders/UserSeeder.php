@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Site;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
@@ -70,12 +71,12 @@ class UserSeeder extends Seeder
         $users = User::all();
         foreach($users as $user){
             // Source and destination paths
-            $sourcePath = public_path('images/users_old/'.$user->old_id);
-            $destinationPath = public_path('images/users/'.$user->hex);
+            $source_path = public_path('images/users_old/'.$user->old_id);
+            $destination_path = public_path('images/users/'.$user->hex);
 
             // Copy the source directory if it exists
-            if(File::isDirectory($sourcePath)){
-                File::copyDirectory($sourcePath, $destinationPath);
+            if(File::isDirectory($source_path)){
+                File::copyDirectory($source_path, $destination_path);
 
                 // Rename the image file if it exists in the database
                 if($user->image){
@@ -84,35 +85,37 @@ class UserSeeder extends Seeder
                     $new_thumbnail = 'tn-'.$new_image;
 
                     // New paths to image and thumbnail
-                    $new_image_path = $destinationPath.'/'.$new_image;
-                    $new_thumbnail_path = $destinationPath.'/'.$new_thumbnail;
+                    $new_image_path = $destination_path.'/'.$new_image;
+                    $new_thumbnail_path = $destination_path.'/'.$new_thumbnail;
 
                     // Rename image
                     File::move(
-                        $destinationPath.'/'.$user->image,
+                        $destination_path.'/'.$user->image,
                         $new_image_path
                     );
 
                     // Rename thumbnail
                     File::move(
-                        $destinationPath.'/thumb-'.$user->image,
+                        $destination_path.'/thumb-'.$user->image,
                         $new_thumbnail_path
                     );
 
                     // List all files in this user's directory
-                    $filesInFolder = File::allFiles($destinationPath);
+                    $files_in_folder = File::allFiles($destination_path);
 
                     // Delete unneeded images from this user's directory
-                    foreach($filesInFolder as $key => $path){
+                    foreach($files_in_folder as $key => $path){
                         if($path != $new_image_path && $path != $new_thumbnail_path){
                             File::delete($path);
                         }
                     }
                 }
+                
 
                 // Update the image field for this user in the database
                 $user->image = $new_image;
                 $user->save();
+
             }
         }
 

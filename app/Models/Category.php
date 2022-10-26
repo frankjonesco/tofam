@@ -26,9 +26,6 @@ class Category extends Model
         return $site->uniqueHex('articles');
     }
 
-    public static function getPublicCategories(){
-        return Category::where('status', 'public')->orderBy('name', 'asc')->get();
-    }
 
     public static function changeName($category){
         return tap($category)->update(['name' => 'Pringles']);
@@ -50,7 +47,11 @@ class Category extends Model
         $category->description = $request->description;
         $category->color = $site->randomColorId();
         $category->status = $request->status;
-        $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
+        
+        $category->image = $category->image;
+        if($request->hasFile('image')){
+            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
+        }
         return $category;
     }
 

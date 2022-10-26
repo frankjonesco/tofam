@@ -2,179 +2,175 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use App\Models\User;
+use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
-{
-    // Show all users
+{   
+    private $site;
+    private $category;
+    private $article;
+
+    public function __construct(Site $site, Category $category, Article $article)
+    {
+        $this->site = $site;
+        $this->category = $category;
+        $this->article = $article;
+    }
+
+
+    // SHOW ALL USERS
     public function index(){
         return view('users.index', [
-            'users' => User::all()
+            'users' => Site::activeUsers()
         ]);
     }
     
-    // Show registration form
+
+    // SHOW REGISTRATION FORM
     public function register(){
         return view('users.register');
     }
 
-    // Store registration
-    public function storeRegistration(Request $request){
-        
+
+    // STORE REGISTRATION
+    public function storeRegistration(Request $request, User $user){
         // Validate form fields
-        $formFields = $request->validate([
+        $request->validate([
             'first_name' => 'required|min:2',
             'last_name' => 'required|min:2',
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => 'required|confirmed|min:6'
         ]);
 
-        $formFields['hex'] = uniqueHex('users');
-
-        // Set the user type id
-        $formFields['user_type_id'] = 1;
-
-        // Hash password
-        $formFields['password'] = bcrypt($formFields['password']);
-
-        // Create user
-        $user = User::create($formFields);
-
-        // Log in
-        auth()->login($user);
+        // Create user and log in
+        $user->createUserAndLogIn($request, $user);
 
         return redirect('/')->with('message', 'Account created and user logged in!');
     }
+    
 
-    // Log user out
-    public function logout(Request $request){
-        auth()->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+    // LOG USER OUT
+    public function logout(Request $request, User $user){
+        $user->logUserOut($request);
         return redirect('/')->with('message', 'You have logged out!');
     }
 
-    // Show login form
+
+    // SHOW LOGIN FORM
     public function login(){
         return view('users.login');
     }
 
-    // Authenticate user
-    public function authenticateLogin(Request $request){
-        
-        $formFields = $request->validate([
+
+    // AUTHENTICATE USER (FOR LOGIN)
+    public function authenticateLogin(Request $request, User $user){
+        // Validate form fields
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required' 
         ]);
 
-        if(auth()->attempt($formFields)){
-            $request->session()->regenerate();
+        // Attempt to log user in and regenerate session
+        if($user->logUserInRegenerateSession($request, ['email' => $request->email, 'password' => $request->password])){
+            // Redirect to the dashboard
             return redirect('dashboard')->with('message', 'You have logged in!');
         }
 
+        // Or fail and return error
         return back()->withErrors(['email' => 'Invalid credentials.'])->onlyInput('email');
     }
 
-    // Admin: Show form for create user
+
+    // ADMIN: SHOW FOR FOR CREATE USER
     public function create(){
         return view('dashboard.users.create');
     }
 
-    // Admin: Store new user
-    public function store(Request $request){
-        
-        $formFields = $request->validate([
-            'first_name' => 'required|min:3',
-            'last_name' => 'required|min:3',
+
+    // ADMIN: STORE NEW USER
+    public function store(Request $request, User $user){
+        // Validate form fields
+        $request->validate([
+            'first_name' => 'required|min:2',
+            'last_name' => 'required|min:2',
             'gender' => 'required',
-            'username' => ['required', Rule::unique('users', 'username')],
-            'email' => 'required|email',
+            'username' => ['required', 'min:3', Rule::unique('users', 'username')],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => 'required|confirmed|min:6'
         ]);
 
-        // Generare a random hex that does not already exist
-        $hex = Str::random('11');
-        while(User::where('hex', $hex)->exists()){
-            $hex = Str::random('11');
-        }
-        $formFields['hex'] = $hex;
-
-        // Set non input dependent fields
-        $formFields['user_type_id'] = 1;
-        $formFields['email_verified_at'] = now();
-        $formFields['remember_token'] = Str::random(10);
-
-        // Hash password
-        $formFields['password'] = bcrypt($formFields['password']);
-
         // Create user
-        $user = User::create($formFields);
+        $user->createUser($request, $user);
 
         return redirect('/dashboard')->with('message', 'User created!');
-
     }
 
-    // Admin: Show form for edit user
+
+    // ADMIN: SHOW FORM FOR EDIT USER
     public function edit(User $user){
         return view('dashboard.users.edit', [
             'user' => $user
         ]);
     }
 
-    // Admin: Update user
-    public function update(User $user, Request $request){
-        $formFields = $request->validate([
+
+    // ADMIN: UPDATE USER
+    public function update(Request $request, User $user){
+        $request->validate([
             'first_name' => 'required|min:2',
             'last_name' => 'required|min:2',
             'gender' => 'required',
-            'username' => ['required', Rule::unique('users', 'username')->ignore($user->id)],
+            'username' => ['required', 'min:3', Rule::unique('users', 'username')->ignore($user->id)],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
         ]);
 
-        $user->update($formFields);
+        // Save changes to this user
+        $user->saveUser($request, $user);
 
         return redirect('/users')->with('message', 'User updated!');
-
     }
 
-    // Admin: Show form for edit password
+
+    // ADMIN: SHOW FORM FOR EDIT PASSWORD
     public function editPassword(User $user){
         return view('dashboard.users.edit-password', [
             'user' => $user
         ]);
     }
 
-    // Admin: Update password
-    public function updatePassword(User $user, Request $request){
-        $formFields = $request->validate([
+
+    // ADMIN UPDATE PASSWORD
+    public function updatePassword(Request $request, User $user){
+        $request->validate([
             'old_password' => 'required|min:6',
             'new_password' => 'required|confirmed|min:6',
         ]);
-        // dd($user);
-        if(Hash::check($request->old_password, $user->password) == false){
+
+        if($user->oldPasswordIncorrect($request, $user)){
             return back()->with('staticError', 'Your old password is not correct. Try again.');
         }
 
-        $user->update(['password' => bcrypt($formFields['new_password'])]);
+        $user->savePassword($request, $user);
 
         return redirect('/users')->with('message', 'User password updated!');
     }
 
-    // Admin: Delete user
-    public function destroy(User $user){
 
-        // Make sure the logged in user is the owner
-        if($user->id == auth()->id()){
-            // abort(403, 'Unathorised Action.');
+    // ADMIN: DELETE USER
+    public function destroy(User $user){
+        // Return error if a user attempts to delete their own account
+        if($user->isLoggedInUser($user)){
             return back()->with('staticError', 'You cannot delete your own account. Contact support.');
         }
-
+        
+        // Or delete user
         $user->delete();
 
         return redirect('users')->with('message', 'User deleted!');

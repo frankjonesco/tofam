@@ -12,19 +12,18 @@ class CategoryController extends BaseController
 
     private $site;
     private $category;
-    private $article;
 
-    public function __construct(Site $site, Category $category, Article $article)
+    public function __construct(Site $site, Category $category)
     {
         $this->site = $site;
         $this->category = $category;
-        $this->article = $article;
     }
+
     
     // SHOW ALL CATEGOIES
     public function index(){
         return view('categories.index', [
-            'categories' => Category::getPublicCategories()
+            'categories' => Site::publicCategories()
         ]);
     }
 
@@ -47,7 +46,7 @@ class CategoryController extends BaseController
     // STORE CATEGORY
     public function store(Request $request, Category $category){
         // Validate form fields
-        $formFields = $request->validate([
+        $request->validate([
             'name' => 'required',
             'status' => 'required'
         ]);
@@ -66,10 +65,11 @@ class CategoryController extends BaseController
         ]);
     }
 
+
     // UPDATE CATEGORY
     public function update(Request $request, Category $category){
         // Validate form fields
-        $formFields = $request->validate([
+       $request->validate([
             'name' => 'required',
             'status' => 'required'
         ]);
@@ -79,6 +79,7 @@ class CategoryController extends BaseController
 
         return redirect('categories')->with('message', 'Category updated!');
     }
+
 
     // DELETE CATEGORY
     public function destroy(Category $category){
