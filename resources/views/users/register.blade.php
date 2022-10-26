@@ -7,7 +7,7 @@
             </a>
         </x-buttons-bar>
         <h1>Create account</h1>
-        <form action="/dashboard/users/store" method="post" class="w-25">
+        <form action="/users/store" method="post" class="w-25">
             @csrf
             
             {{-- First name --}}

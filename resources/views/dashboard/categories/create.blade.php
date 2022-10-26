@@ -8,7 +8,7 @@
         </x-buttons-bar>
         <h1>Create category</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/store" method="POST" class="w-25">
+            <form action="/dashboard/categories/store" method="POST" class="w-25" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Category name --}}
@@ -33,6 +33,17 @@
                     placeholder="Category description"
                 >{{old('description')}}</textarea>
                 @error('description')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
+
+                {{-- Category image --}}
+                <label for="image">Image</label>
+                <input 
+                    type="file"
+                    class="form-control mb-3"
+                    name="image"
+                >
+                @error('image')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 

@@ -102,7 +102,7 @@ Route::controller(UserController::class)->middleware('auth')->group(function(){
 // Guest routes for UserController
 Route::controller(UserController::class)->middleware('guest')->group(function(){
     Route::get('/register', 'register')->name('register');
-    Route::post('/users/create', 'storeRegistration');
+    Route::post('/users/store', 'storeRegistration');
     Route::get('/login', 'login')->name('login');
     Route::post('/users/authenticate', 'authenticateLogin');
 });

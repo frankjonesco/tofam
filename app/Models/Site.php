@@ -49,6 +49,23 @@ class Site extends Model
         return $articles;
     }
 
+    // Handle image upload
+    public function handleImageUpload($request, $directory, $hex){
+
+        // dd($request);
+        $image = null;
+        if($request->hasFile('image')){
+            // Define a name for the image
+            $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
+            // Store in public folder
+            $request->file('image')->move(public_path('images/'.$directory.'/'.$hex), $imageName);
+            // Add image name to article array
+            $image = $imageName;
+            // dd(public_path('images/'.$directory.'/'.$hex.'/'.$image));
+        }
+        return $image;
+    }
+
     
     
 }

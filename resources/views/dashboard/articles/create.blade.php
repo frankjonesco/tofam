@@ -74,7 +74,7 @@
                 <textarea 
                     name="body"
                     class="form-control mb-3" 
-                    rows="5" 
+                    rows="5"
                     placeholder="Article body"
                 >{{old('body')}}</textarea>
                 @error('body')

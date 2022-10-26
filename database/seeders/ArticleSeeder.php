@@ -73,50 +73,43 @@ class ArticleSeeder extends Seeder
 
 
 
-        // New records
-        $rows = Article::all();
+        // Get newly created articles
+        $articles = Article::all();
 
-        foreach($rows as $row){
-        
+        foreach($articles as $article){        
             // Source and destination paths
-            $sourcePath = public_path('images/articles_old/'.$row->old_id);
-            $destinationPath = public_path('images/articles/'.$row->hex);
+            $source_path = public_path('images/articles_old/'.$article->old_id);
+            $destination_path = public_path('images/articles/'.$article->hex);
 
             // Copy the source directory if it exists
-            if(File::isDirectory($sourcePath)){
-                File::copyDirectory($sourcePath, $destinationPath);
-
+            if(File::isDirectory($source_path)){
+                File::copyDirectory($source_path, $destination_path);
                 // Rename the image file if it exists in the database
-                if($row->image){
-                    $random = Str::random(11);
+                if($article->image){
+                    // Create a new name for the image
+                    $new_filename = Str::random(11).'.jpg';
                     // Rename image
                     File::move(
-                        $destinationPath.'/'.$row->image,
-                        $destinationPath.'/'.$random.'.jpg'
+                        $destination_path.'/'.$article->image,
+                        $destination_path.'/'.$new_filename
                     );
                     // Rename thumbnail
                     File::move(
-                        $destinationPath.'/thumb-'.$row->image,
-                        $destinationPath.'/tn-'.$random.'.jpg'
+                        $destination_path.'/thumb-'.$article->image,
+                        $destination_path.'/tn-'.$new_filename
                     );
-
-
-                
-                
-                    $filesInFolder = File::allFiles($destinationPath);
-
-
+                    // Get all files in the new folder
+                    $filesInFolder = File::allFiles($destination_path);
+                    // Delete an files that are not the new image files
                     foreach($filesInFolder as $key => $path){
-                        if($path != $destinationPath.'/'.$random.'.jpg' && $path != $destinationPath.'/tn-'.$random.'.jpg'){
+                        if($path != $destination_path.'/'.$new_filename && $path != $destination_path.'/tn-'.$new_filename){
                             File::delete($path);
                         }
                     }
-
                 }
-
-                $row->image = $random.'.jpg';
- 
-                $row->save();
+                // Assign new filename to article object and save
+                $article->image = $new_filename;
+                $article->save();
             }
 
         }

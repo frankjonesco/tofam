@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
-use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -104,7 +103,11 @@ class ArticleController extends Controller
 
     // DELETE ARTICLE
     public function destroy(Article $article){
-        $article->checkOwnerDeleteOrDie($article);
+        // Delete article if logged in user is the owner
+        if($article->checkOwnerDeleteOrDie($article)){
+            return redirect('articles')->with('message', 'Article deleted!');
+        }
+        return redirect('articles/'.$article->hex.'/'.$article->slug)->with('staticError', 'You do not have permission to delete this article.');
     }
     
 }

@@ -24,7 +24,7 @@
                                 <div class="view-article-img">
                                     <a href="/categories/{{$category->slug}}">
                                         <img 
-                                            src="{{$category->image ? asset('/images/categories/'.$category->image) : asset('/images/no-image.png')}}" 
+                                            src="{{$category->image ? asset('/images/categories/'.$category->hex.'/'.$category->image) : asset('/images/no-image.png')}}" 
                                             class="card-img-top" 
                                             alt="{{$category->name}}"
                                         >

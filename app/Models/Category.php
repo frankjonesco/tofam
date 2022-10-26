@@ -50,6 +50,7 @@ class Category extends Model
         $category->description = $request->description;
         $category->color = $site->randomColorId();
         $category->status = $request->status;
+        $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
         return $category;
     }
 

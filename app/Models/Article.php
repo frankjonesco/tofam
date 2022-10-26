@@ -7,7 +7,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
@@ -48,22 +47,17 @@ class Article extends Model
         return $articles;
     }
 
-     // Get other public articles with exploaded tags
-     public static function otherPublicArticles($hex){
+    // Get other public articles with exploaded tags
+    public static function otherPublicArticles($hex){
         $articles = self::getArticles('public')->where('hex', '!=' , $hex)->orderBy(DB::raw('RAND()'))->take(3)->get();
         foreach($articles as $key => $article){
             $articles[$key] = self::tagsToArrayFromOne($article);
         }
-        // dd($articles);
         return $articles;
     }
 
-
-    
-
     // Accessor for retrieving and formatting 'created_at'
     public function getThumbnail($article){
-        
         if($article->image){
             $path = public_path('images/articles/'.$article->hex);
             $image = $article->image;
@@ -92,8 +86,6 @@ class Article extends Model
         }
     }
 
-
-
     // Explode tags to arrays for all articles
     public static function tagsToArrayFromMany($articles = []){
         foreach($articles as $key => $article){
@@ -118,27 +110,10 @@ class Article extends Model
         $article->save();
     }
 
-
-
     // Find unique hex for articles
     public function uniqueHex($site, string $field = 'hex', int $length = 11){
         return $site->uniqueHex('articles');
     }
-
-
-    // Handle image upload
-    public function handleImageUpload($request, $article){
-        if($request->hasFile('image')){
-            // Define a name for the image
-            $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
-            // Store in public folder
-            $request->image->move(public_path('images/articles/'.$article['hex']), $imageName);
-            // Add image name to article array
-            $article['image'] = $imageName;
-        }
-        return $article;
-    }
-
 
     // Compile category data
     public function compileArticleData($request, $article = null){
@@ -153,7 +128,8 @@ class Article extends Model
         $article->teaser = $request->teaser;
         $article->body = $request->body;
         $article->tags = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));   
-        $article->status = $request->status;     
+        $article->status = $request->status;   
+        $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
         return $article;
     }
 
@@ -161,16 +137,13 @@ class Article extends Model
     // Create article (insert)
     public function createArticle($request){
         $article = self::compileArticleData($request);
-        $article = self::handleImageUpload($request, $article);
         $article->save();
     }
 
     // Save article (update)
     public function saveArticle($request, $article){
         $article = self::compileArticleData($request, $article);
-        // dd($article);
         $article = self::handleImageUpload($request, $article);
-
         $article->save();
     }
 
@@ -179,15 +152,17 @@ class Article extends Model
         if($article->user_id == auth()->id()){
             return true;
         }
+        return false;
     }
 
     public function checkOwnerDeleteOrDie($article){
+        // dd(self::userIsOwner($article));
         if(self::userIsOwner($article)){
             $article->delete();
-            return redirect('articles')->with('message', 'Article deleted!');
-        }else{ 
-            return back()->with('staticError', 'You do not have permission to delete this article.');
+            return true;
         }
+        return false;
+        
     }
 
     
