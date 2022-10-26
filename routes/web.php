@@ -47,6 +47,8 @@ Route::controller(SiteController::class)->group(function(){
 | Routes for ArticleController
 |--------------------------------------------------------------------------
 */
+Route::get('crop-image', [DashboardController::class, 'cropIndex']);
+Route::post('crop-image', [DashboardController::class, 'uploadCropImage'])->name('croppie.upload-image');
 
 // Auth routes for ArticleController
 Route::controller(ArticleController::class)->middleware('auth')->group(function() {
@@ -127,4 +129,5 @@ Route::controller(UserController::class)->group(function(){
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('/dashboard/images/check', 'checkImages');
 });

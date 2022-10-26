@@ -17,6 +17,10 @@
             <a class="btn btn-danger btn-sm" href="/dashboard/users/create">
                 <i class="fa-solid fa-user-plus"></i> Create user
             </a>
+
+            <a class="btn btn-warning btn-sm" href="/dashboard/images/check">
+                <i class="fa-solid fa-image"></i> Check images
+            </a>
         </x-buttons-bar>
         <h1>Dashboard</h1>
     </x-card>

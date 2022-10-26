@@ -110,6 +110,9 @@ class ArticleSeeder extends Seeder
                 // Assign new filename to article object and save
                 $article->image = $new_filename;
                 $article->save();
+            }else{
+                $article->image = null;
+                $article->save();
             }
         }
 

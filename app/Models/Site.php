@@ -47,6 +47,15 @@ class Site extends Model
     }
 
 
+    // Get all articles with exploaded tags
+    public static function allArticles(){
+        $articles = Article::latest()->get();
+        foreach($articles as $key => $article){
+            $articles[$key] = Article::tagsToArrayFromOne($article);
+        }
+        return $articles;
+    }
+
     // Get all public articles with exploaded tags
     public static function publicArticles(){
         $articles = Article::where('status', 'public')->latest()->paginate(6);

@@ -38,7 +38,7 @@
                     name="title"
                     class="form-control mb-3"
                     placeholder="Article title"
-                    value="{{$article->title}}"
+                    value="{{old('title') ? old('title') : $article->title}}"
                 >
                 @error('title')
                     <p class="text-danger">{{$message}}</p>
@@ -51,7 +51,7 @@
                     name="caption"
                     class="form-control mb-3"
                     placeholder="Article caption"
-                    value="{{$article->caption}}"
+                    value="{{old('caption') ? old('caption') : $article->caption}}"
                 >
                 @error('caption')
                     <p class="text-danger">{{$message}}</p>
@@ -64,7 +64,7 @@
                     name="teaser"
                     class="form-control mb-3" 
                     placeholder="Article teaser" 
-                    value="{{$article->teaser}}"
+                    value="{{old('teaser') ? old('teaser') : $article->teaser}}"
                 >
                 @error('teaser')
                     <p class="text-danger">{{$message}}</p>
@@ -77,7 +77,7 @@
                     class="form-control mb-3" 
                     rows="5" 
                     placeholder="Article body"
-                >{{$article->body}}</textarea>
+                >{{old('body') ? old('body') : $article->body}}</textarea>
                 @error('body')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
@@ -106,7 +106,7 @@
                     name="tags"
                     class="form-control mb-3" 
                     placeholder="Article tags" 
-                    value="{{str_replace(',', ', ', $article->tags)}}"
+                    value="{{old('tags') ? old('tags') : str_replace(',', ', ', $article->tags)}}"
                 >
                 @error('tags')
                     <p class="text-danger">{{$message}}</p>

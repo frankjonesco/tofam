@@ -63,9 +63,8 @@ class ArticleController extends Controller
         // Validate form fields
         $request->validate([
             'title' => 'required',
-            'caption' => 'required',
-            'teaser' => 'required',
             'body' => 'required',
+            'image' => 'image|mimes:jpeg,jpg,png,gif,svg|max:2048',
             'status' => 'required'
         ]);
 
@@ -90,11 +89,13 @@ class ArticleController extends Controller
         // Validate form fields 
         $request->validate([
             'title' => 'required',
-            'caption' => 'required',
-            'teaser' => 'required',
             'body' => 'required',
             'image' => 'image|mimes:jpeg,jpg,png,gif,svg|max:2048',
+            'tags' => 'regex:/^[a-zA-Z0-9 ,]+$/',
             'status' => 'required',
+        ],
+        [
+            'tags.regex' => 'Tags formatting incorrect. Numbers and special character are not allowed.'
         ]);
 
         // Save changes to this article
