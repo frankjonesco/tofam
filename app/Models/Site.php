@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -53,17 +54,28 @@ class Site extends Model
     public function handleImageUpload($request, $directory, $hex){
 
         // dd($request);
-        $image = null;
+        $image_name = null;
         if($request->hasFile('image')){
             // Define a name for the image
-            $imageName = Str::random('6').'-'.time().'.'.$request->image->extension();
+            $image_name = Str::random('6').'-'.time().'.'.$request->image->extension();
+
+            // Specify the direcory path
+            $directory_path = public_path('images/'.$directory.'/'.$hex);
+
             // Store in public folder
-            $request->file('image')->move(public_path('images/'.$directory.'/'.$hex), $imageName);
-            // Add image name to article array
-            $image = $imageName;
-            // dd(public_path('images/'.$directory.'/'.$hex.'/'.$image));
+            $request->file('image')->move($directory_path, $image_name);
+
+            // Get all files in the new folder
+            $files_in_folder = File::allFiles($directory_path);
+
+            // Delete an files that are not the new image files
+            foreach($files_in_folder as $key => $path){
+                if($path != $directory_path.'/'.$image_name){
+                    File::delete($path);
+                }
+            }
         }
-        return $image;
+        return $image_name;
     }
 
     

@@ -8,7 +8,7 @@
         </x-buttons-bar>
         <h1>Edit category</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/{{$category->hex}}/update" method="POST" class="w-25">
+            <form action="/dashboard/categories/{{$category->hex}}/update" method="POST" class="w-25" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -34,6 +34,17 @@
                     placeholder="Category description"
                 >{{$category->description}}</textarea>
                 @error('description')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
+
+                {{-- Category image --}}
+                <label for="image">Image</label>
+                <input 
+                    type="file"
+                    class="form-control mb-3"
+                    name="image"
+                >
+                @error('image')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 

@@ -35,6 +35,7 @@ class CategorySeeder extends Seeder
                 'description' => null,
                 'image' => $row->image,
                 'color' => $row->color,
+                'created_at' => date('Y-m-d H:i:s', $row->created),
                 'status' => 'public'
             ];
         }

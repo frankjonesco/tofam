@@ -143,7 +143,6 @@ class Article extends Model
     // Save article (update)
     public function saveArticle($request, $article){
         $article = self::compileArticleData($request, $article);
-        $article = self::handleImageUpload($request, $article);
         $article->save();
     }
 

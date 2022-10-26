@@ -111,7 +111,6 @@ class ArticleSeeder extends Seeder
                 $article->image = $new_filename;
                 $article->save();
             }
-
         }
 
 
