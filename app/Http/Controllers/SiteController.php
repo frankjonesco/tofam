@@ -59,4 +59,20 @@ class SiteController extends Controller
             'count' => $articles->total()
         ]);
     }
+
+    public function showTerms(){
+        return view('terms');
+    }
+
+    public function showPrivacy(){
+        return view('privacy');
+    }
+
+    public function showAbout(){
+        return view('about');
+    }
+
+    public function showContact(){
+        return view('contact');
+    }
 }

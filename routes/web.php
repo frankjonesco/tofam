@@ -34,6 +34,10 @@ Route::controller(SiteController::class)->group(function(){
     Route::get('/tags/{term}', 'tags');
     Route::get('/search/{term}', 'searchRetrieve')->name('searchRetrieve');
     Route::post('/search', 'search');
+    Route::get('/terms', 'showTerms');
+    Route::get('/privacy', 'showPrivacy');
+    Route::get('/about', 'showAbout');
+    Route::get('/contact', 'showContact');
 });
 
 /*
