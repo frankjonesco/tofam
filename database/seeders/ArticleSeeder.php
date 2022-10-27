@@ -48,6 +48,8 @@ class ArticleSeeder extends Seeder
                 $user_id = $user ? $user->id : null;
             }
 
+            
+
             $articles[] = [
                 'old_id' => $row->id,
                 'hex' => Str::random(11),
@@ -58,6 +60,7 @@ class ArticleSeeder extends Seeder
                 'caption' => $row->caption,
                 'teaser' => $row->teaser,
                 'body' => $row->main_text,
+                'tags' => Article::getRandomTags(),
                 'image' => $row->image,
                 'image_caption' => $row->image_caption,
                 'image_copyright' => $row->image_copyright,

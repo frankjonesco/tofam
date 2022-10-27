@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('image_copyright')->nullable();
             $table->tinyInteger('image_cropped')->nullable();
             $table->integer('views')->nullable();
+            $table->integer('likes')->nullable();
+            $table->integer('dislikes')->nullable(); 
             $table->timestamps();
             $table->string('status');
         });

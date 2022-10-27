@@ -52,6 +52,7 @@ class Site extends Model
         $articles = Article::latest()->get();
         foreach($articles as $key => $article){
             $articles[$key] = Article::tagsToArrayFromOne($article);
+            // $articles[$key]
         }
         return $articles;
     }
@@ -60,9 +61,18 @@ class Site extends Model
     public static function publicArticles(){
         $articles = Article::where('status', 'public')->latest()->paginate(6);
         foreach($articles as $key => $article){
-            $articles[$key] = Article::tagsToArrayFromOne($article);
+            $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
         }
         return $articles;
+    }
+
+    // Get other public articles with exploaded tags
+    public static function otherPublicArticles($hex){
+        $other_articles = Article::where('status', 'public')->where('hex', '!=' , $hex)->orderBy(DB::raw('RAND()'))->take(3)->get();
+        foreach($other_articles as $key => $other_article){
+            $other_articles[$key]['tags'] = Article::tagsToArrayFromOne($other_article->tags);
+        }
+        return $other_articles;
     }
 
 

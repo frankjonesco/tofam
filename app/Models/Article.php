@@ -47,14 +47,7 @@ class Article extends Model
         return $articles;
     }
 
-    // Get other public articles with exploaded tags
-    public static function otherPublicArticles($hex){
-        $articles = self::getArticles('public')->where('hex', '!=' , $hex)->orderBy(DB::raw('RAND()'))->take(3)->get();
-        foreach($articles as $key => $article){
-            $articles[$key] = self::tagsToArrayFromOne($article);
-        }
-        return $articles;
-    }
+    
 
     // Accessor for retrieving and formatting 'created_at'
     public function getThumbnail($article){
@@ -86,6 +79,28 @@ class Article extends Model
         }
     }
 
+
+    // Get random tags
+    public static function getRandomTags(int $amount = 3){
+        // List of random keywords
+        $tags = [
+            'destroy', 'fade', 'subtract', 'puzzled', 'metal', 'disillusioned', 'fear', 'foolish', 'lamentable', 'scratch', 'nauseating', 'meek', 'nest',  'bitter', 'faded', 'dapper', 'month', 'realize', 'crash', 'inquisitive', 'follow', 'attend', 'identify', 'cover', 'girl', 'unhealthy', 'inform', 'notebook', 'fetch', 'beds', 'mix', 'air', 'hydrant', 'carpenter', 'bat', 'gather', 'hug', 'sulky', 'stew', 'shop', 'writing', 'disagreeable', 'suit', 'blushing', 'troubled', 'crazy', 'tame', 'unfasten', 'boy', 'miss', 'cemetery', 'word', 'malicious', 'lean', 'bored', 'aggressive', 'actor', 'sturdy', 'trite', 'introduce', 'dam', 'fuel', 'rot', 'hat', 'tart', 'fanatical', 'garrulous', 'country', 'hop', 'trouble', 'economic', 'underwear', 'quicksand', 'design', 'title', 'pleasant', 'adventurous', 'axiomatic', 'popcorn', 'cooperative', 'smooth', 'supreme', 'miscreant', 'act', 'tangible', 'three', 'flimsy', 'recondite', 'trick', 'stop', 'oval', 'unkempt', 'delay', 'peace', 'yielding', 'gun', 'receptive'
+        ];
+        
+        // Get an amount of random keys
+        $keys = array_rand($tags, $amount);
+
+        // Assign values to $random_tags
+        $random_tags = [];
+        foreach($keys as $key){
+            $random_tags[] = $tags[$key];
+        }
+
+        // Return array as comma separated value
+        return implode(',', $random_tags);
+    }
+
+
     // Explode tags to arrays for all articles
     public static function tagsToArrayFromMany($articles = []){
         foreach($articles as $key => $article){
@@ -97,11 +112,11 @@ class Article extends Model
     }
 
     // Explode tags to arrays for one article
-    public static function tagsToArrayFromOne($article){
-        if($article->tags){
-            $article['tags'] = explode(',', $article->tags);
+    public static function tagsToArrayFromOne($tags){
+        if($tags){
+            $tags = explode(',', $tags);
         }
-        return $article;
+        return $tags;
     }
 
     // Add view

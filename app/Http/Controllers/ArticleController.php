@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Image;
 use App\Models\Site;
 use App\Models\Article;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
-use Image;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
@@ -32,17 +32,20 @@ class ArticleController extends Controller
 
 
     // SHOW SINGLE ARTICLE
-    public function show(Article $article, $slug = null){
+    public function show(Article $article, $slug = null, Site $site){
         // Increment the number of views
         $article->addView($article);
 
         // Explode this article's tags to an array
-        $article->tagsToArrayFromOne($article);
+        $article->tagsToArrayFromOne($article->tags);
+
+        // Return 0 if article->like is NULL
+        $article->likes = $article->likes ?? 0;
 
         // Load the view
         return view('articles.show', [
             'article' => $article,
-            'other_articles' => $article->otherPublicArticles($article->hex)
+            'other_articles' => $site->otherPublicArticles($article->hex)
         ]);
     }
 
@@ -116,6 +119,35 @@ class ArticleController extends Controller
             return redirect('articles')->with('message', 'Article deleted!');
         }
         return redirect('articles/'.$article->hex.'/'.$article->slug)->with('staticError', 'You do not have permission to delete this article.');
+    }
+
+
+    // Like article
+    public function like(Request $request){
+        $article = Article::where('hex', $request->hex)->first();
+        $likes = $article->likes + 1;
+        if($article->update(['likes' => $likes])){
+            session()->put('liked_'.$request->hex, true);
+            return $likes;
+        }
+        return false;
+    }
+
+
+    // Unlike article
+    public function unlike(Request $request){
+        $article = Article::where('hex', $request->hex)->first();
+        if($article->likes <= 0){
+            return $article->likes;
+        }
+
+        $likes = $article->likes - 1;
+
+        if($article->update(['likes' => $likes])){
+            session()->pull('liked_'.$request->hex);
+            return $likes;
+        }
+        return false;
     }
     
 }
