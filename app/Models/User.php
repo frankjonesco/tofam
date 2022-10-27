@@ -97,7 +97,7 @@ class User extends Authenticatable
     public function compileUserData($request, $user){
         $site = new Site();
         $user->hex = ($user->hex) ? $user->hex : self::uniqueHex($site);
-        $user->user_type_id = 1;
+        $user->user_type_id = $request->user_type_id ?? 1;
         $user->first_name = ucfirst($request->first_name);
         $user->last_name = ucfirst($request->last_name);
         $user->username = $request->username;

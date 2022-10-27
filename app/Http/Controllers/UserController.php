@@ -114,9 +114,10 @@ class UserController extends Controller
 
 
     // ADMIN: SHOW FORM FOR EDIT USER
-    public function edit(User $user){
+    public function edit(User $user, Site $site){
         return view('dashboard.users.edit', [
-            'user' => $user
+            'user' => $user,
+            'user_types' => $site->getUserTypes()
         ]);
     }
 
@@ -127,6 +128,7 @@ class UserController extends Controller
             'first_name' => 'required|min:2',
             'last_name' => 'required|min:2',
             'gender' => 'required',
+            'user_type_id' => 'required',
             'username' => ['required', 'min:3', Rule::unique('users', 'username')->ignore($user->id)],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
         ]);

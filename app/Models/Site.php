@@ -112,4 +112,10 @@ class Site extends Model
             })
             ->save($directory_path.'/tn-'.$image_name);
     }
+
+
+    // Get user types
+    public function getUserTypes(){
+        return DB::table('user_types')->where('active', 1)->orderBy('id', 'ASC')->get();
+    }
 }

@@ -47,6 +47,22 @@
                 <p class="text-danger">{{$message}}</p>
             @enderror
 
+            {{-- User type --}}
+            <label for="user_type_id">User type</label>
+            <select 
+                name="user_type_id" 
+                class="form-select mb-3"
+            >   
+                <option value="" disabled selected>Select a user type</option>
+                @foreach($user_types as $user_type)
+                    <option value="{{$user_type->id}}" {{$user->user_type_id == $user_type->id ? 'selected' : null}}>{{$user_type->name}}</option>
+                @endforeach
+                
+            </select>
+            @error('user_type_id')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
             {{-- Image --}}
             <label for="image">Image</label>
             <input 
