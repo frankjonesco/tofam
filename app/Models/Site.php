@@ -118,4 +118,9 @@ class Site extends Model
     public function getUserTypes(){
         return DB::table('user_types')->where('active', 1)->orderBy('id', 'ASC')->get();
     }
+
+    // Get countries
+    public function getCountries(){
+        return Country::orderBy('name', 'ASC')->get();
+    }
 }

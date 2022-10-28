@@ -89,8 +89,11 @@ class UserController extends Controller
 
 
     // ADMIN: SHOW FOR FOR CREATE USER
-    public function create(){
-        return view('dashboard.users.create');
+    public function create(Site $site){
+        return view('dashboard.users.create', [
+            'user_types' => $site->getUserTypes(),
+            'countries' => $site->getCountries()
+        ]);
     }
 
 
@@ -117,7 +120,8 @@ class UserController extends Controller
     public function edit(User $user, Site $site){
         return view('dashboard.users.edit', [
             'user' => $user,
-            'user_types' => $site->getUserTypes()
+            'user_types' => $site->getUserTypes(),
+            'countries' => $site->getCountries()
         ]);
     }
 

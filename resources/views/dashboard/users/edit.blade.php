@@ -80,6 +80,22 @@
                 class="mb-3 w-100"
             >
 
+            {{-- Country --}}
+            <label for="country">Country</label>
+            <select 
+                name="country" 
+                class="form-select mb-3"
+            >   
+                <option value="" disabled selected>Select a country</option>
+                @foreach($countries as $country)
+                    <option value="{{$country->iso}}" {{$user->country == $country->iso ? 'selected' : null}}>{{$country->name}}</option>
+                @endforeach
+                
+            </select>
+            @error('country')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
             {{-- Username --}}
             <label for="username">
                 Username

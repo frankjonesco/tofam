@@ -106,7 +106,7 @@ class User extends Authenticatable
         $user->password = bcrypt($request->password);
         $user->remember_token = Str::random(10);
         $user->gender = $request->gender;
-        $user->country = null;
+        $user->country = $request->country ?? null;
         $user->color = $site->randomColorId();
         $user->blocked = null;
 
