@@ -181,7 +181,10 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+        // Added by Frank
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -211,7 +214,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Image' => Intervention\Image\ImageManagerStatic::class
+
+        // Added by Frank
+        'Image' => Intervention\Image\ImageManagerStatic::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        
     ])->toArray(),
 
 ];

@@ -7,6 +7,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 
@@ -129,6 +130,20 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::get('/dashboard/images/check', 'checkImages');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Routes for ProfileController
+|--------------------------------------------------------------------------
+*/
+
+// All profile routes must be authenticated
+Route::controller(ProfileController::class)->middleware('auth')->group(function(){
+    Route::get('/profile', 'show');
+});
+
+
+
 
 /*
 |--------------------------------------------------------------------------

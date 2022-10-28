@@ -23,6 +23,7 @@
                 
                 @auth
                     <a class="nav-link {{ (Route::currentRouteName() == 'dashboard') ? 'active' : null }}" href="/dashboard">Dashboard</a>
+                    <a class="nav-link {{ (Route::currentRouteName() == 'profile') ? 'active' : null }}" href="/profile">Profile</a>
                     <form action="/logout" class="inline"  id="logoutForm" method="POST">
                         @csrf
                         <a class="nav-link" onclick="logoutSubmit()" style="cursor:pointer;">Log out</a>
