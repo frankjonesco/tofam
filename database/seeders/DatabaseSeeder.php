@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             SponsorSeeder::class,
             CategorySeeder::class,
             ArticleSeeder::class,
+            CountrySeeder::class,
         ]);
     }
 }
