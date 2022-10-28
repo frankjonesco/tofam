@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'image' => $user->image,
                 'gender' => $user->gender,
-                'color' => $user->color,
+                'color_id' => $user->color,
                 'created_at' => $user->created,
                 'updated_at' => now(),
             ]);

@@ -20,7 +20,7 @@
                 </p>
                 <p>
                     <small>
-                        {{$article->user->first_name.' '.$article->user->last_name}}
+                        {{$article->user->full_name}}
                     </small>
                 </p>
                 <p class="card-text">

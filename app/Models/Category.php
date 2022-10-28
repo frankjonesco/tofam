@@ -17,7 +17,7 @@ class Category extends Model
     }
 
     // Relationship to article
-    public function article(){
+    public function articles(){
         return $this->belongsTo(Category::class, 'category_id');
     }
 

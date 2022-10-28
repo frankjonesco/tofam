@@ -49,9 +49,10 @@
                     @endif
 
                     <div class="d-flex justify-content-between">
-                        <p>{{$article->user->first_name.' '.$article->user->last_name}}</p>
+                        <p>{{$article->user->full_name}}</p>
                         <p>{{$article->created_at}}</p>
                     </div>
+                    <p>Category: {{$article->category->name}}</p>
                     <p>{!!$article->body!!}</p>
 
                     <p>Views: {{$article->views}}</p>

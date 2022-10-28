@@ -51,10 +51,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+    * User Relationships
+    */
+
     // Relationship to articles
     public function articles(){
         return $this->hasMany(Article::class, 'user_id');
     }
+
+    // Relationship to user type
+    public function user_type(){
+        return $this->belongsTo(UserType::class, 'user_type_id');
+    }
+
+    // Relationship to country
+    public function country(){
+        return $this->belongsTo(Country::class, 'country_iso', 'iso');
+    }
+
+    // Relationship to country
+    public function color(){
+        return $this->belongsTo(Color::class, 'color_id');
+    }
+
 
 
     // Accessors
@@ -68,6 +88,12 @@ class User extends Authenticatable
     public function getArticleCountAttribute(){
         return Article::where('user_id', $this->id)->count();
     }
+
+
+
+
+
+
 
     // Find unique hex for users
     public function uniqueHex($site, string $field = 'hex', int $length = 11){

@@ -38,8 +38,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('image')->nullable();
             $table->string('gender')->nullable();
-            $table->string('country')->nullable();
-            $table->integer('color')->nullable();
+            $table->string('country_iso')->nullable();
+            $table->integer('color_id')->nullable();
             $table->boolean('blocked')->nullable();
             $table->timestamps();
         });
