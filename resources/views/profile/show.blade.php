@@ -75,10 +75,7 @@
                                     border: 1px solid #999;
                                     padding: 2px;
                                     display: inline-block;
-                                "
-                                
-                                >
-                                   
+                                ">  
                                 </div>
                             </div>
                             <div class="col-6 h5">

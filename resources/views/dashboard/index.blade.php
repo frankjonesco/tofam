@@ -3,23 +3,26 @@
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
-                <i class="fa-solid fa-arrow-left"></i> Back
+                <i class="fa fa-arrow-left"></i> Back
             </a>
             
             <a class="btn btn-secondary btn-sm" href="/dashboard/articles/create">
-                <i class="fa-solid fa-newspaper"></i> Create article
+                <i class="fa fa-newspaper"></i> Create article
             </a>
 
             <a class="btn btn-success btn-sm" href="/dashboard/categories/create">
-                <i class="fa-solid fa-folder-open"></i> Create category
+                <i class="fa fa-folder-open"></i> Create category
             </a>
 
             <a class="btn btn-danger btn-sm" href="/dashboard/users/create">
-                <i class="fa-solid fa-user-plus"></i> Create user
+                <i class="fa fa-user-plus"></i> Create user
             </a>
 
             <a class="btn btn-warning btn-sm" href="/dashboard/images/check">
-                <i class="fa-solid fa-image"></i> Check images
+                <i class="fa fa-image"></i> Check images
+            </a>
+            <a class="btn btn-info btn-sm" href="/dashboard/colors">
+                <i class="fa fa-brush"></i> Colors
             </a>
         </x-buttons-bar>
         <h1>Dashboard</h1>

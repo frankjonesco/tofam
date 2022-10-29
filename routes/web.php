@@ -128,6 +128,8 @@ Route::controller(UserController::class)->group(function(){
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('colors', 'showColors');
+
     Route::get('/dashboard/images/check', 'checkImages');
 });
 

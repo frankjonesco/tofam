@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ArticleSeeder::class,
             CountrySeeder::class,
+            ColorSwatchSeeder::class
         ]);
     }
 }
