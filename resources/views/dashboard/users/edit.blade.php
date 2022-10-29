@@ -81,18 +81,18 @@
             >
 
             {{-- Country --}}
-            <label for="country">Country</label>
+            <label for="country_iso">Country</label>
             <select 
-                name="country" 
+                name="country_iso" 
                 class="form-select mb-3"
             >   
                 <option value="" disabled selected>Select a country</option>
                 @foreach($countries as $country)
-                    <option value="{{$country->iso}}" {{$user->country == $country->iso ? 'selected' : null}}>{{$country->name}}</option>
+                    <option value="{{$country->iso}}" {{$user->country_iso == $country->iso ? 'selected' : null}}>{{$country->name}}</option>
                 @endforeach
                 
             </select>
-            @error('country')
+            @error('country_iso')
                 <p class="text-danger">{{$message}}</p>
             @enderror
 
