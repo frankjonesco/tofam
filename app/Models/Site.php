@@ -18,8 +18,8 @@ class Site extends Model
 
     
     // Get random color ID
-    public function randomColorId(){
-        return Color::inRandomOrder()->first()->id;
+    public function randomColor($field = 'fill_id'){
+        return Color::inRandomOrder()->first()->$field;
     }
 
 

@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {   
+        $site = new Site();
         // Create the user types
         $user_types = UserType::on('mysql_import_old_stuff')->get();
 
@@ -55,7 +56,8 @@ class UserSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'image' => $user->image,
                 'gender' => $user->gender,
-                'color_id' => $user->color,
+                'country_iso' => $user->country,
+                'color_id' => $site->randomColor(),
                 'created_at' => $user->created,
                 'updated_at' => now(),
             ]);

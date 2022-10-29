@@ -16,31 +16,126 @@ class ColorSeeder extends Seeder
     public function run()
     {
         $colors = [
-            ['code' => '01295F'],
-            ['code' => '437F97'],
-            ['code' => '849324'],
-            ['code' => 'FFB30F'],
-            ['code' => 'FD151B'],
-            ['code' => '712F79'],
-            ['code' => '590004'],
-            ['code' => '250001'],
-            ['code' => 'CE1483'],
-            ['code' => '065143'],
-            ['code' => 'E58C8A'],
-            ['code' => 'FF8C42'],
-            ['code' => '6699CC'],
-            ['code' => '29BF12'],
-            ['code' => '4F772D'],
-            ['code' => 'A40E4C'],
-            ['code' => '241023'],
-            ['code' => '7272AB'],
-            ['code' => '826754'],
-            ['code' => '7765E3'],
-            ['code' => 'A57548'],
-            ['code' => '3A86FF'],
-            ['code' => 'BDADEA'],  
-            ['code' => '7FB685'],
-            ['code' => '38369A']
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 1, 
+                'code' => 'CDDDDD', 
+                'name' => 'Ligt smoke', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 2, 
+                'code' => 'FCA17D', 
+                'name' => 'Punch bowl', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 3, 
+                'code' => '6C7D47', 
+                'name' => 'Turf', 
+                'created_at' => now(), 
+                'updated_at' => now()],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 4, 
+                'code' => '6F73D2', 
+                'name' => 'Dream tinge', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 5, 
+                'code' => 'DA627D', 
+                'name' => 'Blusher', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 6, 
+                'code' => 'F6AE2D', 
+                'name' => 'Mustard jar', 
+                'created_at' => now(),
+                 'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 7, 
+                'code' => 'FFA552', 
+                'name' => 'Sandy shore', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 8, 
+                'code' => '343434', 
+                'name' => 'Sidewalk', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 9, 
+                'code' => '074F57', 
+                'name' => 'Duck pond', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 10, 
+                'code' => '563635', 
+                'name' => 'Tree trunk', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1,
+                'fill_id' => 11, 
+                'code' => 'D17A22', 
+                'name' => 'Honey pot', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 12, 
+                'code' => '4C061D', 
+                'name' => 'Red wine', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 13, 
+                'code' => 'EA3788', 
+                'name' => 'Barbie girl', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 14, 
+                'code' => '96E6B3', 
+                'name' => 'Mint tea', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+            [
+                'color_swatch_id' => 1, 
+                'fill_id' => 15, 
+                'code' => 'A24936', 
+                'name' => 'Autumn leaves', 
+                'created_at' => now(), 
+                'updated_at' => now()
+            ],
+
         ];
 
         Color::insert($colors);

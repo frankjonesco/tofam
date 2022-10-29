@@ -128,7 +128,11 @@ Route::controller(UserController::class)->group(function(){
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
-    Route::get('colors', 'showColors');
+    Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
+    Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
+    Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
+    Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
+    
 
     Route::get('/dashboard/images/check', 'checkImages');
 });

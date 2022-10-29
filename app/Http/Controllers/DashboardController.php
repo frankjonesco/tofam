@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\Color;
+use App\Models\ColorSwatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -90,5 +92,49 @@ class DashboardController extends Controller
 
         file_put_contents($path, $image);
         return response()->json(['status'=>true]);
+    }
+
+
+
+    // COLOR SWATCH: INDEX
+    public function colorSwatchIndex(){
+        return view('dashboard.color-swatches.index', [
+            'color_swatches' => ColorSwatch::get()
+        ]);
+    }
+
+    // COLOR SWATCH: SHOW SINGLE COLOR SWATCH
+    public function colorSwatchShow($hex = null){
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();
+        return view('dashboard.color-swatches.show', [
+            'color_swatch' => $color_swatch,
+            // 'colors' => Color::where('color_swatch_id', $color_swatch->id)->orgerBy('fill_id', 'ASC')->get()
+        ]);
+    }
+
+    // COLOR SWATCH: SHOW EDIT FORM
+    public function colorSwatchEdit($hex = null){
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();
+        return view('dashboard.color-swatches.edit', [
+            'color_swatch' => $color_swatch
+        ]);
+    }
+
+    // COLOR SWATCH: UPDATE COLOR SWATCH
+    public function colorSwatchUpdate(Request $request, $hex = null){
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();        
+        foreach($color_swatch->colors as $key => $color){
+            $i = $key + 1;
+            $code_label = 'code_' . $i;
+            $name_label = 'name_' . $i;
+            $data = [
+                'code' => $request->$code_label,
+                'name' => $request->$name_label,
+                'updated_at' => now()
+            ];
+            Color::where('id', $color->id)->update($data);
+        }
+
+        return redirect('dashboard/color-swatches/'.$hex)->with('message', 'Color swatch updated!');
     }
 }

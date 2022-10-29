@@ -13,4 +13,9 @@ class Color extends Model
     public function users(){
         return $this->hasMany(User::class, 'color_id');
     }
+
+    // Relationship to color swatch
+    public function color_swatch(){
+        return $this->belongsTo(ColorSwatch::class, 'color_swatch_id');
+    }
 }

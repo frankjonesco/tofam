@@ -23,13 +23,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            UserSeeder::class,
+            
+            ColorSwatchSeeder::class,
             ColorSeeder::class,
+            CountrySeeder::class,
+            UserSeeder::class,
             SponsorSeeder::class,
             CategorySeeder::class,
             ArticleSeeder::class,
-            CountrySeeder::class,
-            ColorSwatchSeeder::class
         ]);
     }
 }

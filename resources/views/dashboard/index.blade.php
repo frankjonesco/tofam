@@ -21,7 +21,7 @@
             <a class="btn btn-warning btn-sm" href="/dashboard/images/check">
                 <i class="fa fa-image"></i> Check images
             </a>
-            <a class="btn btn-info btn-sm" href="/dashboard/colors">
+            <a class="btn btn-info btn-sm" href="/dashboard/color-swatches">
                 <i class="fa fa-brush"></i> Colors
             </a>
         </x-buttons-bar>
