@@ -130,9 +130,10 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
     Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
+    Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
     Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
     Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
-    
+    Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
 
     Route::get('/dashboard/images/check', 'checkImages');
 });

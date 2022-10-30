@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Site;
 use App\Models\Color;
+use App\Models\Config;
 use App\Models\ColorSwatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -112,6 +113,15 @@ class DashboardController extends Controller
         ]);
     }
 
+    // COLOR SWATCH: USE THIS SWATCH
+    public function colorSwatchUse($hex = null){
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();
+        $config = Config::where('id', 1)->first();
+        $config->color_swatch_id = $color_swatch->id;
+        $config->save();
+        return redirect('dashboard/color-swatches')->with('messsge', 'Color swatch updated!');
+    }
+
     // COLOR SWATCH: SHOW EDIT FORM
     public function colorSwatchEdit($hex = null){
         $color_swatch = ColorSwatch::where('hex', $hex)->first();
@@ -122,7 +132,8 @@ class DashboardController extends Controller
 
     // COLOR SWATCH: UPDATE COLOR SWATCH
     public function colorSwatchUpdate(Request $request, $hex = null){
-        $color_swatch = ColorSwatch::where('hex', $hex)->first();        
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();
+        
         foreach($color_swatch->colors as $key => $color){
             $i = $key + 1;
             $code_label = 'code_' . $i;
@@ -132,9 +143,17 @@ class DashboardController extends Controller
                 'name' => $request->$name_label,
                 'updated_at' => now()
             ];
+
             Color::where('id', $color->id)->update($data);
         }
 
         return redirect('dashboard/color-swatches/'.$hex)->with('message', 'Color swatch updated!');
+    }
+
+    // COLOR SWATCH: DELETE SWATCH AND ASSOCIATED COLORS
+    public function colorSwatchDestroy($hex = null){
+        $color_swatch = ColorSwatch::where('hex', $hex)->first();
+        $color_swatch->delete();
+        return redirect('dashboard/color-swatches')->with('message', 'Color swatch deleted!');
     }
 }

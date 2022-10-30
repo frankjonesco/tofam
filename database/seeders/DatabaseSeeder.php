@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             
             ColorSwatchSeeder::class,
             ColorSeeder::class,
+            FontSeeder::class,
+            ConfigSeeder::class,
             CountrySeeder::class,
             UserSeeder::class,
             SponsorSeeder::class,

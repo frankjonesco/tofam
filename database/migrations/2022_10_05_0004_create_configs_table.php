@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('colors', function (Blueprint $table) {
+        Schema::create('configs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('color_swatch_id')->constrained()->cascadeOnDelete();
-            $table->integer('fill_id');
-            $table->string('code', 6);
-            $table->string('name')->nullable();
+            $table->foreignId('color_swatch_id');
+            $table->foreignId('font_id')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colors');
+        Schema::dropIfExists('configs');
     }
 };

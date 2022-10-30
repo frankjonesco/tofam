@@ -21,6 +21,8 @@ class SiteController extends Controller
         // $item = Sponsor::where('id', 1)->first();
         // dd($item->name);
 
+        // dd(auth()->user()->color->code);
+
         return view('home');
     }
 

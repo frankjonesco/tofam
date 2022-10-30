@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Site;
 use App\Models\User;
+use App\Models\Config;
 use App\Models\UserType;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
@@ -57,7 +58,7 @@ class UserSeeder extends Seeder
                 'image' => $user->image,
                 'gender' => $user->gender,
                 'country_iso' => $user->country,
-                'color_id' => $site->randomColor(),
+                'color_fill_id' => $site->randomColor(\App\Models\Config::where('id', 1)->first()->color_swatch_id),
                 'created_at' => $user->created,
                 'updated_at' => now(),
             ]);

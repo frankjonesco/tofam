@@ -52,7 +52,7 @@
                         <p>{{$article->user->full_name}}</p>
                         <p>{{$article->created_at}}</p>
                     </div>
-                    <p>Category: {{$article->category->name}}</p>
+                    <p>Category: {{$article->category->name ?? 'Uncategorized'}}</p>
                     <p>{!!$article->body!!}</p>
 
                     <p>Views: {{$article->views}}</p>

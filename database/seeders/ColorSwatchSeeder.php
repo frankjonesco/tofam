@@ -20,8 +20,8 @@ class ColorSwatchSeeder extends Seeder
             [
                 'hex' => Str::random(11),
                 'user_id' => 1,
-                'name' => 'Empty Field',
-                'slug' => 'empty-field',
+                'name' => 'Lisbon Streets',
+                'slug' => 'lisbon-streets',
                 'description' => 'Vibrant and artistic flavours provide enthusiasm and positivity.',
                 'image' => 'theme1.jpg',
                 'created_at' => now(), 
@@ -29,7 +29,7 @@ class ColorSwatchSeeder extends Seeder
             ],
             [
                 'hex' => Str::random(11),
-                'user_id' => 2,
+                'user_id' => 1,
                 'name' => 'Delhi Colors',
                 'slug' => 'delhi-colors',
                 'description' => 'BLues & oranges, freedom, youth, confidence & security.',
@@ -39,7 +39,7 @@ class ColorSwatchSeeder extends Seeder
             ],
             [
                 'hex' => Str::random(11),
-                'user_id' => 3,
+                'user_id' => 1,
                 'name' => 'Waterfall Bridge',
                 'slug' => 'waterfall-bridge',
                 'description' => 'Earthy tones promoting trust, optimism and loyalty.',
@@ -49,7 +49,7 @@ class ColorSwatchSeeder extends Seeder
             ],
             [
                 'hex' => Str::random(11),
-                'user_id' => 4,
+                'user_id' => 1,
                 'name' => 'Cherry Blossum',
                 'slug' => 'cherry-blossum',
                 'description' => 'A soft, calm and creative palette. Clean and professional.',

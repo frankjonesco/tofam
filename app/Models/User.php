@@ -71,9 +71,9 @@ class User extends Authenticatable
     }
 
     // Relationship to country
-    public function color(){
-        return $this->belongsTo(Color::class, 'color_id');
-    }
+    // public function color(){
+    //     return $this->belongsTo(Color::class, 'color_id', 'fill_id');
+    // }
 
 
 
@@ -88,6 +88,20 @@ class User extends Authenticatable
     public function getArticleCountAttribute(){
         return Article::where('user_id', $this->id)->count();
     }
+
+    public function getColorAttribute(){
+       
+        $color_swatch_id = Config::where('id', 1)->first()->color_swatch_id;
+        
+        $color = Color::where([
+                'color_swatch_id' => $color_swatch_id,
+                'fill_id' => $this->color_fill_id
+            ])->first();
+            
+        return $color;
+    }
+
+
 
 
 

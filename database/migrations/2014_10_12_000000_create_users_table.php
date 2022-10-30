@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('gender')->nullable();
             $table->string('country_iso')->nullable();
-            $table->integer('color_id')->nullable();
+            $table->integer('color_fill_id')->nullable();
             $table->boolean('blocked')->nullable();
             $table->timestamps();
         });
