@@ -135,6 +135,8 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
     Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
 
+    Route::delete('/dashboard/color-swatches/{hex}/delete-color', 'colorSwatchDestroyColor');
+
     Route::get('/dashboard/images/check', 'checkImages');
 });
 

@@ -90,15 +90,26 @@ class User extends Authenticatable
     }
 
     public function getColorAttribute(){
-       
+        
         $color_swatch_id = Config::where('id', 1)->first()->color_swatch_id;
         
+
         $color = Color::where([
                 'color_swatch_id' => $color_swatch_id,
                 'fill_id' => $this->color_fill_id
-            ])->first();
+            ]);
+
+        if($color->exists()){
+            return $color->first();
+        }else{
+            $color = Color::where([
+                'color_swatch_id' => $color_swatch_id,
+            ]);
+            return $color->first();
+        }
+
+        
             
-        return $color;
     }
 
 

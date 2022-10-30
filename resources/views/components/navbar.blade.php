@@ -31,7 +31,7 @@
                                             src="{{asset('images/users/'.auth()->user()->hex.'/tn-'.auth()->user()->image)}}" 
                                             alt="" 
                                             class="nav-user-image"
-                                            style="border-color: #{{auth()->user()->color->code}};"    
+                                            style="border-color: #{{auth()->user()->color->code ?? 'ff0000'}};"    
                                         >
                                         Hello {{auth()->user()->first_name}}
                                     </a>

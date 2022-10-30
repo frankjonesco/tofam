@@ -16,7 +16,7 @@ class ConfigSeeder extends Seeder
     public function run()
     {
         $config = [
-            'color_swatch_id' => 2,
+            'color_swatch_id' => 1,
         ];
 
         Config::create($config);
