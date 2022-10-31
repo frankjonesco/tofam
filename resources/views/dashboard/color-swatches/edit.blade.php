@@ -1,26 +1,37 @@
 <x-layout>
     <x-card>
-    {{-- {{dd($color_swatch)}} --}}
         {{-- Buttons bar --}}
         <x-buttons-bar>
-            <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
+            <a class="btn btn-primary btn-sm" href="/dashboard/color-swatches">
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteColorSwatchModal">
+                <i class="fa-solid fa-trash"></i> Delete
+            </button>
+            <x-popup-modal :colorSwatch="$color_swatch" />
         </x-buttons-bar>
+
+        
         <div class="w-50">
+
+            {{-- Form for editing colors --}}
             <form action="/dashboard/color-swatches/{{$color_swatch->hex}}/update" method="POST">
                 @csrf
                 @method('PUT')
 
                 <h1>Edit color swatch</h1>
+
+                {{-- Edit swatch details --}}
                 <label for="">Color swatch name</label>
                 <input class="form-control input-lg mb-3" name="name" value="{{$color_swatch->name}}">
-
                 <label for="">Decsription</label>
                 <textarea class="form-control mb-3" name="description" rows="3">{{$color_swatch->description}}</textarea>
+                
 
-            
+                {{-- Colors table --}}
                 <table id="colorsTable" class="table">
+
+                    {{-- Table header row --}}
                     <thead>
                         <tr>
                             <th class="align-middle" scope="col">#</th>
@@ -30,75 +41,172 @@
                             <th class="align-middle" scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
+
+                    {{-- Table body --}}
+                    <tbody id="tableBody">
                         @foreach($color_swatch->colors as $color)
-                            <tr id="row_{{$color->fill_id}}">
-                                <th id="fill_id_{{$color->fill_id}}" class="align-middle" scope="row">
+                            <tr 
+                                id="row_{{$color->fill_id}}"
+                            >
+                                {{-- Fill ID --}}
+                                <th 
+                                    id="td_{{$color->fill_id}}" 
+                                    class="align-middle" 
+                                    scope="row"
+                                >
                                     {{$color->fill_id}}
                                 </th>
-                                <td class="align-middle">
-                                    <div id="color_square_{{$color->fill_id}}" class="color-square" style="background: #{{$color->code}};"></div>
+                                
+                                {{-- Color square --}}
+                                <td 
+                                    class="align-middle"
+                                >
+                                    <div 
+                                        id="color_square_{{$color->fill_id}}" 
+                                        class="color-square" 
+                                        style="background: #{{$color->code}};"
+                                    >
+                                    </div>
                                 </td>
+                                
+                                {{-- Color code --}}
                                 @error('code_'.$color->fill_id)
-                                    <td class="align-middle">
-                                        <input id="input_code_{{$color->fill_id}}" type="text" class="form-control" name="code_{{$color->fill_id}}" value="{{old('code_'.$color->fill_id == true) ? old('code_'.$color->fill_id) : $color->code}}" maxlength="6" autofocus>
+                                    <td 
+                                        class="align-middle"
+                                    >
+                                        <input 
+                                            id="input_code_{{$color->fill_id}}" 
+                                            type="text" 
+                                            class="form-control" 
+                                            name="code_{{$color->fill_id}}" 
+                                            value="{{old('code_'.$color->fill_id)}}" 
+                                            maxlength="6" 
+                                            oninput="countColorCodeCharacters({{$color->fill_id}})"
+                                            autofocus
+                                        >
+                                        <script>
+                                            const input = document.getElementById('input_code_{{$color->fill_id}}');
+                                            const end = input.value.length;
+                                            input.setSelectionRange(end, end);
+                                            input.focus();
+                                        </script>
                                     </td>
                                 @else
-                                    <td class="align-middle">
-                                        <input id="input_code_{{$color->fill_id}}" type="text" class="form-control" name="code_{{$color->fill_id}}" value="{{old('code_'.$color->fill_id == true) ? old('code_'.$color->fill_id) : $color->code}}"maxlength="6">
+                                    <td 
+                                        class="align-middle"
+                                    >
+                                        <input 
+                                            id="input_code_{{$color->fill_id}}" 
+                                            type="text" 
+                                            class="form-control" 
+                                            name="code_{{$color->fill_id}}" 
+                                            value="{{$color->code}}" 
+                                            maxlength="6"
+                                            oninput="countColorCodeCharacters({{$color->fill_id}})"
+                                        >
                                     </td>                                    
                                 @enderror
-                                <td class="align-middle">
-                                    <input type="text" class="form-control" name="name_{{$color->fill_id}}" value="{{$color->name}}">
-                                </td>
-                                <td style="text-align: right;" class="align-middle">
-                                    <button id="delete_{{$color->fill_id}}" type="button" class="btn btn-danger btn-sm">
+                                
+                                {{-- Color name --}}
+                                @error('name_'.$color->fill_id)
+                                    <td 
+                                        class="align-middle"
+                                        >
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                id="name_{{$color->fill_id}}" 
+                                                name="name_{{$color->fill_id}}" 
+                                                value="{{old('name_'.$color->fill_id)}}"
+                                                autofocus
+                                            >
+                                            <script>
+                                                const input = document.getElementById('name_{{$color->fill_id}}');
+                                                const end = input.value.length;
+                                                input.setSelectionRange(end, end);
+                                                input.focus();
+                                            </script>
+                                    </td> 
+                                @else
+                                    <td 
+                                        class="align-middle"
+                                        >
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                name="name_{{$color->fill_id}}" 
+                                                value="{{$color->name}}"
+                                            >
+                                    </td>                                 
+                                @enderror
+                                
+
+                                {{-- Buttons --}}
+                                <td 
+                                    style="text-align: right;" 
+                                    class="align-middle"
+                                >   
+                                    {{-- Delete button --}}
+                                    <button 
+                                        id="deleteButton_{{$color->fill_id}}" 
+                                        onclick="hideRow('fill_id_{{$color->fill_id}}', '{{$color->fill_id}}', 'original')" 
+                                        type="button" 
+                                        class="btn btn-danger btn-sm"
+                                    >
                                         <i class="fa fa-trash"></i>     
                                         Delete
                                     </button>
-                                    <button id="undo_delete_{{$color->fill_id}}" type="button" class="btn btn-secondary btn-sm" style="display: none;">
+
+                                    {{-- Undo delete button --}}
+                                    <button 
+                                        id="undoDeleteButton_{{$color->fill_id}}" 
+                                        onclick="showRow('fill_id_{{$color->fill_id}}', '{{$color->fill_id}}')" 
+                                        type="button" 
+                                        class="btn btn-secondary btn-sm" 
+                                        style="display: none;"
+                                    >
                                         <i class="fa fa-undo"></i>     
                                         Undo
                                     </button>
                                 </td>
-                                
                             </tr>
 
+                            {{-- Validation errors --}}
                             @error('code_'.$color->fill_id)
                                 <tr>
-                                    <td colspan="5">
-                                        <p class="text-danger">{{$message}}</p>
+                                    <td colspan="5" class="align-middle text-center text-danger" style="background: #fff3cd;">
+                                        {{$message}}
                                     </td>
                                 </tr>
                             @else
                                 @error('name_'.$color->fill_id)
                                     <tr>
-                                        <td colspan="5">
-                                            <p class="text-danger">{{$message}}</p>
+                                        <td colspan="5" class="align-middle text-center text-danger" style="background: #fff3cd;">
+                                            {{$message}}
                                         </td>
                                     </tr>
                                 @enderror
                             @enderror
-
                         @endforeach
-
-                        <input type="hidden" name="color_swatch_id" value="{{$color_swatch->id}}">
-                        <input id="deleteThese" name="delete_these" type="hidden" value="">
-                        <input id="deleteCount" name="delete_count" type="hidden" value="">
-                        <input id="newColorCount" name="new_color_count" type="hidden" value="{{count($color_swatch->colors)}}">
                     </tbody>
                 </table>
 
-                
+                {{-- Form control buttons --}}
                 <div class="d-flex justify-content-end">
-                    
-                    <button type="button" class="btn btn-primary btn-sm me-2" onclick="addRow()">Add another color</button>
-                    
+                    <button type="button" class="btn btn-primary btn-sm me-2" onclick="addNewColor()">Add another color</button>
                     <a href="{{url()->previous()}}">
                         <button id="test" type="submit" class="btn btn-secondary btn-sm me-2">Cancel</button>
                     </a>
                     <button type="submit" class="btn btn-sm btn-success">Save changes</button>
                 </div>
+
+                <input type="hidden" id="currentHighestColorNumber" name="currentHighestColorNumber" value="{{count($color_swatch->colors)}}">
+                <input type="hidden" id="countNewColors" name="countNewColors" value="0">
+                <input type="hidden" id="countDeletedColors" name="countDeletedColors" value="0">
+                <input type="hidden" id="idsToBeDeleted" name="idsToBeDeleted" value="">
+                <input type="hidden" id="colorsNewTotal" name="colorsNewTotal" value="{{count($color_swatch->colors)}}">
+                <input type="hidden" name="color_swatch_id" value="{{$color_swatch->id}}">
+
             </form>
         </div>
     </x-card>
@@ -107,113 +215,146 @@
 
 <script>
 
-    function adjestBoxes(countValue){
-        document.querySelector('#input_code_' + countValue).addEventListener('input', function(e){
-            color = "#" + document.getElementById('input_code_' + countValue).value;
-            console.log('Color: ' + color);
-            document.getElementById('color_square_' + countValue).style.backgroundColor=color;
-        });
-    }
-
-    function addRow(){
-
-        newColorCount = document.getElementById('newColorCount')
-        countValue = parseInt(newColorCount.value, 10) + 1;
-        newColorCount.value = countValue;
-
-        var myHtmlContent = '<th id="fill_id_' + countValue + '" class="align-middle" scope="row">' + countValue + '</th><td class="align-middle"><div id="color_square_' + countValue + '" class="color-square" style="background: #FFFFFF;"></div></td><td class="align-middle"><input id="input_code_' + countValue + '" type="text" class="form-control" name="code_' + countValue + '" value="FFFFFF" maxlength="6"></td><td class="align-middle"><input type="text" class="form-control" name="name_' + countValue + '" value="Plain White"></td><td style="text-align: right;" class="align-middle"><button id="delete_' + countValue + '" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</button><button id="undo_delete_' + countValue + '" type="button" class="btn btn-secondary btn-sm" style="display: none;"><i class="fa fa-undo"></i>Undo</button></td>';
-
-        var tableRef = document.getElementById('colorsTable').getElementsByTagName('tbody')[0];
-
-        var newRow = tableRef.insertRow(tableRef.rows.length);
-        newRow.innerHTML = myHtmlContent;
-
-
-        // document.querySelector('#input_code_' + countValue).addEventListener('input', function(e){
-        //     color = "#" + document.getElementById('input_code_' + countValue).value;
-        //     document.getElementById('color_square_' + countValue).style.backgroundColor=color;
-        // );
-        console.log('Row added!');
-        console.log('Number of rows: ' + countValue);
-        
-        adjestBoxes(countValue);
-       
-        
+    // INCREMENT VALUE
+    function incrementValue(source){
+        field = document.getElementById(source);
+        currentValue = field.value;
+        newValue = parseInt(currentValue, 10) + 1;
+        field.value = newValue;
+        return newValue;
     }
 
 
-    function colorCount(colors) {
-        var colors = colors.split(',');
-        return colors.length - 1;
+    // DECREMENT VALUE
+    function decrementValue(source){
+        field = document.getElementById(source);
+        currentValue = field.value;
+        newValue = parseInt(currentValue, 10) - 1;
+        field.value = newValue;
+        return newValue;
     }
-   
 
 
-    @foreach($color_swatch->colors as $color)
+    // ADD A NEW COLOR
+    function addNewColor(){
+        // Increment the currentHightestColorNumber field and assign to 'rowNumber'
+        rowNumber = incrementValue('currentHighestColorNumber');
+        // Increment the countNewColors field
+        incrementValue('countNewColors');
+        // Increment the colorsNewTotal field
+        incrementValue('colorsNewTotal');
+        // Set the new table row ID
+        var newTableRowId = rowNumber;
+        // Set new table row content
+        var newTableRowContent = '<th id="td_' + rowNumber + '" class="align-middle" scope="row">' + rowNumber + '</th><td class="align-middle"><div id="color_square_' + rowNumber + '" class="color-square" style="background: #FFFFFF;"></div></td><td class="align-middle"><input id="input_code_' + rowNumber + '" type="text" class="form-control" name="code_' + rowNumber + '" value="FFFFFF" maxlength="6" oninput="countColorCodeCharacters(' + rowNumber + ')"></td><td class="align-middle"><input type="text" class="form-control" name="name_' + rowNumber + '" value="Plain White"></td><td style="text-align: right;" class="align-middle"><button id="deleteButton_' + rowNumber + '" onclick="hideRow(' + newTableRowId + ', ' + rowNumber + ', \'new\')" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</button><button id="undoDeleteButton_' + rowNumber + '" onclick="showRow(' + newTableRowId + ', ' + rowNumber + ')" type="button" class="btn btn-secondary btn-sm" style="display: none;"><i class="fa fa-undo"></i> Undo</button></td>';
+        // Get the table
+        var tableBody = document.getElementById('tableBody');
+        // Insert the new row
+        var newTableRow = tableBody.insertRow(tableBody.rows.length);
+        // Add the content to the new row
+        newTableRow.innerHTML = newTableRowContent;
+        // Set the ID for the new row
+        row = document.getElementById('td_' + rowNumber).parentNode;
+        row.setAttribute("id", newTableRowId, 0);
+        // Log this action
+        console.log('Action: Added new color');
+        console.log('New color number: ' + rowNumber);
+    }
 
-        deleteThese = document.getElementById("deleteThese");
 
-        row_{{$color->fill_id}} = document.getElementById("row_{{$color->fill_id}}");
+    // COUNT COLOR CODE CHARACTERS
+    function countColorCodeCharacters(rowNumber){
+        // Get color value for this row
+        colorInput = document.getElementById('input_code_' + rowNumber).value;
+        // If the color value contains 6 characters...
+        if(colorInput.length == 6){
+            // Change the color of the box
+            changeColorCode(rowNumber, colorInput);
+        }
+    }
 
-        deleteBtn_{{$color->fill_id}} = document.getElementById('delete_{{$color->fill_id}}');
-        undoDeleteBtn_{{$color->fill_id}} = document.getElementById('undo_delete_{{$color->fill_id}}');
-    
-        deleteBtn_{{$color->fill_id}}.addEventListener('click', function(e){
-            row_{{$color->fill_id}}.style.opacity="0.3";
-            deleteBtn_{{$color->fill_id}}.style.display="none";
-            undoDeleteBtn_{{$color->fill_id}}.style.display="inline-block";
 
-            deleteThese.value+="{{$color->fill_id}},";
-
-            newColorCount = document.getElementById('newColorCount')
-            countValue = parseInt(newColorCount.value, 10) - 1;
-            newColorCount.value = countValue;
-
+    // CHANGE COLOR CODE
+    function changeColorCode(rowNumber, colorInput){
+        // Update the color square
+        colorCode = "#" + colorInput;
+        document.getElementById('color_square_' + rowNumber).style.backgroundColor=colorCode;       
+        // Log this action
+        console.log('Action: Change color code');
+        console.log('Color number: ' + rowNumber);
+        console.log('New color: ' + colorCode);
+    }
             
-            deleteCount.value = colorCount(deleteThese.value);
 
-        });
+    // HIDE ROW (DELETE COLOR)
+    function hideRow(row, colorNumber, type){
+        // Set opacity for row
+        var row = document.querySelector('#td_' + colorNumber);
+        row.parentNode.style.opacity="0.3";
 
-        undoDeleteBtn_{{$color->fill_id}}.addEventListener('click', function(e){
-            row_{{$color->fill_id}}.style.opacity="1";
-            undoDeleteBtn_{{$color->fill_id}}.style.display="none";
-            deleteBtn_{{$color->fill_id}}.style.display="inline-block";
+        // Increment the colorsNewTotal field
+        colorsNewTotal = document.getElementById('currentHighestColorNumber');
+        colorsNewTotal.value = colorsNewTotal.value;
 
-            
-            oldList_{{$color->fill_id}} = deleteThese.value.toString().split(',');
-            oldList_{{$color->fill_id}} = oldList_{{$color->fill_id}}.filter(function (el) {
-              return el != null;
-            });
+        // Increment the countDeletedColors field
+        incrementValue('countDeletedColors');
+        
+        // Show/hide delete/undo buttons
+        var deleteButton = document.getElementById('deleteButton_' + colorNumber);
+        var undoDeleteButton = document.getElementById('undoDeleteButton_' + colorNumber);
+        deleteButton.style.display="none";
+        undoDeleteButton.style.display="inline-block";
 
-            for (var i = 0; i < oldList_{{$color->fill_id}}.length; i++) {
-                if (oldList_{{$color->fill_id}}[i] == {{$color->fill_id}}) {
-                    console.log('DELETE THIS: ' + i)
-                    var spliced_{{$color->fill_id}} = oldList_{{$color->fill_id}}.splice(i, 1);
-                }
+        // Set values for form field
+        idsToBeDeleted.value+=colorNumber + ',';
+
+        // Log this action
+        console.log('Action: Deleted color');
+        console.log('Color number: ' + colorNumber);
+        console.log('List of colors to delete: ' + idsToBeDeleted.value);
+    }
+
+
+    // SHOW ROW (UNDO DELETE COLOR)
+    function showRow(row, colorNumber, type){
+        // Set opacity for row
+        var row = document.querySelector('#td_' + colorNumber);
+        row.parentNode.style.opacity="1";
+
+        // Increment the colorsNewTotal field
+        colorsNewTotal = document.getElementById('currentHighestColorNumber');
+        colorsNewTotal.value = colorsNewTotal.value;
+
+        // Decrement the countDeletedColors field
+        decrementValue('countDeletedColors');
+
+        // Show/hide delete/undo button
+        var deleteButton = document.getElementById('deleteButton_' + colorNumber);
+        var undoDeleteButton = document.getElementById('undoDeleteButton_' + colorNumber);
+        deleteButton.style.display="inline-block";
+        undoDeleteButton.style.display="none";
+
+        // Get the current list of colors to be deleted
+        idsToBeDeleted = document.getElementById("idsToBeDeleted");
+        listIds = idsToBeDeleted;
+        listIds = listIds.value.replace(/,\s*$/, "");
+        listItems = listIds.toString().split(',');
+        
+        // Make a new list with the updated values
+        var newList = '';
+        for(var i = 0; i < listItems.length; i++){
+            // console.log(listItems[i]);
+            if(listItems[i] != colorNumber){
+                newList+=listItems[i] + ',';
             }
+        }
 
-            deleteThese.value = oldList_{{$color->fill_id}};
-
-            newColorCount = document.getElementById('newColorCount')
-            countValue = parseInt(newColorCount.value, 10) + 1;
-            newColorCount.value = countValue;
-
-            deleteCount.value = colorCount(deleteThese.value);
-            
-
-        });
-
-    @endforeach
+        // Set the value of the form field
+        idsToBeDeleted.value = newList;  
+    }
 </script>
 
-<script>    
-    @foreach($color_swatch->colors as $color)
-        document.querySelector('#input_code_{{$color->fill_id}}').addEventListener('input', function(e){
-            color = "#" + document.getElementById('input_code_{{$color->fill_id}}').value;
-            document.getElementById('color_square_{{$color->fill_id}}').style.backgroundColor=color;
-        });
-    @endforeach
-</script>
+
 
        
     

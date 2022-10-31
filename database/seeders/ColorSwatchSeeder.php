@@ -32,7 +32,7 @@ class ColorSwatchSeeder extends Seeder
                 'user_id' => 1,
                 'name' => 'Delhi Colors',
                 'slug' => 'delhi-colors',
-                'description' => 'BLues & oranges, freedom, youth, confidence & security.',
+                'description' => 'Blues & oranges, freedom, youth, confidence & security.',
                 'image' => 'theme2.jpg',
                 'created_at' => now(), 
                 'updated_at' => now()
