@@ -1,11 +1,14 @@
 <x-admin-card>
 
                 <h1>Color swatches</h1>
+
+                <h5 class="mb-5">You can select different color swatches to use on the site. Colors are assigned to categories and users etc. </h5>
+                
                 <div class="row">
                     @foreach($color_swatches as $color_swatch)
                     
                         <div class="col-3">
-                            <div class="card swatch-card py-4 pb-2" style="{{$color_swatch->inUse() ? 'background: #fff3cd;' : null}}" onclick="showColorSwatch('{{$color_swatch->hex}}')">
+                            <div class="card swatch-card pt-4 pb-0" style="{{$color_swatch->inUse() ? 'background: #fff3cd;' : null}}" onclick="showColorSwatch('{{$color_swatch->hex}}')">
                                 <img src="{{asset('images/'.$color_swatch->image)}}" alt="" class="mx-4 mb-4">
                                 <div class="mx-3">
                                     @foreach($color_swatch->colors as $key => $color)
@@ -53,19 +56,19 @@
                                         {{$color_swatch->description}}
                                     </p>
                                     
-                                    <a href="/dashboard/color-swatches/{{$color_swatch->hex}}/edit" class="btn btn-primary btn-sm">
+                                    <a href="/dashboard/color-swatches/{{$color_swatch->hex}}/edit" class="btn btn-primary btn-sm btn-block mb-2 mt-auto">
                                         <i class="fa fa-pencil"></i> 
                                         Edit color swatch
                                     </a>
 
                                     @if($color_swatch->inUse())
-                                    <button class="btn btn-success btn-sm" style="cursor: not-allowed; pointer-events: all !important;" disabled>
+                                    <button class="btn btn-success btn-sm btn-block mb-2" style="cursor: not-allowed; pointer-events: all !important;" disabled>
                                             <i class="fa fa-brush"></i> 
                                             Swatch is in use
                                         </button>
                                     @else
                                         <a href="/dashboard/color-swatches/{{$color_swatch->hex}}/use">
-                                            <button class="btn btn-success btn-sm" {{$color_swatch->inUse() ? 'disabled' : null}}>
+                                            <button class="btn btn-success btn-sm btn-block mb-2" {{$color_swatch->inUse() ? 'disabled' : null}}>
                                                 <i class="fa fa-brush"></i> 
                                                 Use this swatch
                                             </button>

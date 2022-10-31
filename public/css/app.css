@@ -9,6 +9,11 @@ main {
     width: 100%;
 }
 
+h1{
+    font-size: 2.5rem;
+    font-weight: 700 !important;
+}
+
 .view-article-img{
     height: 240px;
     overflow-y: hidden;
@@ -65,9 +70,35 @@ main {
 }
 
 section.dashboard{
-    padding: 4rem 4rem;
+    padding: 3rem 4rem;
 }
 
 ul.dashboard-menu a>i{
     margin-right: 1rem;
+}
+
+
+
+.articles-grid{
+    display: grid;
+    grid-template-columns: 3fr 10fr 5fr;
+    padding: .5rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.articles-grid>.left-column{
+}
+
+.articles-grid>.center-column{
+    margin: .3rem 1.2rem;
+}
+
+.articles-grid>.center-column p{
+    margin: 0px;
+}
+
+.articles-grid>.right-column{
+    margin: .3rem;
 }

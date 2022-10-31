@@ -28,6 +28,16 @@ class Article extends Model
         return Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 
+    // Accessor for retrieving and formatting 'created_at'
+    public function getShortTitleAttribute($value){
+        return Str::limit($this->title, 65);
+    }
+
+    // Accessor for retrieving and formatting 'short_body'
+    public function getShortBodyAttribute($value){
+        return Str::limit($this->body, 200);
+    }
+
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
