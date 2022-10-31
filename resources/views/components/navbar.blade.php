@@ -16,6 +16,7 @@
             <div class="navbar-nav w-100">
                 <a class="nav-link {{ (request()->segment(1) == null) ? 'active' : null }}" aria-current="page" href="/">Home</a>
                 <a class="nav-link {{ (request()->segment(1) == 'about') ? 'active' : null }}" href="/about">About</a>
+                <a class="nav-link {{ (request()->segment(1) == 'companies') ? 'active' : null }}" href="/companies">Companies</a>
                 <a class="nav-link {{ (request()->segment(1) == 'articles') ? 'active' : null }}" href="/articles">Articles</a>
                 <a class="nav-link {{ (request()->segment(1) == 'categories') ? 'active' : null }}" href="/categories">Categories</a>
                 <a class="nav-link {{ (request()->segment(1) == 'users') ? 'active' : null }}" href="/users">Users</a>

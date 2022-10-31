@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             SponsorSeeder::class,
             CategorySeeder::class,
             ArticleSeeder::class,
+            IndustrySeeder::class,
+            CompanySeeder::class,
         ]);
     }
 }

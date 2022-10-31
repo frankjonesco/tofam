@@ -7,6 +7,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -39,6 +40,22 @@ Route::controller(SiteController::class)->group(function(){
     Route::get('/privacy', 'showPrivacy');
     Route::get('/about', 'showAbout');
     Route::get('/contact', 'showContact');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routes for CompanyController
+|--------------------------------------------------------------------------
+*/
+
+// Auth routes for CompanyController
+Route::controller(CompanyController::class)->middleware('auth')->group(function() {
+
+});
+
+// Public routes for ArticleController
+Route::controller(CompanyController::class)->group(function(){
+    Route::get('/companies', 'index');
 });
 
 /*
