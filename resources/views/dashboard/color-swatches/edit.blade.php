@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-card>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="/dashboard/color-swatches">
@@ -12,7 +11,7 @@
         </x-buttons-bar>
 
         
-        <div class="w-50">
+        <div class="w-100">
 
             {{-- Form for editing colors --}}
             <form action="/dashboard/color-swatches/{{$color_swatch->hex}}/update" method="POST">
@@ -209,8 +208,7 @@
 
             </form>
         </div>
-    </x-card>
-</x-layout>
+</x-admin-card>
 
 
 <script>

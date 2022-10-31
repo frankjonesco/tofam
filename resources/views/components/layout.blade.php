@@ -12,7 +12,7 @@
     @vite('resources/js/app.js')
 
     <link rel="stylesheet" href="{{asset('css/app.css?t='.time())}}">
-
+    
 
     
 </head>
@@ -20,7 +20,7 @@
 
     <x-navbar />
     
-    <main>
+    <main id="main">
         {{$slot}}
     </main>
 
@@ -32,6 +32,7 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
+    
 
 </body>
 </html>

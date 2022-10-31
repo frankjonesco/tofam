@@ -128,14 +128,18 @@ Route::controller(UserController::class)->group(function(){
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
+
+    // Color Swatch Editor
     Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
     Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
     Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
     Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
     Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
     Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
-
     Route::delete('/dashboard/color-swatches/{hex}/delete-color', 'colorSwatchDestroyColor');
+
+    // Articles
+    Route::get('/dashboard/articles', 'articlesIndex');
 
     Route::get('/dashboard/images/check', 'checkImages');
 });
@@ -161,3 +165,5 @@ Route::controller(ProfileController::class)->middleware('auth')->group(function(
 */
 // Route::get('crop-image', [DashboardController::class, 'cropIndex']);
 // Route::post('crop-image', [DashboardController::class, 'uploadCropImage'])->name('croppie.upload-image');
+Route::get('/sidebar1', [SiteController::class, 'sidebarOne']);
+Route::get('/empty', [SiteController::class, 'emptyPage']);

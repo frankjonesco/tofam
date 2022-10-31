@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-cad>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
@@ -123,5 +122,4 @@
 
         </form>
 
-    </x-card>
-</x-layout>
+</x-admin-cad>

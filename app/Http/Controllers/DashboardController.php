@@ -98,6 +98,17 @@ class DashboardController extends Controller
 
 
 
+    // ARTICLES: INDEX
+    public function articlesIndex(){
+        // dd(Site::allArticles());
+        return view('dashboard.articles.index', [
+            'articles' => Site::allArticles(),
+            'foo' => 'bar'
+        ]);
+    }
+
+
+
     // COLOR SWATCH: INDEX
     public function colorSwatchIndex(){
         return view('dashboard.color-swatches.index', [

@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-card>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
@@ -8,7 +7,7 @@
         </x-buttons-bar>
         <h1>Edit category</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/{{$category->hex}}/update" method="POST" class="w-25" enctype="multipart/form-data">
+            <form action="/dashboard/categories/{{$category->hex}}/update" method="POST" class="w-50" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -73,5 +72,4 @@
 
             </form>
         </div>
-    </x-card>
-</x-layout>
+</x-admin-card>

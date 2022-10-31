@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-card>
 
         {{-- Buttons bar --}}
         <x-buttons-bar>
@@ -10,8 +9,21 @@
 
         <h1>Create article</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/articles/store" method="POST" enctype="multipart/form-data" class="w-25">
+            <form action="/dashboard/articles/store" method="POST" enctype="multipart/form-data" class="w-50">
                 @csrf
+
+                {{-- Article title --}}
+                <label for="title">Title</label>
+                <input 
+                    type="text"
+                    name="title"
+                    class="form-control mb-3"
+                    placeholder="Article title"
+                    value="{{old('title')}}"
+                >
+                @error('title')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
 
                 {{-- Article category --}}
                 <label for="category">Category</label>
@@ -27,19 +39,6 @@
                     
                 </select>
                 @error('status')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-
-                {{-- Article title --}}
-                <label for="title">Title</label>
-                <input 
-                    type="text"
-                    name="title"
-                    class="form-control mb-3"
-                    placeholder="Article title"
-                    value="{{old('title')}}"
-                >
-                @error('title')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
@@ -124,5 +123,4 @@
 
             </form>
         </div>
-    </x-card>
-</x-layout>
+</x-admin-card>

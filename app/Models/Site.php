@@ -51,8 +51,7 @@ class Site extends Model
     public static function allArticles(){
         $articles = Article::latest()->get();
         foreach($articles as $key => $article){
-            $articles[$key] = Article::tagsToArrayFromOne($article);
-            // $articles[$key]
+            $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
         }
         return $articles;
     }

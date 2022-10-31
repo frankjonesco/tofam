@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Session;
 
 class SiteController extends Controller
 {
+
+    public function sidebarOne(){
+        return view('sandbox.sidebar-1');
+    }
+
+    public function emptyPage(){
+        return view('sandbox.empty');
+    }
+
     public function home(){
         // dd(Category::select('id')->where('old_id', 2)->get());
         // dd(Category::where('old_id', 2)->first()->id);

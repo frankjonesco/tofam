@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-card>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
@@ -8,9 +7,22 @@
         </x-buttons-bar>
         <h1>Edit article</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/articles/{{$article->hex}}/update" method="POST" enctype="multipart/form-data" class="w-25">
+            <form action="/dashboard/articles/{{$article->hex}}/update" method="POST" enctype="multipart/form-data" class="w-50">
                 @csrf
                 @method('PUT')
+
+                {{-- Article title --}}
+                <label for="title">Title</label>
+                <input 
+                    type="text"
+                    name="title"
+                    class="form-control mb-3 input-sm"
+                    placeholder="Article title"
+                    value="{{old('title') ? old('title') : $article->title}}"
+                >
+                @error('title')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
 
                 {{-- Article category --}}
                 <label for="category">Category</label>
@@ -28,19 +40,6 @@
                     
                 </select>
                 @error('category')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-
-                {{-- Article title --}}
-                <label for="title">Title</label>
-                <input 
-                    type="text"
-                    name="title"
-                    class="form-control mb-3"
-                    placeholder="Article title"
-                    value="{{old('title') ? old('title') : $article->title}}"
-                >
-                @error('title')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
@@ -132,5 +131,4 @@
 
             </form>
         </div>
-    </x-card>
-</x-layout>
+</x-admin-card>

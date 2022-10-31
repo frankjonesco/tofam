@@ -1,23 +1,4 @@
-<x-layout>
-    <x-card-full>
-
-        <div class="d-flex">
-            <div class="">
-                <x-admin-menu />
-            </div>
-            <div class="">
-
-                {{-- Buttons bar --}}
-                <x-buttons-bar>
-                    <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
-                        <i class="fa-solid fa-arrow-left"></i> Back
-                    </a>
-                    @auth
-                        <a class="btn btn-success btn-sm" href="/dashboard/color-swatches/create">
-                            <i class="fa-solid fa-brush"></i> Create color swatch
-                        </a>
-                    @endauth
-                </x-buttons-bar>
+<x-admin-card>
 
                 <h1>Color swatches</h1>
                 <div class="row">
@@ -99,10 +80,8 @@
                         </div>            
                     @endforeach
                 </div>
-            </div>
-        </div>
-    </x-card>
-</x-layout>
+</x-admin-card>
+
 
 
 <script>

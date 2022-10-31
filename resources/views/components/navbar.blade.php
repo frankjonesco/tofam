@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Top-Family Business</a>
         <button 

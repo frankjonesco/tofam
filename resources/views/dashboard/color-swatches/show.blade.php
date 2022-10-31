@@ -1,6 +1,4 @@
-<x-layout>
-    <x-card>
-    
+<x-admin-card>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="/dashboard/color-swatches">
@@ -17,7 +15,7 @@
             @endauth
         </x-buttons-bar>
         
-        <div class="w-50">
+        <div class="w-100">
             <h1>{{$color_swatch->name}}</h1>
             <p>
                 <b>Description:</b><br>
@@ -50,5 +48,4 @@
                 </tbody>
             </table>
         </div>
-    </x-card>
-</x-layout>
+</x-admin-card>
