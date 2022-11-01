@@ -12,22 +12,68 @@
                             alt="{{$company->name}}"
                         >
                     </div>
-                    <p>Founded: {{$company->founded}}</p>
-                    <p>Family business: {{$company->family_business}}</p>
-                    <p>Family generations: {{$company->family_generations}}</p>
-                    <p>Family executive: {{$company->family_executive}}</p>
-                    <p>Female executive: {{$company->female_executive}}</p>
-                    <p>Stock listed: {{$company->stock_listed}}</p>
-                    <p>Matchbird partner: {{$company->matchbird_partner}}</p>
+                    @if($company->founded)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="fas fa-compass"></i></div>
+                            <div class="p-2 flex-grow-1">Founded</div>
+                            <div class="p-2">{{$company->founded}}</div>
+                        </div>
+                    @endif
+                    @if($company->family_business)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="fas fa-users me-2"></i></div>
+                            <div class="p-2 flex-grow-1"> Family business</div>
+                            <div class="p-2"><i class="fas fa-check"></i></div>
+                        </div>
+                    @endif
+                    @if($company->family_generations)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="far fa-calendar-alt me-2"></i></div>
+                            <div class="p-2 flex-grow-1">Generations</div>
+                            <div class="p-2">{{$company->family_generations}}</div>
+                        </div>
+                    @endif
+                    @if($company->family_executive)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="fas fa-user-tie"></i></div>
+                            <div class="p-2 flex-grow-1">Family executive</div>
+                            <div class="p-2"><i class="fas fa-check"></i></div>
+                        </div>
+                    @endif
+                    @if($company->female_executive)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="fas fa-female"></i></div>
+                            <div class="p-2 flex-grow-1">Female executive</div>
+                            <div class="p-2"><i class="fas fa-check"></i></div>
+                        </div>
+                    @endif
+                    @if($company->stock_listed)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="fas fa-chart-line"></i></div>
+                            <div class="p-2 flex-grow-1">Listed on stock exchange</div>
+                            <div class="p-2"><i class="fas fa-check"></i></div>
+                        </div>
+                    @endif
+                    @if($company->matchbird_partner)
+                        <div class="d-flex border-bottom py-1">
+                            <div class="p-2" style="width:30px; text-align: center;"><i class="far fa-handshake"></i></div>
+                            <div class="p-2 flex-grow-1">Matchbird partner</div>
+                            <div class="p-2"><i class="fas fa-check"></i></div>
+                        </div>
+                    @endif
+
+                    
                 </div>
                 <div class="col-9">
-                    <h1>{{$company->short_name}}</h1>
-                    <p>Registered name: {{$company->name}}</p>
-                    <p>Parent organization: {{$company->parent_organization}}</p>
-                    <p>Address: {{$company->address}}</p>
-                    <p>Phone: {{$company->address_phone}}</p>
-                    <p>Headquarters: {{$company->headquarters}}</p>
-                    <p>Description: {{$company->description}}</p>
+                    <h1>{{$company->name}}</h1>
+                    <p><b>Registered name:</b> {{$company->registered_name}}</p>
+                    @if($company->parent_organization)
+                        <p><b>Parent organization:</b> {{$company->parent_organization}}</p>
+                    @endif
+                    
+                    <p>{{$company->description}}</p>
+                    <p><b>Company address:</b> {{$company->address}}<br>
+                        <b>Phone:</b> {{$company->address_phone}}</p>
                 </div>
             </div>
             

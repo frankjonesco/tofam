@@ -56,6 +56,7 @@ class CompanySeeder extends Seeder
                 $category_ids = implode(',', $category_ids);
             }
 
+            $name = ($old_company->display_name != null) ? $old_company->display_name : $old_company->name;
             $parent_organization = ($old_company->name == $old_company->display_name) ? null : $old_company->name;
 
 
@@ -65,8 +66,8 @@ class CompanySeeder extends Seeder
                 'user_id' => $user_id,
                 'category_ids' => $category_ids,
                 'industry_ids' => $industry_ids,
-                'name' => $old_company->display_name,
-                'short_name' => $old_company->short_name,
+                'trading_name' => $old_company->short_name,
+                'registered_name' => $name,
                 'parent_organization' => $parent_organization,
                 'description' => $old_company->descr,
                 'website' => $old_company->website,
@@ -105,7 +106,7 @@ class CompanySeeder extends Seeder
 
         foreach($companies as $company){   
             
-            $slug = ($company->short_name) ? $company->short_name : $company->name;
+            $slug = ($company->trading_name) ? $company->trading_name : $company->registered_name;
 
             $slug = str_replace('ä', 'ae', $slug);
             $slug = str_replace('Ä', 'ae', $slug);

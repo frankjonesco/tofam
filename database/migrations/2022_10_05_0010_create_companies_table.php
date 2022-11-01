@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->string('category_ids')->nullable();
             $table->string('industry_ids')->nullable();
-            $table->string('name');
-            $table->string('short_name')->nullable();
+            $table->string('trading_name')->nullable();
+            $table->string('registered_name');
             $table->string('slug')->nullable();
             $table->string('parent_organization')->nullable();
             $table->text('description')->nullable();
