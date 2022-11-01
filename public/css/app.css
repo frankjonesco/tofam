@@ -102,3 +102,20 @@ ul.dashboard-menu a>i{
 .articles-grid>.right-column{
     margin: .3rem;
 }
+
+
+
+
+
+.company-logo{
+    border: 1px solid #ddd;
+    height: 180px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.company-logo>img{
+    width: 100%;
+}

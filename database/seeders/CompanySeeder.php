@@ -26,7 +26,7 @@ class CompanySeeder extends Seeder
         $old_companies = Company::on('mysql_import_old_stuff')->get();
 
         // Create array for new articles
-        $new_companies = null;
+        $new_companies = [];
 
         foreach($old_companies as $old_company){
 
@@ -37,10 +37,27 @@ class CompanySeeder extends Seeder
             }
 
             $industry_ids = null;
-      
+            if($old_company->industries){
+                $old_industry_ids = explode(',', $old_company->industries);
+                foreach($old_industry_ids as $old_industry_id){
+                    $old_industry = Industry::where('old_id', $old_industry_id)->first();
+                    $industry_ids[] = $old_industry ? $old_industry->id : null;
+                }
+                $industry_ids = implode(',', $industry_ids);
+            }
 
             $category_ids = null;
-       
+            if($old_company->categories){
+                $old_category_ids = explode(',', $old_company->categories);
+                foreach($old_category_ids as $old_category_id){
+                    $old_category = Industry::where('old_id', $old_category_id)->first();
+                    $category_ids[] = $old_category ? $old_category->id : null;
+                }
+                $category_ids = implode(',', $category_ids);
+            }
+
+            $parent_organization = ($old_company->name == $old_company->display_name) ? null : $old_company->name;
+
 
             $new_companies[] = [
                 'old_id' => $old_company->id,
@@ -48,10 +65,9 @@ class CompanySeeder extends Seeder
                 'user_id' => $user_id,
                 'category_ids' => $category_ids,
                 'industry_ids' => $industry_ids,
-                'name' => $old_company->name,
-                'alias' => $old_company->alias,
-                'display_name' => $old_company->display_name,
+                'name' => $old_company->display_name,
                 'short_name' => $old_company->short_name,
+                'parent_organization' => $parent_organization,
                 'description' => $old_company->descr,
                 'website' => $old_company->website,
                 'logo' => $old_company->logo,
@@ -87,7 +103,21 @@ class CompanySeeder extends Seeder
         // Get newly created companies
         $companies = Company::all();
 
-        foreach($companies as $company){        
+        foreach($companies as $company){   
+            
+            $slug = ($company->short_name) ? $company->short_name : $company->name;
+
+            $slug = str_replace('ä', 'ae', $slug);
+            $slug = str_replace('Ä', 'ae', $slug);
+            $slug = str_replace('ö', 'oe', $slug);
+            $slug = str_replace('Ö', 'oe', $slug);
+            $slug = str_replace('ü', 'ue', $slug);
+            $slug = str_replace('Ü', 'ue', $slug);
+            $slug = str_replace('ß', 'ss', $slug);
+
+            $company->slug = Str::slug($slug);
+
+
             // Source and destination paths
             $source_path = public_path('images/companies_old/'.$company->old_id);
             $destination_path = public_path('images/companies/'.$company->hex);

@@ -56,6 +56,7 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
 // Public routes for ArticleController
 Route::controller(CompanyController::class)->group(function(){
     Route::get('/companies', 'index');
+    Route::get('/companies/{company}/{slug}', 'show');
 });
 
 /*

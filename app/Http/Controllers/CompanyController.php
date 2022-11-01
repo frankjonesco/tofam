@@ -13,4 +13,11 @@ class CompanyController extends Controller
             'companies' => Company::where('active', 1)->orderBy('name', 'ASC')->get()
         ]);
     }
+
+    // Show single company
+    public function show(Company $company, $hex = null){
+        return view('companies.show', [
+            'company' => $company
+        ]);
+    }
 }

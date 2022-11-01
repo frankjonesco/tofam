@@ -3,7 +3,9 @@
         <h1>Companies</h1>
 
         @foreach($companies as $company)
-            {{$company->name}}
+            <a href="/companies/{{$company->hex}}/{{$company->slug}}"> 
+                {{$company->name}}
+            </a>   
             <br>
         @endforeach
 
