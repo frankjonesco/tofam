@@ -72,8 +72,25 @@
                     @endif
                     
                     <p>{{$company->description}}</p>
-                    <p><b>Company address:</b> {{$company->address}}<br>
-                        <b>Phone:</b> {{$company->address_phone}}</p>
+                    <p>
+                        <b>Company address:</b> {{$company->address}}<br>
+                        <b>Phone:</b> {{$company->address_phone}}
+                    </p>
+
+                    <p>
+                        <b>Industries:</b> 
+                        @php
+                            $numItems = count($company->industries);
+                            $i = 0;
+                        @endphp
+                        @foreach($company->industries as $key => $industry)
+                            @if(++$i === $numItems)
+                                <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>
+                            @else
+                                <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>,    
+                            @endif
+                        @endforeach
+                    </p>
                 </div>
             </div>
             
