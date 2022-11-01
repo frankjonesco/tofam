@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Category;
 use App\Models\Industry;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -50,7 +51,7 @@ class CompanySeeder extends Seeder
             if($old_company->categories){
                 $old_category_ids = explode(',', $old_company->categories);
                 foreach($old_category_ids as $old_category_id){
-                    $old_category = Industry::where('old_id', $old_category_id)->first();
+                    $old_category = Category::where('old_id', $old_category_id)->first();
                     $category_ids[] = $old_category ? $old_category->id : null;
                 }
                 $category_ids = implode(',', $category_ids);

@@ -31,12 +31,27 @@ class Company extends Model
     }
 
     // Accessor for retrieving and formatting 'generations_label'
+    public function getCategoriesAttribute($value){
+        $categories = self::getCategories($this->category_ids);
+        return $categories;
+    }
+
+    // Accessor for retrieving and formatting 'generations_label'
     public function getIndustriesAttribute($value){
         return self::getIndustries($this->industry_ids);
     }
 
     
 
+
+    public function getCategories($category_ids){
+        $categories = [];
+        $category_ids = explode(',', $category_ids);
+        foreach($category_ids as $category_id){
+            $categories[] = Category::where('id', $category_id)->first();
+        }
+        return $categories;
+    }
 
     public function getIndustries($industry_ids){
         $industries = [];

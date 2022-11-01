@@ -91,6 +91,21 @@
                             @endif
                         @endforeach
                     </p>
+
+                    <p>
+                        <b>Categories:</b> 
+                        @php
+                            $numItems = count($company->categories);
+                            $i = 0;
+                        @endphp
+                        @foreach($company->categories as $key => $category)
+                            @if(++$i === $numItems)
+                                <a href="/categories/{{$category->slug}}">{{$category->name}}</a>
+                            @else
+                                <a href="/categories/{{$category->slug}}">{{$category->name}}</a>,    
+                            @endif
+                        @endforeach
+                    </p>
                 </div>
             </div>
             
