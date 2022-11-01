@@ -58,6 +58,7 @@ class CompanySeeder extends Seeder
             }
 
             $name = ($old_company->display_name != null) ? $old_company->display_name : $old_company->name;
+            
             $parent_organization = ($old_company->name == $old_company->display_name) ? null : $old_company->name;
 
 

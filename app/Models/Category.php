@@ -67,4 +67,12 @@ class Category extends Model
         $category->save();
     }
     
+
+
+    // Get companies
+    public function getCompanies($category){
+        $companies = Company::whereRaw("FIND_IN_SET('".$category->id."', category_ids)")->get();
+
+        return $companies;
+    }
 }

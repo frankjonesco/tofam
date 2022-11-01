@@ -76,36 +76,40 @@
                         <b>Company address:</b> {{$company->address}}<br>
                         <b>Phone:</b> {{$company->address_phone}}
                     </p>
+                    @if(count($company->industries) > 0)
+                        <p>
+                            <b>Industries:</b> 
+                            @php
+                                $numItems = count($company->industries);
+                                $i = 0;
+                            @endphp
+                            @foreach($company->industries as $key => $industry)
+                                @if(++$i === $numItems)
+                                    <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>
+                                @else
+                                    <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>,    
+                                @endif
+                            @endforeach
+                        </p>
+                    @endif
 
-                    <p>
-                        <b>Industries:</b> 
-                        @php
-                            $numItems = count($company->industries);
-                            $i = 0;
-                        @endphp
-                        @foreach($company->industries as $key => $industry)
-                            @if(++$i === $numItems)
-                                <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>
-                            @else
-                                <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>,    
-                            @endif
-                        @endforeach
-                    </p>
+                    @if(count($company->categories))
 
-                    <p>
-                        <b>Categories:</b> 
-                        @php
-                            $numItems = count($company->categories);
-                            $i = 0;
-                        @endphp
-                        @foreach($company->categories as $key => $category)
-                            @if(++$i === $numItems)
-                                <a href="/categories/{{$category->slug}}">{{$category->name}}</a>
-                            @else
-                                <a href="/categories/{{$category->slug}}">{{$category->name}}</a>,    
-                            @endif
-                        @endforeach
-                    </p>
+                        <p>
+                            <b>Categories:</b> 
+                            @php
+                                $numItems = count($company->categories);
+                                $i = 0;
+                            @endphp
+                            @foreach($company->categories as $key => $category)
+                                @if(++$i === $numItems)
+                                    <a href="/categories/{{$category->slug}}">{{$category->name}}</a>
+                                @else
+                                    <a href="/categories/{{$category->slug}}">{{$category->name}}</a>,    
+                                @endif
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
             </div>
             

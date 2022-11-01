@@ -109,13 +109,13 @@ ul.dashboard-menu a>i{
 
 .company-logo{
     border: 1px solid #ddd;
-    height: 180px;
-    padding: 2rem;
+    height: 190px;
+    padding: 1rem;
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
 }
 
 .company-logo>img{
-    width: 100%;
+    width:100%;
 }

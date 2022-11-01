@@ -30,9 +30,9 @@ class CategoryController extends BaseController
 
     // SHOW SINGLE CATEGORY
     public function show(Category $category){
-        return view('categories.show', [
+        return view('companies.index', [
             'category' => $category,
-            'articles' => Category::getPublicArticlesExplodeTags($category)
+            'companies' => $category->getCompanies($category)
         ]);
     }
 

@@ -33,12 +33,13 @@ class Company extends Model
     // Accessor for retrieving and formatting 'generations_label'
     public function getCategoriesAttribute($value){
         $categories = self::getCategories($this->category_ids);
-        return $categories;
+        return $categories ?? [];
     }
 
     // Accessor for retrieving and formatting 'generations_label'
     public function getIndustriesAttribute($value){
-        return self::getIndustries($this->industry_ids);
+        $industries = self::getIndustries($this->industry_ids);
+        return $industries ?? [];
     }
 
     
@@ -54,11 +55,15 @@ class Company extends Model
     }
 
     public function getIndustries($industry_ids){
-        $industries = [];
-        $industry_ids = explode(',', $industry_ids);
-        foreach($industry_ids as $industry_id){
-            $industries[] = Industry::where('id', $industry_id)->first();
+        
+        if($industry_ids){
+            $industry_ids = explode(',', $industry_ids);
+
+            foreach($industry_ids as $industry_id){
+                $industries[] = Industry::where('id', $industry_id)->first();
+            }
+            return $industries;
         }
-        return $industries;
+        return [];
     }
 }
