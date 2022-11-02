@@ -109,7 +109,7 @@ ul.dashboard-menu a>i{
 
 .company-logo{
     border: 1px solid #ddd;
-    height: 190px;
+    min-height: 190px;
     padding: 1rem;
     margin-bottom: 1.5rem;
     display: flex;

@@ -4,7 +4,7 @@
 
         @foreach($companies as $company)
             <a href="/companies/{{$company->hex}}/{{$company->slug}}"> 
-                {{$company->name}}
+                {{$company->handle}}
             </a>   
             <br>
         @endforeach

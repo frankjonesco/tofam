@@ -9,7 +9,7 @@
                     <div class="company-logo">
                         <img 
                             src="{{$company->logo ? asset('/images/companies/'.$company->hex.'/'.$company->logo) : asset('/images/no-image.png')}}" 
-                            alt="{{$company->name}}"
+                            alt="{{$company->handle}}"
                         >
                     </div>
                     @if($company->founded)
@@ -65,7 +65,7 @@
                     
                 </div>
                 <div class="col-9">
-                    <h1>{{$company->name}}</h1>
+                    <h1>{{$company->handle}}</h1>
                     <p><b>Registered name:</b> {{$company->registered_name}}</p>
                     @if($company->parent_organization)
                         <p><b>Parent organization:</b> {{$company->parent_organization}}</p>
@@ -76,14 +76,16 @@
                         <b>Company address:</b> {{$company->address}}<br>
                         <b>Phone:</b> {{$company->address_phone}}
                     </p>
-                    @if(count($company->industries) > 0)
+
+                    {{-- Industries --}}
+                    @if(count($company->getIndustries($company->industry_ids)) > 0)
                         <p>
                             <b>Industries:</b> 
                             @php
-                                $numItems = count($company->industries);
+                                $numItems = count($company->getIndustries($company->industry_ids));
                                 $i = 0;
                             @endphp
-                            @foreach($company->industries as $key => $industry)
+                            @foreach($company->getIndustries($company->industry_ids) as $key => $industry)
                                 @if(++$i === $numItems)
                                     <a href="/industries/{{$industry->slug}}">{{$industry->name}}</a>
                                 @else
@@ -92,16 +94,16 @@
                             @endforeach
                         </p>
                     @endif
-
-                    @if(count($company->categories))
-
+                    
+                    {{-- Categories --}}
+                    @if(count($company->getCategories($company->category_ids)) > 0)
                         <p>
                             <b>Categories:</b> 
                             @php
-                                $numItems = count($company->categories);
+                                $numItems = count($company->getCategories($company->category_ids));
                                 $i = 0;
                             @endphp
-                            @foreach($company->categories as $key => $category)
+                            @foreach($company->getCategories($company->category_ids) as $key => $category)
                                 @if(++$i === $numItems)
                                     <a href="/categories/{{$category->slug}}">{{$category->name}}</a>
                                 @else

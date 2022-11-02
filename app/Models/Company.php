@@ -14,10 +14,25 @@ class Company extends Model
         return 'hex';
     }
 
+
+
     // Accessor for retrieving and formatting 'name'
-    public function getNameAttribute($value){
+    public function getHandleAttribute($value){
         return ($this->trading_name == null) ? $this->registered_name : $this->trading_name;
     }
+
+    // // Accessor for retrieving and formatting 'generations_label'
+    // public function getCategoriesAttribute($value){
+    //     $categories = self::getCategories($this->category_ids);
+    //     // dd($categories);
+    //     return $categories ?? [];
+    // }
+
+    // // Accessor for retrieving and formatting 'generations_label'
+    // public function getIndustriesAttribute($value){
+    //     $industries = self::getIndustries($this->industry_ids);
+    //     return $industries ?? [];
+    // }
 
     // Accessor for retrieving and formatting 'address'
     public function getAddressAttribute($value){
@@ -30,28 +45,20 @@ class Company extends Model
         return null;
     }
 
-    // Accessor for retrieving and formatting 'generations_label'
-    public function getCategoriesAttribute($value){
-        $categories = self::getCategories($this->category_ids);
-        return $categories ?? [];
-    }
-
-    // Accessor for retrieving and formatting 'generations_label'
-    public function getIndustriesAttribute($value){
-        $industries = self::getIndustries($this->industry_ids);
-        return $industries ?? [];
-    }
-
     
 
 
     public function getCategories($category_ids){
-        $categories = [];
-        $category_ids = explode(',', $category_ids);
-        foreach($category_ids as $category_id){
-            $categories[] = Category::where('id', $category_id)->first();
+
+        if($category_ids){
+            $category_ids = explode(',', $category_ids);
+
+            foreach($category_ids as $category_id){
+                $categories[] = Category::where('id', $category_id)->first();
+            }
+            return $categories;
         }
-        return $categories;
+        return [];
     }
 
     public function getIndustries($industry_ids){
