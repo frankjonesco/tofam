@@ -15,19 +15,19 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->integer('old_id');
+            $table->integer('old_id')->nullable();
             $table->string('hex', 11);
             $table->foreignId('user_id')->nullable();
             $table->string('category_ids')->nullable();
             $table->string('industry_ids')->nullable();
-            $table->string('trading_name')->nullable();
             $table->string('registered_name');
+            $table->string('trading_name')->nullable();
             $table->string('slug')->nullable();
             $table->string('parent_organization')->nullable();
             $table->text('description')->nullable();
             $table->string('website')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('founded')->nullable();
+            $table->string('image')->nullable();
+            $table->string('founded_in')->nullable();
             $table->string('founded_by')->nullable();
             $table->string('headquarters')->nullable();
             $table->string('address_number')->nullable();

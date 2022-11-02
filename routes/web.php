@@ -163,6 +163,8 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // Companies
     Route::get('/dashboard/companies', 'companiesIndex');
+    Route::get('/dashboard/companies/create', 'companiesCreate');
+    Route::post('dashboard/companies/store', 'companiesStore');
 
     Route::get('/dashboard/images/check', 'checkImages');
 });

@@ -118,13 +118,13 @@ class CompanySeeder extends Seeder
                 'user_id' => $user_id,
                 'category_ids' => $category_ids,
                 'industry_ids' => $industry_ids,
-                'trading_name' => $old_company->short_name,
                 'registered_name' => $name,
+                'trading_name' => $old_company->short_name,
                 'parent_organization' => $parent_organization,
                 'description' => $old_company->descr,
                 'website' => $old_company->website,
-                'logo' => $old_company->logo,
-                'founded' => $old_company->founded,
+                'image' => $old_company->logo,
+                'founded_in' => $old_company->founded,
                 'family_business' => $old_company->family_business,
                 'family_name' => $old_company->family_name,
                 'family_generations' => $old_company->family_generations,
@@ -133,6 +133,7 @@ class CompanySeeder extends Seeder
                 'stock_listed' => $old_company->stock_exchange,
                 'matchbird_partner' => $old_company->matchbird_partner,
                 'tofam_company' => $old_company->tofam_company,
+                'tofam_status' => $old_company->tofam_status,
                 'mail_blacklist' => $old_company->mail_blacklist,
                 'address_number' => $old_company->address_number,
                 'address_street' => $old_company->address_street,
@@ -179,23 +180,23 @@ class CompanySeeder extends Seeder
             if(File::isDirectory($source_path)){
                 File::copyDirectory($source_path, $destination_path);
                 // Rename the image file if it exists in the database
-                if($company->logo){
+                if($company->image){
                     // Create a new name for the image
                     $new_filename = Str::random(11).'.jpg';
                     // Rename image
                     File::move(
-                        $destination_path.'/lg-'.$company->logo,
+                        $destination_path.'/lg-'.$company->image,
                         $destination_path.'/'.$new_filename
                     );
                     // Rename thumbnail
                     File::move(
-                        $destination_path.'/md-'.$company->logo,
+                        $destination_path.'/md-'.$company->image,
                         $destination_path.'/tn-'.$new_filename
                     );
 
                     // Rename thumbnail
                     File::move(
-                        $destination_path.'/sm-'.$company->logo,
+                        $destination_path.'/sm-'.$company->image,
                         $destination_path.'/ico-'.$new_filename
                     );
                     // Get all files in the new folder
@@ -208,10 +209,10 @@ class CompanySeeder extends Seeder
                     }
                 }
                 // Assign new filename to article object and save
-                $company->logo = $new_filename;
+                $company->image = $new_filename;
                 $company->save();
             }else{
-                $company->logo = null;
+                $company->image = null;
                 $company->save();
             }
         }

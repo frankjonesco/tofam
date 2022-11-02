@@ -118,6 +118,24 @@ class DashboardController extends Controller
         ]);
     }
 
+    // COMPANIES: CREATE
+    public function companiesCreate(){
+        return view('dashboard.companies.create');
+    }
+
+    // COMPANIES: STORE
+    public function companiesStore(Request $request){
+        $company = $request->validate([
+            'registered_name' => 'required'
+        ]);
+        $site = new Site();
+        $company['hex'] = $site->uniqueHex('companies');
+
+        Company::create($company);
+
+        return redirect('dashboard/companies');
+    }
+
 
 
     // COLOR SWATCH: INDEX
