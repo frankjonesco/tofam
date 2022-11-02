@@ -20,6 +20,36 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
+
+
+        // $old_companies = Company::on('mysql_import_old_stuff')->where('id', 4997)->get();
+
+        // foreach($old_companies as $old_company){
+        //     if($old_company->industries){
+        //         $industry_ids = [];
+        //         $old_industry_ids = explode(',', $old_company->industries);
+        //         foreach($old_industry_ids as $old_industry_id){
+        //             $old_industry = App\Models\Industry::where('old_id', $old_industry_id)->first();
+        //             if($old_industry){
+        //                 $industry_ids[] = $old_industry->id;
+        //             }
+        //         }
+        //         if(count($industry_ids) > 0){
+        //             $industry_ids = implode(',', $industry_ids);
+        //         }
+        //         else{
+        //             $industry_ids = null;
+        //         }  
+        //     }
+        //     else{
+        //         $industry_ids = null;
+        //     }
+        // }
+        
+
+
+
+
         // Delete the images/companies directoy
         File::deleteDirectory(public_path('images/articles'));
 
@@ -37,24 +67,44 @@ class CompanySeeder extends Seeder
                 $user_id = $user ? $user->id : null;
             }
 
-            $industry_ids = null;
             if($old_company->industries){
+                $industry_ids = [];
                 $old_industry_ids = explode(',', $old_company->industries);
                 foreach($old_industry_ids as $old_industry_id){
                     $old_industry = Industry::where('old_id', $old_industry_id)->first();
-                    $industry_ids[] = $old_industry ? $old_industry->id : null;
+                    if($old_industry){
+                        $industry_ids[] = $old_industry->id;
+                    }
                 }
-                $industry_ids = implode(',', $industry_ids);
+                if(count($industry_ids) > 0){
+                    $industry_ids = implode(',', $industry_ids);
+                }
+                else{
+                    $industry_ids = null;
+                }  
+            }
+            else{
+                $industry_ids = null;
             }
 
-            $category_ids = null;
             if($old_company->categories){
+                $category_ids = [];
                 $old_category_ids = explode(',', $old_company->categories);
                 foreach($old_category_ids as $old_category_id){
                     $old_category = Category::where('old_id', $old_category_id)->first();
-                    $category_ids[] = $old_category ? $old_category->id : null;
+                    if($old_category){
+                        $category_ids[] = $old_category->id;
+                    }
                 }
-                $category_ids = implode(',', $category_ids);
+                if(count($category_ids) > 0){
+                    $category_ids = implode(',', $category_ids);
+                }
+                else{
+                    $category_ids = null;
+                }  
+            }
+            else{
+                $category_ids = null;
             }
 
             $name = ($old_company->display_name != null) ? $old_company->display_name : $old_company->name;

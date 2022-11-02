@@ -2,12 +2,13 @@
     <x-card>
         <h1>Companies</h1>
 
-        @foreach($companies as $company)
-            <a href="/companies/{{$company->hex}}/{{$company->slug}}"> 
-                {{$company->handle}}
-            </a>   
-            <br>
-        @endforeach
+        <div class="row">
+            @foreach($companies as $company)
+                <div class="col-3">
+                    <x-company-card :company="$company"/>
+                </div>
+            @endforeach
+        </div>
 
     </x-card>
 </x-layout>
