@@ -6,6 +6,7 @@ use App\Models\Site;
 use App\Models\Color;
 use App\Models\Config;
 use App\Models\ColorSwatch;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
@@ -132,6 +133,34 @@ class DashboardController extends Controller
         $config->color_swatch_id = $color_swatch->id;
         $config->save();
         return redirect('dashboard/color-swatches')->with('messsge', 'Color swatch updated!');
+    }
+
+    // COLOR SWATCH: CREATE
+    public function colorSwatchCreate(){
+        return view('dashboard.color-swatches.create');
+    }
+
+    // COLOR SWATCH STORE
+    public function colorSwatchStore(Request $request){
+        
+        $color_swatch = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $site = new Site();
+        $color_swatch['hex'] = $site->uniqueHex('color_swatches');
+        $color_swatch['user_id'] = auth()->id();
+        $color_swatch['slug'] = Str::slug($color_swatch['name']);
+
+        if($request->hasFile('image')){
+
+        }
+        
+        ColorSwatch::create($color_swatch);
+
+        return redirect('dashboard/color-swatches');
     }
 
     // COLOR SWATCH: SHOW EDIT FORM

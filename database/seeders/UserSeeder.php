@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
         $users = User::all();
         foreach($users as $user){
             // Source and destination paths
-            $source_path = public_path('images/users_old/'.$user->old_id);
+            $source_path = public_path('import_images/users/'.$user->old_id);
             $destination_path = public_path('images/users/'.$user->hex);
 
             // Copy the source directory if it exists

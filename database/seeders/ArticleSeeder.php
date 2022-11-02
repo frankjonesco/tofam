@@ -81,7 +81,7 @@ class ArticleSeeder extends Seeder
 
         foreach($articles as $article){        
             // Source and destination paths
-            $source_path = public_path('images/articles_old/'.$article->old_id);
+            $source_path = public_path('import_images/articles/'.$article->old_id);
             $destination_path = public_path('images/articles/'.$article->hex);
 
             // Copy the source directory if it exists

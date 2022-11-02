@@ -2,6 +2,8 @@
 
                 <h1>Color swatches</h1>
 
+                <a href="/dashboard/color-swatches/create" class="btn btn-primary">Create new color swatch</a>
+
                 <h5 class="mb-5">You can select different color swatches to use on the site. Colors are assigned to categories and users etc. </h5>
                 
                 <div class="row">
@@ -9,7 +11,7 @@
                     
                         <div class="col-3">
                             <div class="card swatch-card pt-4 pb-0" style="{{$color_swatch->inUse() ? 'background: #fff3cd;' : null}}" onclick="showColorSwatch('{{$color_swatch->hex}}')">
-                                <img src="{{asset('images/'.$color_swatch->image)}}" alt="" class="mx-4 mb-4">
+                                <img src="{{asset('images/color_swatches/'.$color_swatch->hex.'/'.$color_swatch->image)}}" alt="" class="mx-4 mb-4">
                                 <div class="mx-3">
                                     @foreach($color_swatch->colors as $key => $color)
                                         <div class="color-square me-2 mb-2" style="background: #{{$color->code}};"></div>

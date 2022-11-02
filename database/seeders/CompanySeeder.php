@@ -172,7 +172,7 @@ class CompanySeeder extends Seeder
 
 
             // Source and destination paths
-            $source_path = public_path('images/companies_old/'.$company->old_id);
+            $source_path = public_path('import_images/companies/'.$company->old_id);
             $destination_path = public_path('images/companies/'.$company->hex);
 
             // Copy the source directory if it exists

@@ -49,7 +49,7 @@ class CategorySeeder extends Seeder
 
         foreach($categories as $category){        
             // Source and destination paths
-            $source_path = public_path('images/categories_old/');
+            $source_path = public_path('import_images/categories/');
             $destination_path = public_path('images/categories/'.$category->hex);
 
             // Copy the source directory if it exists

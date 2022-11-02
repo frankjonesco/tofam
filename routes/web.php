@@ -149,6 +149,8 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // Color Swatch Editor
     Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
+    Route::get('/dashboard/color-swatches/create', 'colorSwatchCreate');
+    Route::post('/dashboard/color-swatches/store', 'colorSwatchStore');
     Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
     Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
     Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
