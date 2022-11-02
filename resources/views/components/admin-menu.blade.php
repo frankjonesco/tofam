@@ -28,6 +28,20 @@
                 </ul>
             </li>
             <li>
+                <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-industry"></i>Industries</a>
+                <ul class="collapse list-unstyled" id="industrySubmenu">
+                    <li>
+                        <a href="/dashboard/industries/create">Create new industry</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/industries">View library</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/industries/mine">My industries</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="#articleSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-newspaper"></i>Articles</a>
                 <ul class="collapse list-unstyled" id="articleSubmenu">
                     <li>
@@ -38,6 +52,20 @@
                     </li>
                     <li>
                         <a href="/dashboard/articles/mine">My articles</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#companySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-building"></i>Companies</a>
+                <ul class="collapse list-unstyled" id="companySubmenu">
+                    <li>
+                        <a href="/dashboard/companies/create">Create new company</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/companies">View library</a>
+                    </li>
+                    <li>
+                        <a href="/dashboard/companies/mine">My companies</a>
                     </li>
                 </ul>
             </li>

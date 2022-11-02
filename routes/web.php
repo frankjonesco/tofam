@@ -161,6 +161,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     // Articles
     Route::get('/dashboard/articles', 'articlesIndex');
 
+    // Companies
+    Route::get('/dashboard/companies', 'companiesIndex');
+
     Route::get('/dashboard/images/check', 'checkImages');
 });
 

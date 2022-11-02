@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\Color;
 use App\Models\Config;
+use App\Models\Company;
 use App\Models\ColorSwatch;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -105,6 +106,15 @@ class DashboardController extends Controller
         return view('dashboard.articles.index', [
             'articles' => Site::allArticles(),
             'foo' => 'bar'
+        ]);
+    }
+
+
+
+    // COMPANIES: INDEX
+    public function companiesIndex(){
+        return view('dashboard.companies.index', [
+            'companies' => Company::orderBy('registered_name', 'ASC')->get() 
         ]);
     }
 

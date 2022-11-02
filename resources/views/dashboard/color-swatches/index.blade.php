@@ -1,6 +1,12 @@
 <x-admin-card>
-    <h1>Color swatches</h1>
-    <a href="/dashboard/color-swatches/create" class="btn btn-primary">Create new color swatch</a>
+    <div class="d-flex">
+        <div class="flex-grow-1">
+            <h1>Color swatches</h1>
+        </div>
+        <div>
+            <a href="/dashboard/color-swatches/create" class="btn btn-primary">Create new swatch</a>
+        </div>
+    </div>
     <h5 class="mb-5">You can select different color swatches to use on the site. Colors are assigned to categories and users etc. </h5>
     <div class="row">
         @foreach($color_swatches as $color_swatch)
