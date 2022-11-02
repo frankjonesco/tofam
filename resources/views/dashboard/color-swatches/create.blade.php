@@ -10,7 +10,7 @@
         <div class="w-100">
 
             {{-- Form for editing colors --}}
-            <form action="/dashboard/color-swatches/store" method="POST" enctype="mutipart/form-data">
+            <form action="/dashboard/color-swatches/store" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <h1>Create new color swatch</h1>

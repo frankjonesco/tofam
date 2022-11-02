@@ -155,12 +155,44 @@ class DashboardController extends Controller
         $color_swatch['slug'] = Str::slug($color_swatch['name']);
 
         if($request->hasFile('image')){
-
+            $color_swatch['image'] = $site->handleImageUpload($request, 'color_swatches', $color_swatch['hex']);
         }
         
-        ColorSwatch::create($color_swatch);
+        $color_swatch = ColorSwatch::create($color_swatch);
 
-        return redirect('dashboard/color-swatches');
+        $colors = [];
+        $default_colors = [
+            0 => [
+                'code' => 'FFA400',
+                'name' => 'Orange Web'
+            ],
+            1 => [
+                'code' => '188FA7',
+                'name' => 'Blue Munsell'
+            ],
+            2 => [
+                'code' => 'D6FF79',
+                'name' => 'Mindaro'
+            ]
+        ];
+
+        $x = 0;
+        $number_of_colors = 3;
+        while($x < $number_of_colors){
+            $colors[$x] = [
+                'color_swatch_id' => $color_swatch->id,
+                'fill_id' => $x + 1,
+                'code' => $default_colors[$x]['code'],
+                'name' => $default_colors[$x]['name'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            $x++;
+        }
+    //    dd($colors);
+        Color::insert($colors);
+
+        return redirect('dashboard/color-swatches/'.$color_swatch->hex.'/edit');
     }
 
     // COLOR SWATCH: SHOW EDIT FORM

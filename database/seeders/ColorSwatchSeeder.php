@@ -24,7 +24,6 @@ class ColorSwatchSeeder extends Seeder
                 'name' => 'Lisbon Streets',
                 'slug' => 'lisbon-streets',
                 'description' => 'Vibrant and artistic flavours provide enthusiasm and positivity.',
-                'image' => 'theme1.jpg',
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
@@ -34,7 +33,6 @@ class ColorSwatchSeeder extends Seeder
                 'name' => 'Delhi Colors',
                 'slug' => 'delhi-colors',
                 'description' => 'Blues & oranges, freedom, youth, confidence & security.',
-                'image' => 'theme2.jpg',
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
@@ -44,7 +42,6 @@ class ColorSwatchSeeder extends Seeder
                 'name' => 'Waterfall Bridge',
                 'slug' => 'waterfall-bridge',
                 'description' => 'Earthy tones promoting trust, optimism and loyalty.',
-                'image' => 'theme3.jpg',
                 'created_at' => now(), 
                 'updated_at' => now()
             ],
@@ -54,7 +51,6 @@ class ColorSwatchSeeder extends Seeder
                 'name' => 'Cherry Blossum',
                 'slug' => 'cherry-blossum',
                 'description' => 'A soft, calm and creative palette. Clean and professional.',
-                'image' => 'theme4.jpg',
                 'created_at' => now(), 
                 'updated_at' => now()
             ]
@@ -66,15 +62,18 @@ class ColorSwatchSeeder extends Seeder
         File::deleteDirectory(public_path('images/color_swatches'));
         $color_swatches = ColorSwatch::all();
         foreach($color_swatches as $color_swatch){
+            $source_path = public_path('import_images/color_swatches/'.$color_swatch->id);
+            $destination_path = public_path('images/color_swatches/'.$color_swatch->hex);
+            File::copyDirectory($source_path, $destination_path);
             
             $image_name = Str::random(11).'.jpg';
-            $destination_path = public_path('images/color_swatches/'.$color_swatch->hex);
-            File::makeDirectory($destination_path, 0777, true, true);
 
-            File::move(
-                public_path('import_images/color_swatches/theme'.$color_swatch->id.'.jpg'),
-                $destination_path.'/'.$image_name
-            );
+            $old_file = $destination_path.'/swatch.jpg';
+            $new_file = $destination_path.'/'.$image_name;
+            
+            
+            // Rename file
+            File::move($old_file, $new_file);
 
             $color_swatch->image = $image_name;
             $color_swatch->save();
