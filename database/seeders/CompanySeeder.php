@@ -51,7 +51,7 @@ class CompanySeeder extends Seeder
 
 
         // Delete the images/companies directoy
-        File::deleteDirectory(public_path('images/articles'));
+        File::deleteDirectory(public_path('images/companies'));
 
         // Get the old articles
         $old_companies = Company::on('mysql_import_old_stuff')->get();

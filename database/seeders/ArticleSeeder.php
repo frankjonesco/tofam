@@ -122,6 +122,19 @@ class ArticleSeeder extends Seeder
 
         
 
+
+
+
+
+
+
+
+
+
+
+        
+
+
         // Article::insert([
         //     [
         //         // Article one

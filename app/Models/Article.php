@@ -71,18 +71,18 @@ class Article extends Model
 
             switch($image){
                 case(File::exists($thumbnailPath)):
-                    $image = $thumbnail;
+                    $image = 'images/articles/'.$article->hex.'/'.$thumbnail;
                     break;
 
                 case(File::exists($imagePath)):
-                    $image = $image;
+                    $image = 'images/articles/'.$article->hex.'/'.$image;
                     break;
                     
                 default:
-                    $image = 'no-image.png';
+                    $image = 'images/no-image.png';
             }
 
-            return asset('images/articles/'.$article->hex.'/'.$image);
+            return asset($image);
         }
         else{            
             return asset('images/no-image.png');
