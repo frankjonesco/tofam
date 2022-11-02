@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('founded_in')->nullable();
             $table->string('founded_by')->nullable();
             $table->string('headquarters')->nullable();
+            $table->string('address_building_name')->nullable();
             $table->string('address_number')->nullable();
             $table->string('address_street')->nullable();
             $table->string('address_city')->nullable();
