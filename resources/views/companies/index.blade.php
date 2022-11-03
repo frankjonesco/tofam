@@ -8,6 +8,8 @@
                     <x-company-card :company="$company"/>
                 </div>
             @endforeach
+
+            {{ $companies->links() }}
         </div>
 
     </x-card>
