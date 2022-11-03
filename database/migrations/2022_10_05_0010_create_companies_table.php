@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('registered_name');
             $table->string('trading_name')->nullable();
             $table->string('slug')->nullable();
+            $table->string('force_slug')->nullable();
             $table->string('parent_organization')->nullable();
             $table->text('description')->nullable();
             $table->string('website')->nullable();
@@ -45,13 +46,12 @@ return new class extends Migration
             $table->boolean('female_executive')->nullable();
             $table->boolean('stock_listed')->nullable();
             $table->boolean('matchbird_partner')->nullable();
-            $table->boolean('tofam_company')->nullable();
-            $table->string('tofam_status')->nullable();
             $table->boolean('mail_blacklist')->nullable();
             $table->integer('views')->nullable();
             $table->boolean('locked')->nullable();
             $table->timestamps();
-            $table->boolean('active')->nullable();
+            $table->string('tofam_status')->nullable();
+            $table->string('status')->nullable();
         });
     }
 

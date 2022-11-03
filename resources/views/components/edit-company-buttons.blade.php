@@ -27,4 +27,7 @@
     <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/details">
         <i class="fa-solid fa-address-card"></i> Edit further details
     </a>
+    <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing">
+        <i class="fa fa-bullhorn"></i> Publishing
+    </a>
 </x-buttons-bar>

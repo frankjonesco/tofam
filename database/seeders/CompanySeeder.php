@@ -136,8 +136,6 @@ class CompanySeeder extends Seeder
                 'female_executive' => $old_company->woman_executive,
                 'stock_listed' => $old_company->stock_exchange,
                 'matchbird_partner' => $old_company->matchbird_partner,
-                'tofam_company' => $old_company->tofam_company,
-                'tofam_status' => $old_company->tofam_status,
                 'mail_blacklist' => $old_company->mail_blacklist,
                 'address_number' => $old_company->address_number,
                 'address_street' => $old_company->address_street,
@@ -150,7 +148,8 @@ class CompanySeeder extends Seeder
                 'locked' => $old_company->locked,
                 'created_at' => date('Y-m-d H:i:s', $old_company->created),
                 'updated_at' => date('Y-m-d H:i:s', $old_company->updated),
-                'active' => $old_company->active
+                'tofam_status' => $old_company->tofam_status,
+                'status' => (($old_company->active == 1) && ($old_company->tofam_status == 'in')) ? 'public' : 'private'
             ];
         }
 

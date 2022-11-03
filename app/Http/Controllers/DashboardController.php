@@ -266,6 +266,13 @@ class DashboardController extends Controller
         ]);
     }
 
+    // COMPANIES: EDIT PUBLISHING
+    public function companiesEditPublishing(Company $company){   
+        return view('dashboard.companies.edit-publishing', [
+            'company' => $company
+        ]);
+    }
+
     // COMPANIES: UPDATE GENERAL
     public function companiesUpdateGeneral(Request $request){
         
@@ -389,6 +396,20 @@ class DashboardController extends Controller
         $company->save();
 
         return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company further detils updated!');
+    }
+
+    // COMPANIES: UPDATE PUBLISHING
+    public function companiesUpdatePublishing(Request $request){
+        
+        $company = Company::where('hex', $request->hex)->first();
+        $company->force_slug = $request->force_slug;
+        $company->tofam_status = $request->tofam_status;
+        $company->status = $request->status;
+
+        $company->save();
+
+        return redirect('dashboard/companies/'.$company->hex.'/edit/publishing')->with('message', 'Company publishing information updated!');
+
     }
 
 

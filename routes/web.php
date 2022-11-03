@@ -171,6 +171,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard/companies/create', 'companiesCreate');
     Route::post('dashboard/companies/store', 'companiesStore');
 
+    Route::get('/dashboard/companies/{company}/edit/publishing', 'companiesEditPublishing');
+    Route::put('/dashboard/companies/update/publishing', 'companiesUpdatePublishing');
+
     Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
     Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
 
