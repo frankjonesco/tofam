@@ -61,10 +61,14 @@ class CompanySeeder extends Seeder
 
         foreach($old_companies as $old_company){
 
-            $user_id = null;
-            if($old_company->user_id){
+            // Ids for Mik and Karsten
+            $ids = [2,4];
+            $random_user_id = $ids[array_rand($ids)];
+            $user_id = $random_user_id;
+
+            if($old_company->user_id != ''){
                 $user = User::where('old_id', $old_company->user_id)->first();
-                $user_id = $user ? $user->id : null;
+                $user_id = $user ? $user->id : $random_user_id;
             }
 
             if($old_company->industries){

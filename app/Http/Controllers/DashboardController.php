@@ -195,10 +195,43 @@ class DashboardController extends Controller
     }
 
     // COMPANIES: EDIT
-    public function companiesEdit(Company $company){
-
-        
+    public function companiesEdit(Company $company){   
         return view('dashboard.companies.edit', [
+            'company' => $company
+        ]);
+    }
+
+    // COMPANIES: EDIT GENERAL
+    public function companiesEditGeneral(Company $company){   
+        return view('dashboard.companies.edit-general', [
+            'company' => $company
+        ]);
+    }
+
+    // COMPANIES: EDIT IMAGE
+    public function companiesEditImage(Company $company){   
+        return view('dashboard.companies.edit-image', [
+            'company' => $company
+        ]);
+    }
+
+    // COMPANIES: EDIT ADDRESS
+    public function companiesEditAddress(Company $company){   
+        return view('dashboard.companies.edit-address', [
+            'company' => $company
+        ]);
+    }
+
+    // COMPANIES: EDIT FAMILY
+    public function companiesEditFamily(Company $company){   
+        return view('dashboard.companies.edit-family', [
+            'company' => $company
+        ]);
+    }
+
+    // COMPANIES: EDIT DETAILS
+    public function companiesEditDetails(Company $company){   
+        return view('dashboard.companies.edit-details', [
             'company' => $company
         ]);
     }

@@ -1,12 +1,8 @@
 <x-admin-card>
-    {{-- Buttons bar --}}
-    <x-buttons-bar>
-        <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
-            <i class="fa-solid fa-arrow-left"></i> Back
-        </a>
-    </x-buttons-bar>
+    
+    <x-edit-company-buttons :company="$company"/>
 
-    <h1>Create company</h1>
+    <h1>Edit company</h1>
     <div class="w-100 justify-content-center">
         <form action="/dashboard/companies/store" method="POST" enctype="multipart/form-data" class="w-50">
             @csrf
@@ -285,23 +281,8 @@
                 </label>
             </div>
 
-
-
-
-
-            @error('address_phone')
-                <p class="text-danger">{{$message}}</p>
-            @enderror
-
-
-
-
-
-
-
-
             <button type="submit" class="btn btn-success btn-sm">
-                Create company
+                <i class="fa-regular fa-floppy-disk"></i> Save changes
             </button>
 
         </form>

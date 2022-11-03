@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasMany(Article::class, 'user_id');
     }
 
+    // Relationship to companies
+    public function companies(){
+        return $this->hasMany(Company::class, 'user_id');
+    }
+
     // Relationship to user type
     public function user_type(){
         return $this->belongsTo(UserType::class, 'user_type_id');

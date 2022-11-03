@@ -168,6 +168,22 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::post('/dashboard/companies/search', 'companiesSearch');
     Route::get('/dashboard/companies/create', 'companiesCreate');
     Route::post('dashboard/companies/store', 'companiesStore');
+
+    Route::get('dashboard/companies/{company}/edit/details', 'companiesEditDetails');
+    Route::put('dashboard/companies/{company}/updatedetails', 'companiesUpdateDetails');
+
+    Route::get('dashboard/companies/{company}/edit/family', 'companiesEditFamily');
+    Route::put('dashboard/companies/{company}/update/family', 'companiesUpdateFamily');
+
+    Route::get('dashboard/companies/{company}/edit/address', 'companiesEditAddress');
+    Route::put('dashboard/companies/{company}/update/address', 'companiesUpdateAddress');
+
+    Route::get('dashboard/companies/{company}/edit/image', 'companiesEditImage');
+    Route::put('dashboard/companies/{company}/update/image', 'companiesUpdateImage');
+
+    Route::get('dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
+    Route::put('dashboard/companies/{company}/update/general', 'companiesUpdateGeneral');
+
     Route::get('dashboard/companies/{company}/edit', 'companiesEdit');
     Route::put('dashboard/companies/{company}/update', 'companiesUpdate');
 

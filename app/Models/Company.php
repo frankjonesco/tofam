@@ -15,6 +15,11 @@ class Company extends Model
     }
 
 
+    // Relationship to user
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 
     // Accessor for retrieving and formatting 'name'
     public function getHandleAttribute($value){
