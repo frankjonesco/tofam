@@ -126,6 +126,14 @@ class Company extends Model
         return null;
     }
 
+    // Accessor for retrieving and formatting 'address'
+    public function getFindSlugAttribute($value){
+        if($this->force_slug){
+            return $this->force_slug;
+        }
+        return $this->slug;
+    }
+
     
 
 

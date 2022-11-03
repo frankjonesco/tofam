@@ -402,7 +402,7 @@ class DashboardController extends Controller
     public function companiesUpdatePublishing(Request $request){
         
         $company = Company::where('hex', $request->hex)->first();
-        $company->force_slug = $request->force_slug;
+        $company->force_slug = Str::slug($request->force_slug);
         $company->tofam_status = $request->tofam_status;
         $company->status = $request->status;
 
