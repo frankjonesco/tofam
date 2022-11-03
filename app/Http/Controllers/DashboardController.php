@@ -277,6 +277,15 @@ class DashboardController extends Controller
         return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company general information updated!');
     }
 
+    // COMPANIES: UPDATE IMAGE
+    public function companiesUpdateImage(Request $request){
+        $site = new Site();
+        $company = Company::where('hex', $request->hex)->first();
+        $company->image = $site->handleImageUpload($request, 'companies', $company->hex);
+        $company->save();
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company image updated!');
+    }
+
     // COMPANIES: UPDATE ADDRESS
     public function companiesUpdateAddress(Request $request){
 

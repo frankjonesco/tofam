@@ -179,7 +179,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::put('dashboard/companies/update/address', 'companiesUpdateAddress');
 
     Route::get('dashboard/companies/{company}/edit/image', 'companiesEditImage');
-    Route::put('dashboard/companies/{company}/update/image', 'companiesUpdateImage');
+    Route::put('dashboard/companies/update/image', 'companiesUpdateImage');
 
     Route::get('dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
     Route::put('dashboard/companies/update/general', 'companiesUpdateGeneral');

@@ -4,9 +4,11 @@
 
     <h1>Change image</h1>
     <div class="w-100 justify-content-center">
-        <form action="/dashboard/companies/store/image" method="POST" class="w-50" enctype="multipart/form-data">
+        <form action="/dashboard/companies/update/image" method="POST" class="w-50" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            <input type="hidden" name="hex" value="{{$company->hex}}">
 
             {{-- Family image --}}
             <label for="address_phone">Is the company a family business?</label>
