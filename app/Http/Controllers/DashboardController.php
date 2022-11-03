@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -118,6 +119,27 @@ class DashboardController extends Controller
         ]);
     }
 
+    // COMPANIES: SEARCH
+    public function companiesSearch(Request $request){
+        Session::flash('searchTerm', $request->search);
+        return redirect('dashboard/companies/search/'.$request->search);
+    }
+
+    // COMPANIES: SEARCH RETRIEVE
+    public function companiesSearchRetrieve($term){
+        if(Session::has('searchTerm')){
+            Session::flash('searchTerm', $term);
+        }
+        $companies = Company::where('registered_name', 'like', '%'.$term.'%')
+            ->orWhere('trading_name', 'like', '%'.$term.'%')->paginate(10);
+        
+
+        return view('dashboard.companies.index', [
+            'companies' => $companies,
+            'count' => $companies->total()
+        ]);
+    }
+
     // COMPANIES: CREATE
     public function companiesCreate(){
         return view('dashboard.companies.create');
@@ -128,12 +150,50 @@ class DashboardController extends Controller
         $company = $request->validate([
             'registered_name' => 'required'
         ]);
+        
         $site = new Site();
-        $company['hex'] = $site->uniqueHex('companies');
+        $company = new Company();
 
-        Company::create($company);
+        $company->hex = $site->uniqueHex('companies');
+        $company->user_id = auth()->user()->id;
+        $company->registered_name = $request->registered_name;
+        $company->trading_name = $request->trading_name;
+
+        $slug = $company->trading_name ?? $company->registered_name;
+        $company->slug = Str::slug($slug);
+
+        $company->parent_organization = $request->parent_organization;
+        $company->description = $request->description;
+        $company->website = $request->website;
+        $company->founded_in = $request->founded_in;
+        $company->founded_by = $request->founded_by;
+        $company->headquarters = $request->headquarters;
+        $company->address_building_name = $request->address_building_name;
+        $company->address_number = $request->trading_name;
+        $company->address_street = $request->address_street;
+        $company->address_city = $request->address_city;
+        $company->address_state = $request->address_state;
+        $company->address_zip = $request->address_zip;
+        $company->address_phone = $request->address_phone;
+        $company->family_business = $request->family_business;
+        $company->family_name = $request->family_name;
+        $company->family_generations = $request->family_generations;
+        $company->family_executive = $request->family_executive;
+        $company->female_executive = $request->female_executive;
+        $company->matchbird_partner = $request->matchbird_partner;
+
+        $company->save();
 
         return redirect('dashboard/companies');
+    }
+
+    // COMPANIES: EDIT
+    public function companiesEdit(Company $company){
+
+        
+        return view('dashboard.companies.edit', [
+            'company' => $company
+        ]);
     }
 
 

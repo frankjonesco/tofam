@@ -1,7 +1,11 @@
 <x-admin-card>
         <h1>Companies Library</h1>
 
-        @include('partials._search')
+        @include('partials._dashboard-search-companies')
+
+        @if(Session::has('searchTerm') && ((Route::currentRouteName() == 'searchRetrieve') || (Route::currentRouteName() == 'dashboardSearchRetrieve')))
+            <p>Showing {{$count}} results for search term '{{Session::get('searchTerm')}}'</p>
+        @endif
 
             @foreach($companies as $company)
                 <div class="articles-grid">
@@ -20,7 +24,7 @@
                     </div>
 
                     <div class="right-column text-right">
-                        
+                        <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/{{$company->slug}}"><i class="fa fa-eye"></i> View</a>
                         <a class="btn btn-success btn-sm" href="/dashboard/companies/{{$company->hex}}/edit"><i class="fa fa-pencil"></i> Edit</a>
                     </div>
                     
