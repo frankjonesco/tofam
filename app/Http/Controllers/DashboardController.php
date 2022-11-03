@@ -307,10 +307,29 @@ class DashboardController extends Controller
         else{
             $new_category_ids = null;
         }  
+
+
+        $new_industry_ids = [];        
+        $industries = $request->industries_array;
+
+        $industry_ids = explode(',', $industries);
+        foreach($industry_ids as $industry_id){
+            $industry = Industry::where('id', $industry_id)->first();
+            if($industry){
+                $new_industry_ids[] = $industry->id;
+            }
+        }
+        if(count($new_industry_ids) > 0){
+            $new_industry_ids = implode(',', $new_industry_ids);
+        }
+        else{
+            $new_industry_ids = null;
+        }  
         
 
         $company = Company::where('hex', $request->hex)->first();
         $company->category_ids = $new_category_ids;
+        $company->industry_ids = $new_industry_ids;
         $company->save();
 
         // dd($company->hex);
