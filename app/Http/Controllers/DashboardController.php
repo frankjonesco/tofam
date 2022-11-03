@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\Color;
 use App\Models\Config;
+use App\Models\Article;
 use App\Models\Company;
+use App\Models\Category;
+use App\Rules\SoftUrlRule;
 use App\Models\ColorSwatch;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -15,6 +18,21 @@ use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
+
+    private $site;
+    private $category;
+    private $article;
+    private $company;
+
+    public function __contruct(Site $site, Category $category, Article $article, Company $company)
+    {
+        $this->site = $site;
+        $this->category = $category;
+        $this->article = $article;
+        $this->company = $company;
+    }
+
+    
     // View dashboard
     public function index(){
         if(!auth()->id()){
@@ -234,6 +252,46 @@ class DashboardController extends Controller
         return view('dashboard.companies.edit-details', [
             'company' => $company
         ]);
+    }
+
+    // COMPANIES: UPDATE GENERAL
+    public function companiesUpdateGeneral(Request $request){
+        
+        $form_data = $request->validate([
+            'registered_name' => 'required',
+            'website' => [new SoftUrlRule],
+        ]);
+
+        $company = Company::where('hex', $request->hex)->first();
+        $company->registered_name = $request->registered_name;
+        $company->trading_name = $request->trading_name;
+        $company->parent_organization = $request->parent_organization;
+        $company->website = $request->website;
+        $company->description = $request->description;
+        $company->founded_in = $request->founded_in;
+        $company->founded_by = $request->founded_by;
+        $company->headquarters = $request->headquarters;
+
+        $company->save();
+
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company general information updated!');
+    }
+
+    // COMPANIES: UPDATE ADDRESS
+    public function companiesUpdateAddress(Request $request){
+
+        $company = Company::where('hex', $request->hex)->first();
+        $company->address_building_name = $request->address_building_name;
+        $company->address_number = $request->address_number;
+        $company->address_street = $request->address_street;
+        $company->address_city = $request->address_city;
+        $company->address_state = $request->address_state;
+        $company->address_zip = $request->address_zip;
+        $company->address_phone = $request->address_phone;
+
+        $company->save();
+
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company address updated');
     }
 
 

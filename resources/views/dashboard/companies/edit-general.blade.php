@@ -4,9 +4,11 @@
 
     <h1>Edit general information</h1>
     <div class="w-100 justify-content-center">
-        <form action="/dashboard/companies/store/general" method="POST" class="w-50">
+        <form action="/dashboard/companies/update/general" method="POST" class="w-50">
             @csrf
             @method('PUT')
+
+            <input type="hidden" name="hex" value="{{$company->hex}}">
 
             {{-- Registered name --}}
             <label for="registered_name">Registered name</label>

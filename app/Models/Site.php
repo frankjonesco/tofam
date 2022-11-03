@@ -122,4 +122,12 @@ class Site extends Model
     public function getCountries(){
         return Country::orderBy('name', 'ASC')->get();
     }
+
+
+    public static function validateUrl($url){
+        return false;
+    }
 }
+
+
+
