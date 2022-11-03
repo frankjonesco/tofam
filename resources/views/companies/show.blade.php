@@ -6,10 +6,10 @@
 
             <div class="row">
                 <div class="col-3">
-                    <div class="company-logo">
+                    <div class="company-image">
                         <img 
                             src="{{$company->image ? asset('/images/companies/'.$company->hex.'/'.$company->image) : asset('/images/no-image.png')}}" 
-                            alt="{{$company->handle}}"
+                            alt="{{$company->handle}}" class="w-100"
                         >
                     </div>
                     @if($company->founded)
