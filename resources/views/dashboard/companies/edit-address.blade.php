@@ -9,7 +9,7 @@
             @method('PUT')
 
             <input type="hidden" name="hex" value="{{$company->hex}}">
-            
+
             {{-- Address building name --}}
             <label for="address_building_name">Address building name</label>
             <input 
@@ -66,22 +66,22 @@
             <label for="address_state">Address state {{$company->address_state}}</label>
             <select name="address_state" class="form-select mb-3">
                 <option value="" disabled selected>Select a state...</option>
-                <option value="BW" {{$company->address_state == 'Baden-Württemberg' ? 'selected' : null}}>Baden-Württemberg</option>
-                <option value="BY" {{$company->address_state == 'Bavaria' ? 'selected' : null}}>Bavaria</option>
-                <option value="BE" {{$company->address_state == 'Berlin' ? 'selected' : null}}>Berlin</option>
-                <option value="BB" {{$company->address_state == 'Brandenburg' ? 'selected' : null}}>Brandenburg</option>
-                <option value="HB" {{$company->address_state == 'Bremen' ? 'selected' : null}}>Bremen</option>
-                <option value="HH" {{$company->address_state == 'Hamburg' ? 'selected' : null}}>Hamburg</option>
-                <option value="HE" {{$company->address_state == 'Hesse' ? 'selected' : null}}>Hesse</option>
-                <option value="NI" {{$company->address_state == 'Lower Saxony' ? 'selected' : null}}>Lower Saxony</option>
-                <option value="MV" {{$company->address_state == 'Mecklenburg-Vorpommern' ? 'selected' : null}}>Mecklenburg-Vorpommern</option>
-                <option value="NW" {{$company->address_state == 'North Rhine-Westphalia' ? 'selected' : null}}>North Rhine-Westphalia</option>
-                <option value="RP" {{$company->address_state == 'Rhineland-Palatinate' ? 'selected' : null}}>Rhineland-Palatinate</option>
-                <option value="SL" {{$company->address_state == 'Saarland' ? 'selected' : null}}>Saarland</option>
-                <option value="SN" {{$company->address_state == 'Saxony' ? 'selected' : null}}>Saxony</option>
-                <option value="ST" {{$company->address_state == 'Saxony-Anhalt' ? 'selected' : null}}>Saxony-Anhalt</option>
-                <option value="SH" {{$company->address_state == 'Schleswig-Holstein' ? 'selected' : null}}>Schleswig-Holstein</option>
-                <option value="TH" {{$company->address_state == 'Thuringia' ? 'selected' : null}}>Thuringia</option>
+                <option value="BW" {{$company->address_state == 'Baden-Württemberg' ?: 'selected'}}>Baden-Württemberg</option>
+                <option value="BY" {{$company->address_state == 'Bavaria' ?: 'selected'}}>Bavaria</option>
+                <option value="BE" {{$company->address_state == 'Berlin' ?: 'selected'}}>Berlin</option>
+                <option value="BB" {{$company->address_state == 'Brandenburg' ?: 'selected'}}>Brandenburg</option>
+                <option value="HB" {{$company->address_state == 'Bremen' ?: 'selected'}}>Bremen</option>
+                <option value="HH" {{$company->address_state == 'Hamburg' ?: 'selected'}}>Hamburg</option>
+                <option value="HE" {{$company->address_state == 'Hesse' ?: 'selected'}}>Hesse</option>
+                <option value="NI" {{$company->address_state == 'Lower Saxony' ?: 'selected'}}>Lower Saxony</option>
+                <option value="MV" {{$company->address_state == 'Mecklenburg-Vorpommern' ?: 'selected'}}>Mecklenburg-Vorpommern</option>
+                <option value="NW" {{$company->address_state == 'North Rhine-Westphalia' ?: 'selected'}}>North Rhine-Westphalia</option>
+                <option value="RP" {{$company->address_state == 'Rhineland-Palatinate' ?: 'selected'}}>Rhineland-Palatinate</option>
+                <option value="SL" {{$company->address_state == 'Saarland' ?: 'selected'}}>Saarland</option>
+                <option value="SN" {{$company->address_state == 'Saxony' ?: 'selected'}}>Saxony</option>
+                <option value="ST" {{$company->address_state == 'Saxony-Anhalt' ?: 'selected'}}>Saxony-Anhalt</option>
+                <option value="SH" {{$company->address_state == 'Schleswig-Holstein' ?: 'selected'}}>Schleswig-Holstein</option>
+                <option value="TH" {{$company->address_state == 'Thuringia' ?: 'selected'}}>Thuringia</option>
             </select>
 
             @error('address_state')

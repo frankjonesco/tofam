@@ -291,7 +291,34 @@ class DashboardController extends Controller
 
         $company->save();
 
-        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company address updated');
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company address updated!');
+    }
+
+    // COMPANIES: UPDATE FAMILY
+    public function companiesUpdateFamily(Request $request){
+
+        $company = Company::where('hex', $request->hex)->first();
+        $company->family_business = $request->family_business;
+        $company->family_name = $request->family_name;
+        $company->family_generations = $request->family_generations;
+        $company->family_executive = $request->family_executive;
+
+        $company->save();
+
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company family information updated!');
+    }
+
+    // COMPANIES: UPDATE DETAILS
+    public function companiesUpdateDetails(Request $request){
+        
+        $company = Company::where('hex', $request->hex)->first();
+        $company->female_executive = $request->female_executive;
+        $company->stock_listed = $request->stock_listed;
+        $company->matchbird_partner = $request->matchbird_partner;
+
+        $company->save();
+
+        return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company further detils updated!');
     }
 
 
