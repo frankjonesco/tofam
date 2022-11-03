@@ -13,7 +13,6 @@
         </x-buttons-bar>
         <h1>Categories</h1>
 
-        @include('partials._search')
 
         <div class="container">
             <div class="row">

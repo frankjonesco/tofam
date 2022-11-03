@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ArticleController extends Controller
 {
@@ -27,6 +28,42 @@ class ArticleController extends Controller
     public function index(){
         return view('articles.index', [
             'articles' => $this->site->publicArticles()
+        ]);
+    }
+
+    public function tags($term){
+
+        $articles = Article::where('tags', 'like', '%'.$term.'%')->paginate(3);
+
+        foreach($articles as $key => $article){
+            $articles[$key]['tags'] = explode(',', $article->tags);
+        }
+
+        return view('articles.index', [
+            'articles' => $articles
+        ]);
+    }
+
+    public function search(Request $request){
+        Session::flash('searchTerm', $request->search);
+        return redirect('articles/search/'.$request->search);
+    }
+
+    public function searchRetrieve($term){
+        if(Session::has('searchTerm')){
+            Session::flash('searchTerm', $term);
+        }
+        $articles = Article::where('title', 'like', '%'.$term.'%')
+            ->orWhere('body', 'like', '%'.$term.'%')
+            ->orWhere('tags', 'like', '%'.$term.'%')->paginate(3);
+        
+        foreach($articles as $key => $article){
+            $articles[$key]['tags'] = explode(',', $article->tags);
+        }
+
+        return view('articles.index', [
+            'articles' => $articles,
+            'count' => $articles->total()
         ]);
     }
 

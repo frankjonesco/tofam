@@ -33,9 +33,6 @@ use App\Http\Controllers\DashboardController;
 // Public routes for SiteController
 Route::controller(SiteController::class)->group(function(){
     Route::get('/', 'home')->name('home');
-    Route::get('/tags/{term}', 'tags');
-    Route::get('/search/{term}', 'searchRetrieve')->name('searchRetrieve');
-    Route::post('/search', 'search');
     Route::get('/terms', 'showTerms');
     Route::get('/privacy', 'showPrivacy');
     Route::get('/about', 'showAbout');
@@ -56,6 +53,8 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
 // Public routes for ArticleController
 Route::controller(CompanyController::class)->group(function(){
     Route::get('/companies', 'index');
+    Route::get('/companies/search/{term}', 'searchRetrieve')->name('companiesSearchRetrieve');
+    Route::post('/companies/search', 'search');
     Route::get('/companies/{company}/{slug}', 'show');
 });
 
@@ -77,6 +76,9 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
 // Public routes for ArticleController
 Route::controller(ArticleController::class)->group(function(){
     Route::get('/articles', 'index');
+    Route::get('/articles/tags/{term}', 'tags');
+    Route::get('/articles/search/{term}', 'searchRetrieve')->name('articlesSearchRetrieve');
+    Route::post('/articles/search', 'search');
     Route::post('/articles/like', 'like');
     Route::post('/articles/unlike', 'unlike');
     Route::get('/articles/{article}/{slug}', 'show');
