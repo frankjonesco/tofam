@@ -38,7 +38,12 @@ class UserSeeder extends Seeder
 
 
         // Create the users
-        $users = User::on('mysql_import_old_stuff')->get();
+        $users = User::on('mysql_import_old_stuff')
+            ->where('id', 7)
+            ->orWhere('id', 8)
+            ->orWhere('id', 10)
+            ->orWhere('id', 20)
+            ->get();
 
         foreach($users as $user){
 

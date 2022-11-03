@@ -8,6 +8,10 @@
         <i class="fa-solid fa-list"></i> Edit general
     </a>
 
+    <a class="btn btn-dark btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/storage">
+        <i class="fa-solid fa-folder"></i> Storage
+    </a>
+
     <a class="btn btn-secondary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/image">
         <i class="fa-solid fa-image"></i> Change image
     </a>

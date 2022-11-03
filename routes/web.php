@@ -171,23 +171,26 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::get('/dashboard/companies/create', 'companiesCreate');
     Route::post('dashboard/companies/store', 'companiesStore');
 
-    Route::get('dashboard/companies/{company}/edit/details', 'companiesEditDetails');
-    Route::put('dashboard/companies/update/details', 'companiesUpdateDetails');
+    Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
+    Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
 
-    Route::get('dashboard/companies/{company}/edit/family', 'companiesEditFamily');
-    Route::put('dashboard/companies/update/family', 'companiesUpdateFamily');
+    Route::get('/dashboard/companies/{company}/edit/family', 'companiesEditFamily');
+    Route::put('/dashboard/companies/update/family', 'companiesUpdateFamily');
 
-    Route::get('dashboard/companies/{company}/edit/address', 'companiesEditAddress');
-    Route::put('dashboard/companies/update/address', 'companiesUpdateAddress');
+    Route::get('/dashboard/companies/{company}/edit/address', 'companiesEditAddress');
+    Route::put('/dashboard/companies/update/address', 'companiesUpdateAddress');
 
-    Route::get('dashboard/companies/{company}/edit/image', 'companiesEditImage');
-    Route::put('dashboard/companies/update/image', 'companiesUpdateImage');
+    Route::get('/dashboard/companies/{company}/edit/image', 'companiesEditImage');
+    Route::put('/dashboard/companies/update/image', 'companiesUpdateImage');
 
-    Route::get('dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
-    Route::put('dashboard/companies/update/general', 'companiesUpdateGeneral');
+    Route::get('/dashboard/companies/{company}/edit/storage', 'companiesEditStorage');
+    Route::put('/dashboard/companies/update/storage', 'companiesUpdateStorage');
 
-    Route::get('dashboard/companies/{company}/edit', 'companiesEdit');
-    Route::put('dashboard/companies/{company}/update', 'companiesUpdate');
+    Route::get('/dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
+    Route::put('/dashboard/companies/update/general', 'companiesUpdateGeneral');
+
+    Route::get('/dashboard/companies/{company}/edit', 'companiesEdit');
+    Route::put('/dashboard/companies/{company}/update', 'companiesUpdate');
 
     Route::get('/dashboard/companies/{company}/{slug}', 'companiesShow');
 

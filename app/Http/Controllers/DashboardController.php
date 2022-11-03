@@ -8,6 +8,7 @@ use App\Models\Config;
 use App\Models\Article;
 use App\Models\Company;
 use App\Models\Category;
+use App\Models\Industry;
 use App\Rules\SoftUrlRule;
 use App\Models\ColorSwatch;
 use Illuminate\Support\Str;
@@ -226,6 +227,17 @@ class DashboardController extends Controller
         ]);
     }
 
+    // COMPANIES: EDIT STORAGE
+    public function companiesEditStorage(Company $company){   
+        return view('dashboard.companies.edit-storage', [
+            'company' => $company,
+            'categories' => Category::orderBy('id', 'ASC')->get(),
+            'industries' => Industry::orderBy('name', 'ASC')->get(),
+            'existing_categories' => $company->getCategories($company->category_ids),
+            'existing_industries' => $company->getIndustries($company->industry_ids)
+        ]);
+    }
+
     // COMPANIES: EDIT IMAGE
     public function companiesEditImage(Company $company){   
         return view('dashboard.companies.edit-image', [
@@ -275,6 +287,36 @@ class DashboardController extends Controller
         $company->save();
 
         return redirect('dashboard/companies/'.$company->hex.'/'.$company->slug)->with('message', 'Company general information updated!');
+    }
+
+    // COMPANIES: UPDADTE STORAGE
+    public function companiesUpdateStorage(Request $request){
+        $new_category_ids = [];        
+        $categories = $request->categories_array;
+
+        $category_ids = explode(',', $categories);
+        foreach($category_ids as $category_id){
+            $category = Category::where('id', $category_id)->first();
+            if($category){
+                $new_category_ids[] = $category->id;
+            }
+        }
+        if(count($new_category_ids) > 0){
+            $new_category_ids = implode(',', $new_category_ids);
+        }
+        else{
+            $new_category_ids = null;
+        }  
+        
+
+        $company = Company::where('hex', $request->hex)->first();
+        $company->category_ids = $new_category_ids;
+        $company->save();
+
+        // dd($company->hex);
+
+        return redirect('/dashboard/companies/'.$company->hex.'/edit/storage')->with('message', 'Company storage udated!');
+        
     }
 
     // COMPANIES: UPDATE IMAGE

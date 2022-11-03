@@ -154,4 +154,13 @@ class Company extends Model
         }
         return [];
     }
+
+
+    public function alreadyInCategory($category_id){
+
+        if(Company::where('hex', $this->hex)->whereRaw('FIND_IN_SET("'.$category_id.'", category_ids)')->count() > 0){
+            return true;
+        }
+        return false;
+    }
 }

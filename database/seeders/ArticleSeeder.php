@@ -49,30 +49,30 @@ class ArticleSeeder extends Seeder
             }
 
             
+            $article = new Article();
+            $article->old_id = $row->id;
+            $article->hex = Str::random(11);
+            $article->user_id = $user_id;
+            $article->sponsor_id = $sponsor_id;
+            $article->title = $row->title;
+            $article->slug = Str::slug($row->title);
+            $article->caption = $row->caption;
+            $article->teaser = $row->teaser;
+            $article->body = $row->main_text;
+            $article->tags = Article::getRandomTags();
+            $article->image = $row->image;
+            $article->image_caption = $row->image_caption;
+            $article->image_copyright = $row->image_copyright;
+            $article->image_cropped = $row->image_cropped;
+            $article->views = $row->views;
+            $article->status = $row->status;
 
-            $articles[] = [
-                'old_id' => $row->id,
-                'hex' => Str::random(11),
-                'user_id' => $user_id,
-                'sponsor_id' => $sponsor_id,
-                'title' => $row->title,
-                'slug' => Str::slug($row->title),
-                'caption' => $row->caption,
-                'teaser' => $row->teaser,
-                'body' => $row->main_text,
-                'tags' => Article::getRandomTags(),
-                'image' => $row->image,
-                'image_caption' => $row->image_caption,
-                'image_copyright' => $row->image_copyright,
-                'image_cropped' => $row->image_cropped,
-                'views' => $row->views,
-                'created_at' => date('Y-m-d H:i:s', $row->created),
-                'updated_at' => date('Y-m-d H:i:s', $row->updated),
-                'status' => $row->status
-            ];
+            $article->save();
         }
 
-        $article = Article::insert($articles);
+        
+
+        
 
 
 

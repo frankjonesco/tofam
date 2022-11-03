@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('old_id')->length(11)->nullable();
             $table->string('hex', 11)->unique();
-            $table->string('user_id');
+            $table->string('user_id')->nullable();
             $table->foreignId('category_id')->nullable()->constrained();
             $table->foreignId('sponsor_id')->nullable()->constrained();
             $table->string('title');
