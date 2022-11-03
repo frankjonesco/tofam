@@ -125,6 +125,13 @@ class DashboardController extends Controller
         return redirect('dashboard/companies/search/'.$request->search);
     }
 
+    // COMPANIES: SHO SINGLE COMPANY
+    public function companiesShow(Company $company){
+        return view('dashboard.companies.show', [
+            'company' => $company
+        ]);
+    }
+
     // COMPANIES: SEARCH RETRIEVE
     public function companiesSearchRetrieve($term){
         if(Session::has('searchTerm')){

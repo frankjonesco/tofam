@@ -1,7 +1,7 @@
 <div class="card" style="width: 18rem;">
     <div class="" style="height: 180px;">
         <img 
-            src="{{$company->logo ? asset('/images/companies/'.$company->hex.'/'.$company->logo) : asset('/images/no-image.png')}}" 
+            src="{{$company->image ? asset('/images/companies/'.$company->hex.'/'.$company->image) : asset('/images/no-image.png')}}" 
             alt="{{$company->handle}}"
             style=" height: 100%;"
         >

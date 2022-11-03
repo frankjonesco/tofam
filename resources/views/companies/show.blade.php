@@ -8,7 +8,7 @@
                 <div class="col-3">
                     <div class="company-logo">
                         <img 
-                            src="{{$company->logo ? asset('/images/companies/'.$company->hex.'/'.$company->logo) : asset('/images/no-image.png')}}" 
+                            src="{{$company->image ? asset('/images/companies/'.$company->hex.'/'.$company->image) : asset('/images/no-image.png')}}" 
                             alt="{{$company->handle}}"
                         >
                     </div>

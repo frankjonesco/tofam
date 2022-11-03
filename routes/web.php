@@ -163,12 +163,15 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // Companies
     Route::get('/dashboard/companies', 'companiesIndex');
+    
     Route::get('/dashboard/companies/search/{term}', 'companiesSearchRetrieve')->name('dashboardSearchRetrieve');
     Route::post('/dashboard/companies/search', 'companiesSearch');
     Route::get('/dashboard/companies/create', 'companiesCreate');
     Route::post('dashboard/companies/store', 'companiesStore');
     Route::get('dashboard/companies/{company}/edit', 'companiesEdit');
     Route::put('dashboard/companies/{company}/update', 'companiesUpdate');
+
+    Route::get('/dashboard/companies/{company}/{slug}', 'companiesShow');
 
     Route::get('/dashboard/images/check', 'checkImages');
 });

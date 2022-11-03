@@ -11,7 +11,7 @@
                 <div class="articles-grid">
                     <div class="left-column">
                         <img 
-                            src="{{$company->logo ? asset('images/companies/'.$company->hex.'/tn-'.$company->logo) : asset('images/no-image.png')}}" 
+                            src="{{$company->image ? asset('images/companies/'.$company->hex.'/tn-'.$company->image) : asset('images/no-image.png')}}" 
                             alt=""
                             class="w-100"
                             style="border: 1px solid #ddd; padding: 2px;"
