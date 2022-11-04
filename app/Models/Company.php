@@ -20,6 +20,11 @@ class Company extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    // Relationship to ind
+    public function industries(){
+        return $this->belongsToMany(Industry::class, 'industry_ids');
+    }
+
 
     // Accessor for retrieving and formatting 'name'
     public function getHandleAttribute($value){

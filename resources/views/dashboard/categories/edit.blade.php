@@ -67,7 +67,7 @@
                 @enderror
 
                 <button type="submit" class="btn btn-success btn-sm">
-                    Update category
+                    <i class="fa-regular fa-floppy-disk"></i> Save changes
                 </button>
 
             </form>

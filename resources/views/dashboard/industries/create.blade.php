@@ -1,18 +1,18 @@
 <x-admin-card>
 
-        <h1>Create new category</h1>
+        <h1>Create new industry</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/store" method="POST" class="w-50">
+            <form action="/dashboard/industries/store" method="POST" class="w-50">
                 @csrf
 
-                {{-- Category name --}}
-                <label for="name">Category name</label>
+                {{-- Industry name --}}
+                <label for="name">Industry name</label>
                 <input 
-                    id="categoryName"
+                    id="industryName"
                     type="text"
                     name="name"
                     class="form-control mb-3 input-sm"
-                    placeholder="Category name"
+                    placeholder="Industry name"
                     value="{{old('name')}}"
                     oninput="updateSlug(this)"
                 >
@@ -20,14 +20,14 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
-                {{-- Category slug --}}
+                {{-- Industry slug --}}
                 <label for="slug">Slug</label>
                 <input 
-                    id="categorySlug"
+                    id="industrySlug"
                     type="text"
                     name="slug"
                     class="form-control mb-3 input-sm"
-                    placeholder="Category name"
+                    placeholder="Industry name"
                     value="{{old('slug')}}"
                     disabled
                 >
@@ -48,7 +48,7 @@
                 @enderror
 
                 <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fa-regular fa-folder"></i> Create category
+                    <i class="fa fa-industry"></i> Create industry
                 </button>
 
             </form>
@@ -60,7 +60,7 @@
     function updateSlug(name){
         // console.log(fox.value);
         
-        categorySlug = document.getElementById('categorySlug');
+        industrySlug = document.getElementById('industrySlug');
         
         nameValue = name.value;
 
@@ -76,7 +76,7 @@
 
         nameValue = nameValue.replace(/[^a-zA-Z0-9,;\- ]/g, '');
 
-        categorySlug.value = nameValue;
+        industrySlug.value = nameValue;
     }
 
 </script>

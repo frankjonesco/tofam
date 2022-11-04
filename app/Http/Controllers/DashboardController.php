@@ -229,6 +229,72 @@ class DashboardController extends Controller
 
 
 
+    // INDUSTRIES: INDEX
+    public function industriesIndex(){        
+        return view('dashboard.industries.index', [
+            'industries' => Industry::orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    // INDUSTRIES: MINE
+    public function industriesMine(){        
+        return view('dashboard.industries.mine', [
+            'industries' => Industry::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    // INDUSTRIES: CREATE
+    public function industriesCreate(){
+        return view('dashboard.industries.create');
+    }
+
+    // INDUSTRIES: STORE
+    public function industriesStore(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $industry = new Industry();
+        
+        $industry->hex = $industry->uniqueHex(new Site());
+        $industry->user_id = auth()->user()->id;
+        $industry->name = $request->name;
+        $industry->slug = Str::slug($request->name);
+
+        $industry->save();
+
+        return redirect('dashboard/industries/'.$industry->hex.'/edit')->with('message', 'New industry created!');
+    }
+
+    // INDUSTRIES: EDIT 
+    public function industriesEdit(Industry $industry){   
+        return view('dashboard.industries.edit', [
+            'industry' => $industry
+        ]);
+    }
+
+     // INDUSTRIES: UPDATE
+     public function industriesUpdate(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $industry = Industry::where('hex', $request->hex)->first();
+        $industry->name = $request->name;
+        $industry->slug = Str::slug($request->name);
+        $industry->description = $request->description;
+
+        $industry->save();
+
+        return redirect('dashboard/industries/'.$industry->hex.'/edit')->with('message', 'Industry updated!');
+    }
+
+
+
     // ARTICLES: INDEX
     public function articlesIndex(){
         // dd(Site::allArticles());

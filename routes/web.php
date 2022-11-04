@@ -207,6 +207,28 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
 
 
+    // DASHBOARD: INDUSTRIES
+
+        // Industries: Show all
+        Route::get('/dashboard/industries', 'industriesIndex');
+
+        // Industries: Show logged in user's industries
+        Route::get('/dashboard/industries/mine', 'industriesMine');
+
+        // Industries: Create new industry
+        Route::get('/dashboard/industries/create', 'industriesCreate');
+
+        // Industries: Store new industry
+        Route::post('/dashboard/industries/store', 'industriesStore'); 
+
+        // Industries: Edit
+        Route::get('/dashboard/industries/{industry}/edit', 'industriesEdit');
+
+        // Industries: Update
+        Route::put('/dashboard/industries/update', 'industriesUpdate');
+
+
+
     // DASHBOARD: ARTICLES
 
         // Articles: Show all

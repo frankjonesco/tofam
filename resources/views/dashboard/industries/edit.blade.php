@@ -1,34 +1,37 @@
 <x-admin-card>
 
-        <h1>Create new category</h1>
+        <h1>Edit industry</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/store" method="POST" class="w-50">
+            <form action="/dashboard/industries/update" method="POST" class="w-50">
                 @csrf
+                @method('PUT')
 
-                {{-- Category name --}}
-                <label for="name">Category name</label>
+                <input type="hidden" name="hex" value="{{$industry->hex}}">
+
+                {{-- Industry name --}}
+                <label for="name">Industry name</label>
                 <input 
-                    id="categoryName"
+                    id="industryName"
                     type="text"
                     name="name"
                     class="form-control mb-3 input-sm"
-                    placeholder="Category name"
-                    value="{{old('name')}}"
+                    placeholder="Industry name"
+                    value="{{old('name') ? old('name') : $industry->name}}"
                     oninput="updateSlug(this)"
                 >
                 @error('name')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
-                {{-- Category slug --}}
+                {{-- Industry slug --}}
                 <label for="slug">Slug</label>
                 <input 
-                    id="categorySlug"
+                    id="industrySlug"
                     type="text"
                     name="slug"
                     class="form-control mb-3 input-sm"
-                    placeholder="Category name"
-                    value="{{old('slug')}}"
+                    placeholder="Industry name"
+                    value="{{old('slug') ? old('slug') : $industry->slug}}"
                     disabled
                 >
                 @error('slug')
@@ -42,13 +45,13 @@
                     class="form-control mb-3" 
                     rows="5" 
                     placeholder="Description"
-                >{{old('description')}}</textarea>
+                >{{old('description') ? old('description') : $industry->description}}</textarea>
                 @error('description')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
                 <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fa-regular fa-folder"></i> Create category
+                    <i class="fa-regular fa-floppy-disk"></i> Save changes
                 </button>
 
             </form>
@@ -60,7 +63,7 @@
     function updateSlug(name){
         // console.log(fox.value);
         
-        categorySlug = document.getElementById('categorySlug');
+        industrySlug = document.getElementById('industrySlug');
         
         nameValue = name.value;
 
@@ -76,7 +79,7 @@
 
         nameValue = nameValue.replace(/[^a-zA-Z0-9,;\- ]/g, '');
 
-        categorySlug.value = nameValue;
+        industrySlug.value = nameValue;
     }
 
 </script>

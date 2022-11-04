@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('industries', function (Blueprint $table) {
             $table->id();
-            $table->integer('old_id');
+            $table->integer('old_id')->nullable();
             $table->string('hex', 11);
             $table->foreignId('user_id')->nullable();
             $table->string('name');
             $table->string('slug');
+            $table->text('description')->nullable();
             $table->foreignId('color_id')->nullable();
             $table->timestamps();
         });
