@@ -230,6 +230,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
         // Industries: Update
         Route::put('/dashboard/industries/update', 'industriesUpdate');
 
+        // Industries: Show single category
+        Route::get('/dashboard/industries/{industry}', 'industriesShow');
+
 
 
     // DASHBOARD: ARTICLES

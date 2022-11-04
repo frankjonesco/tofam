@@ -138,11 +138,9 @@ class DashboardController extends Controller
 
     // CATEGORIES: SHOW
     public function categoriesShow(Category $category){
-
-        
-            return view('dashboard.categories.show', [
-                'category' => $category,
-            ]);
+        return view('dashboard.categories.show', [
+            'category' => $category,
+        ]);
     }
 
     // CATEGORIES: CREATE
@@ -249,6 +247,13 @@ class DashboardController extends Controller
     public function industriesMine(){        
         return view('dashboard.industries.mine', [
             'industries' => Industry::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    // INDUSTRIES: SHOW
+    public function industriesShow(Industry $industry){
+        return view('dashboard.industries.show', [
+            'industry' => $industry,
         ]);
     }
 
