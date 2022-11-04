@@ -1,15 +1,14 @@
 <x-admin-card>
-        {{-- Buttons bar --}}
-        <x-buttons-bar>
-            <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
-                <i class="fa-solid fa-arrow-left"></i> Back
-            </a>
-        </x-buttons-bar>
-        <h1>Edit article</h1>
+
+    <x-article-edit-buttons :article="$article"/>
+
+        <h1>Edit general</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/articles/{{$article->hex}}/update" method="POST" enctype="multipart/form-data" class="w-50">
+            <form action="/dashboard/articles/update/text" method="POST" class="w-50">
                 @csrf
                 @method('PUT')
+
+                <input type="hidden" name="hex" value="{{$article->hex}}">
 
                 {{-- Article title --}}
                 <label for="title">Title</label>
@@ -21,25 +20,6 @@
                     value="{{old('title') ? old('title') : $article->title}}"
                 >
                 @error('title')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-
-                {{-- Article category --}}
-                <label for="category">Category</label>
-                <select 
-                    name="category" 
-                    class="form-select mb-3"
-                >
-                    <option value="">Select category</option>
-                    
-                    @if(count($categories) > 0)
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}" {{$category->id == $article->category_id ? 'selected' : null}}>{{$category->name}}</option>
-                        @endforeach
-                    @endif
-                    
-                </select>
-                @error('category')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
@@ -81,23 +61,6 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
-                {{-- Article image --}}
-                <label for="image">Image</label>
-                <input 
-                    type="file"
-                    class="form-control mb-3"
-                    name="image"
-                >
-                @error('image')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-
-                <img 
-                    src="{{$article->image ? asset('images/articles/'.$article->hex.'/tn-'.$article->image) : asset('images/no-image.png')}}" 
-                    alt=""
-                    class="mb-3 w-100"
-                >
-
                 {{-- Article tags --}}
                 <label for="tags">Tags <i>(separated by a comma)</i></label>
                 <input 
@@ -111,22 +74,8 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
-
-                {{-- Article status --}}
-                <label for="status">Status</label>
-                <select 
-                    name="status" 
-                    class="form-select mb-3"
-                >
-                    <option value="private" {{($article->status == 'private') ? 'selected' : null}}>Private</option>
-                    <option value="public" {{($article->status == 'public') ? 'selected' : null}}>Public</option>
-                </select>
-                @error('status')
-                    <p class="text-danger">{{$message}}</p>
-                @enderror
-
                 <button type="submit" class="btn btn-success btn-sm">
-                    Update artilce
+                    <i class="fa-regular fa-floppy-disk"></i> Save changes
                 </button>
 
             </form>

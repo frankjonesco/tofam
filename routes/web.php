@@ -66,11 +66,7 @@ Route::controller(CompanyController::class)->group(function(){
 
 // Auth routes for ArticleController
 Route::controller(ArticleController::class)->middleware('auth')->group(function() {
-    Route::get('/dashboard/articles/create', 'create');
-    Route::post('/dashboard/articles/store', 'store');
-    Route::get('/dashboard/articles/{article}/edit', 'edit');
-    Route::put('/dashboard/articles/{article}/update', 'update');
-    Route::delete('/dashboard/articles/{article}/delete', 'destroy');
+
 });
 
 // Public routes for ArticleController
@@ -160,44 +156,73 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
     Route::delete('/dashboard/color-swatches/{hex}/delete-color', 'colorSwatchDestroyColor');
 
-    // Articles
+    // DASHBOARD: ARTICLES
+
+    //  Articles: Show all
     Route::get('/dashboard/articles', 'articlesIndex');
 
-    // Companies
+
+    // Articles: Edit publishing
+    Route::get('/dashboard/articles/{article}/edit/publishing', 'articlesEditPublishing');
+    Route::put('/dashboard/articles/update/publishing', 'articlesUpdatePublishing');
+
+    // Articles: Edit image
+    Route::get('/dashboard/articles/{article}/edit/image', 'articlesEditImage');
+    Route::put('/dashboard/articles/update/image', 'articlesUpdateImage');
+
+    // Articles: Edit storage
+    Route::get('/dashboard/articles/{article}/edit/storage', 'articlesEditStorage');
+    Route::put('/dashboard/articles/update/storage', 'articlesUpdateStorage');
+
+    // Articles: Edit general
+    Route::get('/dashboard/articles/{article}/edit/text', 'articlesEditText');
+    Route::put('/dashboard/articles/update/text', 'articlesUpdateText');
+
+
+    //  DASHBOARD: COMPANIES
+
+    // Companies: Show all
     Route::get('/dashboard/companies', 'companiesIndex');
-    
+
+    // Companies: Search
     Route::get('/dashboard/companies/search/{term}', 'companiesSearchRetrieve')->name('dashboardSearchRetrieve');
     Route::post('/dashboard/companies/search', 'companiesSearch');
+
+    // Companies: Create/Store (add a new company)
     Route::get('/dashboard/companies/create', 'companiesCreate');
     Route::post('dashboard/companies/store', 'companiesStore');
 
+    // Companies: Edit publishing
     Route::get('/dashboard/companies/{company}/edit/publishing', 'companiesEditPublishing');
     Route::put('/dashboard/companies/update/publishing', 'companiesUpdatePublishing');
 
+    // Companies: Edit further details
     Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
     Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
 
+    // Companies: Edit family information
     Route::get('/dashboard/companies/{company}/edit/family', 'companiesEditFamily');
     Route::put('/dashboard/companies/update/family', 'companiesUpdateFamily');
 
+    // Companies: Edit address
     Route::get('/dashboard/companies/{company}/edit/address', 'companiesEditAddress');
     Route::put('/dashboard/companies/update/address', 'companiesUpdateAddress');
 
+    // Companies: Change image 
     Route::get('/dashboard/companies/{company}/edit/image', 'companiesEditImage');
     Route::put('/dashboard/companies/update/image', 'companiesUpdateImage');
 
+    // Companies: Edit storage
     Route::get('/dashboard/companies/{company}/edit/storage', 'companiesEditStorage');
     Route::put('/dashboard/companies/update/storage', 'companiesUpdateStorage');
 
+    // Companies: Edit general
     Route::get('/dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
     Route::put('/dashboard/companies/update/general', 'companiesUpdateGeneral');
 
-    Route::get('/dashboard/companies/{company}/edit', 'companiesEdit');
-    Route::put('/dashboard/companies/{company}/update', 'companiesUpdate');
+    // Companies: Show single company
+    Route::get('/dashboard/companies/{company}', 'companiesShow');
 
-    Route::get('/dashboard/companies/{company}/{slug}', 'companiesShow');
-
-    Route::get('/dashboard/images/check', 'checkImages');
 });
 
 /*

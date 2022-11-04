@@ -21,7 +21,7 @@
 
                     <div class="right-column text-right">
                         
-                        <a class="btn btn-success btn-sm" href="/dashboard/articles/{{$article->hex}}/edit"><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="btn btn-success btn-sm" href="/dashboard/articles/{{$article->hex}}/edit/text"><i class="fa fa-pencil"></i> Edit</a>
                     </div>
                     
                 </div>

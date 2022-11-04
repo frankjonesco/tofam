@@ -24,8 +24,8 @@
                     </div>
 
                     <div class="right-column text-right">
-                        <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/{{$company->slug}}"><i class="fa fa-eye"></i> View</a>
-                        <a class="btn btn-success btn-sm" href="/dashboard/companies/{{$company->hex}}/edit"><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}"><i class="fa fa-eye"></i> View</a>
+                        <a class="btn btn-success btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/general"><i class="fa fa-pencil"></i> Edit</a>
                     </div>
                     
                 </div>

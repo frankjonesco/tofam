@@ -1,6 +1,6 @@
 <x-admin-card>
     
-    <x-edit-company-buttons :company="$company"/>
+    <x-company-edit-buttons :company="$company"/>
 
     <h1>Edit further details</h1>
     <div class="w-100 justify-content-center">
