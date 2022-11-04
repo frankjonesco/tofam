@@ -89,11 +89,7 @@ Route::controller(ArticleController::class)->group(function(){
 
 // Auth routes for CategoryController
 Route::controller(CategoryController::class)->middleware('auth')->group(function(){
-    Route::get('/dashboard/categories/create', 'create');
-    Route::post('/dashboard/categories/store', 'store');
-    Route::get('/dashboard/categories/{category}/edit', 'edit');
-    Route::put('/dashboard/categories/{category}/update', 'update');
-    Route::delete('/dashboard/categories/{category}/delete', 'destroy');
+    
 });
 
 // Public routes for CategoryController
@@ -180,13 +176,44 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
 
 
+    // DASHBOARD: CATEGORES
+
+        // Categories: Show all
+        Route::get('/dashboard/categories', 'categoriesIndex');
+
+        // Categories: Show logged in user's categories
+        Route::get('/dashboard/categories/mine', 'categoriesMine');
+
+        // Categories: Create new category
+        Route::get('/dashboard/categories/create', 'categoriesCreate');
+
+        // Categories: Store new category
+        Route::post('/dashboard/categories/store', 'categoriesStore');        
+
+        // Categories: Edit publishing
+        Route::get('/dashboard/categories/{category}/edit/publishing', 'categoriesEditPublishing');
+        Route::put('/dashboard/categories/update/publishing', 'categoriesUpdatePublishing');
+
+        // Categories: Edit image
+        Route::get('/dashboard/categories/{category}/edit/image', 'categoriesEditImage');
+        Route::put('/dashboard/categories/update/image', 'categoriesUpdateImage');
+
+        // Categories: Delete
+        Route::delete('/dashboard/categories/{category}/delete', 'categoryDestroy');
+
+        // Categories: Edit text
+        Route::get('/dashboard/categories/{category}/edit/text', 'categoriesEditText');
+        Route::put('/dashboard/categories/update/text', 'categoriesUpdateText');
+
+
+
     // DASHBOARD: ARTICLES
 
-        //  Articles: Show all
+        // Articles: Show all
         Route::get('/dashboard/articles', 'articlesIndex');
 
-        //  Articles: Show logged in user's articles
-        Route::get('/dashboard/articles/mine', 'articlesMyArticles');
+        // Articles: Show logged in user's articles
+        Route::get('/dashboard/articles/mine', 'articlesMine');
 
         // Articles: Create new article
         Route::get('/dashboard/articles/create', 'articlesCreate');
@@ -206,7 +233,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
         Route::get('/dashboard/articles/{article}/edit/storage', 'articlesEditStorage');
         Route::put('/dashboard/articles/update/storage', 'articlesUpdateStorage');
 
-        // Articles: Edit general
+        // Articles: Edit text
         Route::get('/dashboard/articles/{article}/edit/text', 'articlesEditText');
         Route::put('/dashboard/articles/update/text', 'articlesUpdateText');
 

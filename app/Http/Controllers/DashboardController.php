@@ -120,6 +120,115 @@ class DashboardController extends Controller
 
 
 
+    // CATEGORIES: INDEX
+    public function categoriesIndex(){
+        // dd(Site::allArticles());
+        return view('dashboard.categories.index', [
+            'categories' => Category::orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    // CATEGORIES: MINE
+    public function categoriesMine(){
+        // dd(Site::allArticles());
+        return view('dashboard.categories.index', [
+            'categories' => Category::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get()
+        ]);
+    }
+
+    // CATEGORIES: CREATE
+    public function categoriesCreate(){
+        return view('dashboard.categories.create');
+    }
+
+    // CATEGORIES: STORE
+    public function categoriesStore(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $category = new Category();
+        $category->hex = $category->uniqueHex(new Site());
+        $category->user_id = auth()->user()->id;
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->description = $request->description;
+        $category->status = 'private';
+       
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'New category created!');
+    }
+
+    // CATEGORIES: EDIT TEXT
+    public function categoriesEditText(Category $category){
+        return view('dashboard.categories.edit-text', [
+            'category' => $category
+        ]);
+    }
+
+    // CATEGORIES: EDIT IMAGE
+    public function categoriesEditImage(Category $category){   
+        return view('dashboard.categories.edit-image', [
+            'category' => $category,
+        ]);
+    }
+
+    // CATEGORIES: EDIT PUBLISHING
+    public function categoriesEditPublishing(Category $category){   
+        return view('dashboard.categories.edit-publishing', [
+            'category' => $category,
+        ]);
+    }
+
+    // CATEGORIES: UPDATE TEXT
+    public function categoriesUpdateText(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $category = Category::where('hex', $request->hex)->first();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->description = $request->description;
+       
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'Category text updated!');
+    }
+
+    // CATEGORIES: UPDATE IMAGE
+    public function categoriesUpdateImage(Request $request){
+
+        $site = new Site();
+        $category = Category::where('hex', $request->hex)->first();
+        
+        if($request->hasFile('image')){
+            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
+        }
+        
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/image')->with('message', 'Category image updated!');
+    }
+
+    // CATEGORIES: UPDATE PUBLISHING
+    public function categoriesUpdatePublishing(Request $request){
+
+        $category = Category::where('hex', $request->hex)->first();
+        $category->status = $request->status;
+        
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/publishing')->with('message', 'Category publishing updated!');
+    }
+
+
+
     // ARTICLES: INDEX
     public function articlesIndex(){
         // dd(Site::allArticles());
@@ -128,8 +237,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    // ARTICLES: INDEX
-    public function articlesMyArticles(){
+    // ARTICLES: MINE
+    public function articlesMine(){
         // dd(Site::allArticles());
         return view('dashboard.articles.mine', [
             'articles' => Article::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get(),
@@ -141,7 +250,7 @@ class DashboardController extends Controller
         return view('dashboard.articles.create');
     }
 
-    // ARTICLES: Store
+    // ARTICLES: STORE
     public function articlesStore(Request $request){
         
         // Validate form fields 
@@ -187,7 +296,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    // ARTICLES: EDIT Image
+    // ARTICLES: EDIT IMAGE
     public function articlesEditImage(Article $article){   
         return view('dashboard.articles.edit-image', [
             'article' => $article,

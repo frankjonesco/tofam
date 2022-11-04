@@ -1,9 +1,14 @@
 <x-admin-card>
 
-        <h1>Create new category</h1>
+    <x-category-edit-buttons :category="$category"/>
+
+        <h1>Edit text</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/categories/store" method="POST" class="w-50">
+            <form action="/dashboard/categories/update/text" method="POST" class="w-50">
                 @csrf
+                @method('PUT')
+
+                <input type="hidden" name="hex" value="{{$category->hex}}">
 
                 {{-- Category name --}}
                 <label for="name">Category name</label>
@@ -13,7 +18,7 @@
                     name="name"
                     class="form-control mb-3 input-sm"
                     placeholder="Category name"
-                    value="{{old('title')}}"
+                    value="{{old('title') ? old('title') : $category->name}}"
                     oninput="updateSlug(this)"
                 >
                 @error('name')
@@ -28,7 +33,7 @@
                     name="slug"
                     class="form-control mb-3 input-sm"
                     placeholder="Category name"
-                    value="{{old('slug')}}"
+                    value="{{old('slug') ? old('slug') : $category->slug}}"
                     disabled
                 >
                 @error('slug')
@@ -42,7 +47,7 @@
                     class="form-control mb-3" 
                     rows="5" 
                     placeholder="Description"
-                >{{old('description')}}</textarea>
+                >{{old('description') ? old('description') : $category->description}}</textarea>
                 @error('description')
                     <p class="text-danger">{{$message}}</p>
                 @enderror

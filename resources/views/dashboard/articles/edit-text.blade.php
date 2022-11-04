@@ -2,7 +2,7 @@
 
     <x-article-edit-buttons :article="$article"/>
 
-        <h1>Edit general</h1>
+        <h1>Edit text</h1>
         <div class="w-100 justify-content-center">
             <form action="/dashboard/articles/update/text" method="POST" class="w-50">
                 @csrf
