@@ -125,7 +125,14 @@ class DashboardController extends Controller
         // dd(Site::allArticles());
         return view('dashboard.articles.index', [
             'articles' => Site::allArticles(),
-            'foo' => 'bar'
+        ]);
+    }
+
+    // ARTICLES: INDEX
+    public function articlesMyArticles(){
+        // dd(Site::allArticles());
+        return view('dashboard.articles.mine', [
+            'articles' => Article::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get(),
         ]);
     }
 

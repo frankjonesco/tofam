@@ -185,6 +185,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
         //  Articles: Show all
         Route::get('/dashboard/articles', 'articlesIndex');
 
+        //  Articles: Show logged in user's articles
+        Route::get('/dashboard/articles/mine', 'articlesMyArticles');
+
         // Articles: Create new article
         Route::get('/dashboard/articles/create', 'articlesCreate');
 
