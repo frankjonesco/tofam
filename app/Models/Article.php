@@ -194,6 +194,26 @@ class Article extends Model
         
     }
 
+    public function formatTags($tags){
+
+        $tags = explode(',', $tags);
+
+        $new_tags = [];
+
+        foreach($tags as $tag){
+            $tag = trim($tag);
+            if($tag){
+                $tag = str_replace('  ', ' ', $tag);
+                $tag = str_replace('  ', ' ', $tag);
+                $tag = str_replace('  ', ' ', $tag);
+                $new_tags[] = $tag;
+            }
+        }
+
+        return implode(',', $new_tags);
+
+    }
+
     
     
 

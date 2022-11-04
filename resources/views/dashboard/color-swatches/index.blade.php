@@ -59,7 +59,7 @@
                             Edit color swatch
                         </a>
                         @if($color_swatch->inUse())
-                            <button class="btn btn-success btn-sm btn-block mb-2" style="cursor: not-allowed; pointer-events: all !important;" disabled>
+                            <button class="btn btn-danger btn-sm btn-block mb-2" style="cursor: not-allowed; pointer-events: all !important;" disabled>
                                 <i class="fa fa-brush"></i> 
                                 Swatch is in use
                             </button>

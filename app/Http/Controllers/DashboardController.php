@@ -129,6 +129,137 @@ class DashboardController extends Controller
         ]);
     }
 
+    // ARTICLES: CREATE
+    public function articlesCreate(){
+        return view('dashboard.articles.create');
+    }
+
+    // ARTICLES: Store
+    public function articlesStore(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'title' => 'required',
+            'tags' => ['regex:/^[a-zA-Z0-9 ,]+$/', 'nullable'],
+        ],
+        [
+            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\'',
+            'tags.nullable' => 'Null'
+        ]);
+
+        $site = new Site();
+        $article = new Article();
+        
+        $article->hex = $article->uniqueHex($site);
+        $article->user_id = auth()->user()->id;
+        $article->title = $request->title;
+        $article->slug = Str::slug($request->title);
+        $article->caption = $request->caption;
+        $article->teaser = $request->teaser;
+        $article->body = $request->body;
+        $article->tags = $article->formatTags($request->tags);
+        $article->status = 'private';
+
+        $article->save();
+
+        return redirect('dashboard/articles/'.$article->hex.'/edit/text')->with('message', 'New article created!');
+    }
+
+    // ARTICLES: EDIT GENERAL
+    public function articlesEditText(Article $article){   
+        return view('dashboard.articles.edit-text', [
+            'article' => $article
+        ]);
+    }
+
+    // ARTICLES: EDIT STORAGE
+    public function articlesEditStorage(Article $article){   
+        return view('dashboard.articles.edit-storage', [
+            'article' => $article,
+            'categories' => Category::orderBy('id', 'ASC')->get(),
+        ]);
+    }
+
+    // ARTICLES: EDIT Image
+    public function articlesEditImage(Article $article){   
+        return view('dashboard.articles.edit-image', [
+            'article' => $article,
+        ]);
+    }
+
+    // ARTICLES: EDIT PUBLISHING
+    public function articlesEditPublishing(Article $article){   
+        return view('dashboard.articles.edit-publishing', [
+            'article' => $article,
+        ]);
+    }
+
+    // ARTICLES: UPDATE GENERAL
+    public function articlesUpdateText(Request $request){
+        
+        // Validate form fields 
+        $request->validate([
+            'title' => 'required',
+            'tags' => ['regex:/^[a-zA-Z0-9 ,]+$/', 'nullable'],
+        ],
+        [
+            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\'',
+            'tags.nullable' => 'Null'
+        ]);
+
+        $article = Article::where('hex', $request->hex)->first();
+        $article->title = $request->title;
+        $article->caption = $request->caption;
+        $article->teaser = $request->teaser;
+        $article->body = $request->body;
+        $article->tags = $article->formatTags($request->tags);
+
+        $article->save();
+
+        return redirect('dashboard/articles/'.$article->hex.'/edit/text')->with('message', 'Aricle text updated!');
+    }
+
+    // ARTICLES: UPDATE STORAGE
+    public function articlesUpdateStorage(Request $request){
+
+        $article = Article::where('hex', $request->hex)->first();
+        $article->category_id = $request->category_id;
+        
+        $article->save();
+
+        return redirect('dashboard/articles/'.$article->hex.'/edit/storage')->with('message', 'Aricle storage updated!');
+    }
+
+    // ARTICLES: UPDATE IMAGE
+    public function articlesUpdateImage(Request $request){
+
+        $site = new Site();
+        $article = Article::where('hex', $request->hex)->first();
+        
+        if($request->hasFile('image')){
+            $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
+        }
+        
+        $article->save();
+
+        return redirect('dashboard/articles/'.$article->hex.'/edit/image')->with('message', 'Aricle image updated!');
+    }
+
+    // ARTICLES: UPDATE PUBLISHING
+    public function articlesUpdatePublishing(Request $request){
+
+        $article = Article::where('hex', $request->hex)->first();
+        $article->status = $request->status;
+        
+        $article->save();
+
+        return redirect('dashboard/articles/'.$article->hex.'/edit/status')->with('message', 'Aricle publishing updated!');
+    }
+
+
+
+
+
 
 
     // COMPANIES: INDEX
@@ -212,104 +343,6 @@ class DashboardController extends Controller
 
         return redirect('dashboard/companies');
     }
-
-    // ARTICLES: EDIT GENERAL
-    public function articlesEditText(Article $article){   
-        return view('dashboard.articles.edit-text', [
-            'article' => $article
-        ]);
-    }
-
-    // ARTICLES: EDIT STORAGE
-    public function articlesEditStorage(Article $article){   
-        return view('dashboard.articles.edit-storage', [
-            'article' => $article,
-            'categories' => Category::orderBy('id', 'ASC')->get(),
-        ]);
-    }
-
-    // ARTICLES: EDIT Image
-    public function articlesEditImage(Article $article){   
-        return view('dashboard.articles.edit-image', [
-            'article' => $article,
-        ]);
-    }
-
-    // ARTICLES: EDIT PUBLISHING
-    public function articlesEditPublishing(Article $article){   
-        return view('dashboard.articles.edit-publishing', [
-            'article' => $article,
-        ]);
-    }
-
-    // ARTICLES: UPDATE GENERAL
-    public function articlesUpdateText(Request $request){
-        
-        // Validate form fields 
-        $request->validate([
-            'title' => 'required',
-            'tags' => 'regex:/^[a-zA-Z0-9 ,]+$/',
-        ],
-        [
-            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\''
-        ]);
-
-        $article = Article::where('hex', $request->hex)->first();
-        $article->title = $request->title;
-        $article->caption = $request->caption;
-        $article->teaser = $request->teaser;
-        $article->body = $request->body;
-        $article->tags = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags))))); 
-
-        $article->save();
-
-        return redirect('dashboard/articles/'.$article->hex.'/edit/text')->with('message', 'Aricle text updated!');
-    }
-
-    // ARTICLES: UPDATE STORAGE
-    public function articlesUpdateStorage(Request $request){
-
-        $article = Article::where('hex', $request->hex)->first();
-        $article->category_id = $request->category_id;
-        
-        $article->save();
-
-        return redirect('dashboard/articles/'.$article->hex.'/edit/storage')->with('message', 'Aricle storage updated!');
-    }
-
-    // ARTICLES: UPDATE IMAGE
-    public function articlesUpdateImage(Request $request){
-
-        $site = new Site();
-        $article = Article::where('hex', $request->hex)->first();
-        
-        if($request->hasFile('image')){
-            $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
-        }
-        
-        $article->save();
-
-        return redirect('dashboard/articles/'.$article->hex.'/edit/image')->with('message', 'Aricle image updated!');
-    }
-
-    // ARTICLES: UPDATE PUBLISHING
-    public function articlesUpdatePublishing(Request $request){
-
-        $article = Article::where('hex', $request->hex)->first();
-        $article->status = $request->status;
-        
-        $article->save();
-
-        return redirect('dashboard/articles/'.$article->hex.'/edit/status')->with('message', 'Aricle storage updated!');
-    }
-
-
-
-
-
-
-
-
 
     // COMPANIES: EDIT GENERAL
     public function companiesEditGeneral(Company $company){   

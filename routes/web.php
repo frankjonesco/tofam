@@ -143,85 +143,115 @@ Route::controller(UserController::class)->group(function(){
 
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
-    Route::get('/dashboard', 'index')->name('dashboard');
+    
+    
+    // DASHBOARD
 
-    // Color Swatch Editor
-    Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
-    Route::get('/dashboard/color-swatches/create', 'colorSwatchCreate');
-    Route::post('/dashboard/color-swatches/store', 'colorSwatchStore');
-    Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
-    Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
-    Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
-    Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
-    Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
-    Route::delete('/dashboard/color-swatches/{hex}/delete-color', 'colorSwatchDestroyColor');
+        // Dashboard: Index
+        Route::get('/dashboard', 'index')->name('dashboard');
+
+
+
+    // DASHBOARD: COLOR SWATCHES
+
+        // Color swatches: Show all
+        Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
+
+        // Color swatches: Create new swatch
+        Route::get('/dashboard/color-swatches/create', 'colorSwatchCreate');
+
+        // Color swatches: Store new swatch
+        Route::post('/dashboard/color-swatches/store', 'colorSwatchStore');
+
+        // Color swatches: Show single swatch
+        Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
+
+        // Color swatches: Use this swatch
+        Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
+
+        // Color swatches: Edit swatch
+        Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
+
+        // Color swatches: Update swatch
+        Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
+
+        // Color swatches: Delete swatch
+        Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
+
+
 
     // DASHBOARD: ARTICLES
 
-    //  Articles: Show all
-    Route::get('/dashboard/articles', 'articlesIndex');
+        //  Articles: Show all
+        Route::get('/dashboard/articles', 'articlesIndex');
 
+        // Articles: Create new article
+        Route::get('/dashboard/articles/create', 'articlesCreate');
 
-    // Articles: Edit publishing
-    Route::get('/dashboard/articles/{article}/edit/publishing', 'articlesEditPublishing');
-    Route::put('/dashboard/articles/update/publishing', 'articlesUpdatePublishing');
+        // Articles: Store new article
+        Route::post('/dashboard/articles/store', 'articlesStore');
 
-    // Articles: Edit image
-    Route::get('/dashboard/articles/{article}/edit/image', 'articlesEditImage');
-    Route::put('/dashboard/articles/update/image', 'articlesUpdateImage');
+        // Articles: Edit publishing
+        Route::get('/dashboard/articles/{article}/edit/publishing', 'articlesEditPublishing');
+        Route::put('/dashboard/articles/update/publishing', 'articlesUpdatePublishing');
 
-    // Articles: Edit storage
-    Route::get('/dashboard/articles/{article}/edit/storage', 'articlesEditStorage');
-    Route::put('/dashboard/articles/update/storage', 'articlesUpdateStorage');
+        // Articles: Edit image
+        Route::get('/dashboard/articles/{article}/edit/image', 'articlesEditImage');
+        Route::put('/dashboard/articles/update/image', 'articlesUpdateImage');
 
-    // Articles: Edit general
-    Route::get('/dashboard/articles/{article}/edit/text', 'articlesEditText');
-    Route::put('/dashboard/articles/update/text', 'articlesUpdateText');
+        // Articles: Edit storage
+        Route::get('/dashboard/articles/{article}/edit/storage', 'articlesEditStorage');
+        Route::put('/dashboard/articles/update/storage', 'articlesUpdateStorage');
 
+        // Articles: Edit general
+        Route::get('/dashboard/articles/{article}/edit/text', 'articlesEditText');
+        Route::put('/dashboard/articles/update/text', 'articlesUpdateText');
+
+    
 
     //  DASHBOARD: COMPANIES
 
-    // Companies: Show all
-    Route::get('/dashboard/companies', 'companiesIndex');
+        // Companies: Show all
+        Route::get('/dashboard/companies', 'companiesIndex');
 
-    // Companies: Search
-    Route::get('/dashboard/companies/search/{term}', 'companiesSearchRetrieve')->name('dashboardSearchRetrieve');
-    Route::post('/dashboard/companies/search', 'companiesSearch');
+        // Companies: Search
+        Route::get('/dashboard/companies/search/{term}', 'companiesSearchRetrieve')->name('dashboardSearchRetrieve');
+        Route::post('/dashboard/companies/search', 'companiesSearch');
 
-    // Companies: Create/Store (add a new company)
-    Route::get('/dashboard/companies/create', 'companiesCreate');
-    Route::post('dashboard/companies/store', 'companiesStore');
+        // Companies: Create/Store (add a new company)
+        Route::get('/dashboard/companies/create', 'companiesCreate');
+        Route::post('dashboard/companies/store', 'companiesStore');
 
-    // Companies: Edit publishing
-    Route::get('/dashboard/companies/{company}/edit/publishing', 'companiesEditPublishing');
-    Route::put('/dashboard/companies/update/publishing', 'companiesUpdatePublishing');
+        // Companies: Edit publishing
+        Route::get('/dashboard/companies/{company}/edit/publishing', 'companiesEditPublishing');
+        Route::put('/dashboard/companies/update/publishing', 'companiesUpdatePublishing');
 
-    // Companies: Edit further details
-    Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
-    Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
+        // Companies: Edit further details
+        Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
+        Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
 
-    // Companies: Edit family information
-    Route::get('/dashboard/companies/{company}/edit/family', 'companiesEditFamily');
-    Route::put('/dashboard/companies/update/family', 'companiesUpdateFamily');
+        // Companies: Edit family information
+        Route::get('/dashboard/companies/{company}/edit/family', 'companiesEditFamily');
+        Route::put('/dashboard/companies/update/family', 'companiesUpdateFamily');
 
-    // Companies: Edit address
-    Route::get('/dashboard/companies/{company}/edit/address', 'companiesEditAddress');
-    Route::put('/dashboard/companies/update/address', 'companiesUpdateAddress');
+        // Companies: Edit address
+        Route::get('/dashboard/companies/{company}/edit/address', 'companiesEditAddress');
+        Route::put('/dashboard/companies/update/address', 'companiesUpdateAddress');
 
-    // Companies: Change image 
-    Route::get('/dashboard/companies/{company}/edit/image', 'companiesEditImage');
-    Route::put('/dashboard/companies/update/image', 'companiesUpdateImage');
+        // Companies: Change image 
+        Route::get('/dashboard/companies/{company}/edit/image', 'companiesEditImage');
+        Route::put('/dashboard/companies/update/image', 'companiesUpdateImage');
 
-    // Companies: Edit storage
-    Route::get('/dashboard/companies/{company}/edit/storage', 'companiesEditStorage');
-    Route::put('/dashboard/companies/update/storage', 'companiesUpdateStorage');
+        // Companies: Edit storage
+        Route::get('/dashboard/companies/{company}/edit/storage', 'companiesEditStorage');
+        Route::put('/dashboard/companies/update/storage', 'companiesUpdateStorage');
 
-    // Companies: Edit general
-    Route::get('/dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
-    Route::put('/dashboard/companies/update/general', 'companiesUpdateGeneral');
+        // Companies: Edit general
+        Route::get('/dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
+        Route::put('/dashboard/companies/update/general', 'companiesUpdateGeneral');
 
-    // Companies: Show single company
-    Route::get('/dashboard/companies/{company}', 'companiesShow');
+        // Companies: Show single company
+        Route::get('/dashboard/companies/{company}', 'companiesShow');
 
 });
 
