@@ -205,6 +205,9 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
         Route::get('/dashboard/categories/{category}/edit/text', 'categoriesEditText');
         Route::put('/dashboard/categories/update/text', 'categoriesUpdateText');
 
+        // Categories: Show single category
+        Route::get('/dashboard/categories/{category}', 'categoriesShow');
+
 
 
     // DASHBOARD: INDUSTRIES

@@ -18,7 +18,12 @@ class Category extends Model
 
     // Relationship to article
     public function articles(){
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->hasMany(Article::class, 'category_id');
+    }
+
+    // Relationship to companies
+    public function companies(){
+        return $this->hasMany(Company::class, 'category_ids');
     }
 
     // Find unique hex for articles

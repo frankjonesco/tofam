@@ -20,7 +20,12 @@ class Company extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relationship to ind
+    // Relationship to categories
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'category_ids');
+    }
+
+    // Relationship to industries
     public function industries(){
         return $this->belongsToMany(Industry::class, 'industry_ids');
     }

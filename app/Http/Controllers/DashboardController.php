@@ -136,6 +136,15 @@ class DashboardController extends Controller
         ]);
     }
 
+    // CATEGORIES: SHOW
+    public function categoriesShow(Category $category){
+
+        
+            return view('dashboard.categories.show', [
+                'category' => $category,
+            ]);
+    }
+
     // CATEGORIES: CREATE
     public function categoriesCreate(){
         return view('dashboard.categories.create');
