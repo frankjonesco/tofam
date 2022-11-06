@@ -39,6 +39,8 @@ Route::controller(SiteController::class)->group(function(){
     Route::get('/contact', 'showContact');
 });
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Routes for CompanyController
@@ -58,6 +60,8 @@ Route::controller(CompanyController::class)->group(function(){
     Route::get('/companies/{company}/{slug}', 'show');
 });
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Routes for ArticleController
@@ -66,8 +70,35 @@ Route::controller(CompanyController::class)->group(function(){
 
 // Auth routes for ArticleController
 Route::controller(ArticleController::class)->middleware('auth')->group(function() {
+    // Admin: Show all
+    Route::get('/dashboard/articles', 'adminIndex');
 
+    // Admin: Show logged in user's articles
+    Route::get('/dashboard/articles/mine', 'mine');
+
+    // Admin: Create new article
+    Route::get('/dashboard/articles/create', 'create');
+
+    // Admin: Store new article
+    Route::post('/dashboard/articles/store', 'store');
+
+    // Admin: Edit publishing
+    Route::get('/dashboard/articles/{article}/edit/publishing', 'editPublishing');
+    Route::put('/dashboard/articles/update/publishing', 'updatePublishing');
+
+    // Admin: Edit image
+    Route::get('/dashboard/articles/{article}/edit/image', 'editImage');
+    Route::put('/dashboard/articles/update/image', 'updateImage');
+
+    // Admin: Edit storage
+    Route::get('/dashboard/articles/{article}/edit/storage', 'editStorage');
+    Route::put('/dashboard/articles/update/storage', 'updateStorage');
+
+    // Admin: Edit text
+    Route::get('/dashboard/articles/{article}/edit/text', 'editText');
+    Route::put('/dashboard/articles/update/text', 'updateText');
 });
+
 
 // Public routes for ArticleController
 Route::controller(ArticleController::class)->group(function(){
@@ -80,6 +111,8 @@ Route::controller(ArticleController::class)->group(function(){
     Route::get('/articles/{article}/{slug}', 'show');
     Route::get('/articles/{article}', 'show');
 });
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +132,8 @@ Route::controller(CategoryController::class)->group(function(){
     Route::get('/categories', 'index')->name('categories');
     Route::get('/categories/{category:slug}', 'show');
 });
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +165,8 @@ Route::controller(UserController::class)->middleware('guest')->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::get('/users', 'index');
 });
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -237,33 +274,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // DASHBOARD: ARTICLES
 
-        // Articles: Show all
-        Route::get('/dashboard/articles', 'articlesIndex');
-
-        // Articles: Show logged in user's articles
-        Route::get('/dashboard/articles/mine', 'articlesMine');
-
-        // Articles: Create new article
-        Route::get('/dashboard/articles/create', 'articlesCreate');
-
-        // Articles: Store new article
-        Route::post('/dashboard/articles/store', 'articlesStore');
-
-        // Articles: Edit publishing
-        Route::get('/dashboard/articles/{article}/edit/publishing', 'articlesEditPublishing');
-        Route::put('/dashboard/articles/update/publishing', 'articlesUpdatePublishing');
-
-        // Articles: Edit image
-        Route::get('/dashboard/articles/{article}/edit/image', 'articlesEditImage');
-        Route::put('/dashboard/articles/update/image', 'articlesUpdateImage');
-
-        // Articles: Edit storage
-        Route::get('/dashboard/articles/{article}/edit/storage', 'articlesEditStorage');
-        Route::put('/dashboard/articles/update/storage', 'articlesUpdateStorage');
-
-        // Articles: Edit text
-        Route::get('/dashboard/articles/{article}/edit/text', 'articlesEditText');
-        Route::put('/dashboard/articles/update/text', 'articlesUpdateText');
+        
 
     
 
