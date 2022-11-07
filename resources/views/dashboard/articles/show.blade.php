@@ -1,5 +1,4 @@
-<x-layout>
-    <x-card>
+<x-admin-card>
 
         {{-- Buttons bar --}}
         <x-buttons-bar>
@@ -62,8 +61,7 @@
 
         
 
-    </x-card>
-</x-layout>
+</x-admin-card>
 
 
 

@@ -1,6 +1,4 @@
-<x-layout>
-    <x-card>
-
+<x-admin-card>
         {{-- Buttons bar --}}
         <x-buttons-bar>
             <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
@@ -37,7 +35,7 @@
                     
                     {{-- Article tags --}}
                     <x-article-tags :tags="$article->tags" />
-                        
+
 
                     <div class="d-flex justify-content-between">
                         <p>{{$article->user->full_name}}</p>
