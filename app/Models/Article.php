@@ -235,14 +235,13 @@ class Article extends Model
 
     // Check user is article owner
     public function userIsOwner($article){
-        if($article->user_id == auth()->id()){
+        if($article->user_id == auth()->user()->id){
             return true;
         }
         return false;
     }
 
     public function checkOwnerDeleteOrDie($article){
-        // dd(self::userIsOwner($article));
         if(self::userIsOwner($article)){
             $article->delete();
             return true;

@@ -19,4 +19,9 @@
     <a class="btn btn-primary btn-sm" href="/dashboard/articles/{{$article->hex}}/edit/publishing">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>
+
+    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteArticleModal">
+        <i class="fa-solid fa-trash"></i> Delete
+    </button>
+    <x-popup-modal :article="$article" />
 </x-buttons-bar>

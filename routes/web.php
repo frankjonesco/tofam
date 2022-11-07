@@ -97,6 +97,9 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
     // Admin: Edit text
     Route::get('/dashboard/articles/{article}/edit/text', 'editText');
     Route::put('/dashboard/articles/update/text', 'updateText');
+
+    // Admin: Delete article
+    Route::DELETE('/dashboard/articles/{article}/delete', 'destroy');
 });
 
 

@@ -1,6 +1,8 @@
 <x-admin-card>
+    <x-static-message />
         <h1>Article Library</h1>
 
+            
             @include('partials._search')
 
             @foreach($articles as $article)

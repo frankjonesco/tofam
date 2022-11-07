@@ -119,33 +119,8 @@ class ArticleController extends Controller
 
 
 
-    // UPDATE ARTICLE
-    public function update(Request $request, Article $article){
-        // Validate form fields 
-        $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'image' => 'image|mimes:jpeg,jpg,png,gif,svg|max:2048',
-            'tags' => 'regex:/^[a-zA-Z0-9 ,]+$/',
-            'status' => 'required',
-        ],
-        [
-            'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\''
-        ]);
-        // Save changes to this article
-        $article->saveArticle($request, $article);
-        return redirect('articles/'.$article->hex.'/'.$article->slug)->with('message', 'Article updated!');
-    }
 
-
-    // DELETE ARTICLE
-    public function destroy(Article $article){
-        // Delete article if logged in user is the owner
-        if($article->checkOwnerDeleteOrDie($article)){
-            return redirect('articles')->with('message', 'Article deleted!');
-        }
-        return redirect('articles/'.$article->hex.'/'.$article->slug)->with('staticError', 'You do not have permission to delete this article.');
-    }
+    
 
 
 
@@ -261,6 +236,16 @@ class ArticleController extends Controller
         $article->save();
 
         return redirect('dashboard/articles/'.$article->hex.'/edit/publishing')->with('message', 'Aricle publishing updated!');
+    }
+
+    // ARTICLES: DELETE
+    public function destroy(Article $article){
+
+        // Delete article if logged in user is the owner
+        if($article->checkOwnerDeleteOrDie($article)){
+            return redirect('dashboard/articles')->with('message', 'Article deleted!');
+        }
+        return redirect('dashboard/articles/'.$article->hex.'/'.$article->slug)->with('staticError', 'You do not have permission to delete this article.');
     }
 
 
