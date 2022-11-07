@@ -4,7 +4,7 @@
 
         <h1>Edit article</h1>
         <div class="w-100 justify-content-center">
-            <form action="/dashboard/articles/{{$article->hex}}/update" method="POST" enctype="multipart/form-data" class="w-50">
+            <form action="/dashboard/articles/update/publishing" method="POST" class="w-50">
                 @csrf
                 @method('PUT')
 

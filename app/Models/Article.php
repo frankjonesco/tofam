@@ -57,6 +57,13 @@ class Article extends Model
         return $articles;
     }
 
+    public function getArticle($hex){
+        if($hex){
+            return Article::where('hex', $hex)->first();
+        }
+        return false;
+    }
+
     
 
     // Accessor for retrieving and formatting 'created_at'
@@ -140,39 +147,89 @@ class Article extends Model
         return $site->uniqueHex('articles');
     }
 
-    // Compile category data
-    public function compileArticleData($request, $article = null){
+    // Compile article data
+    public function compileArticleCreationData($request, $article = null){
         $site = new Site();
-        $article = empty($article) ? new Article() : $article;
-        $article->hex = ($article->hex) ? $article->hex : self::uniqueHex($site);    
+        $article = new Article();
+        $article->hex = self::uniqueHex($site);    
         $article->user_id = auth()->id();
-        $article->category_id = ($request->category) ? $request->category : null;
         $article->title = $request->title;
         $article->slug = Str::slug($request->title);
         $article->caption = $request->caption;
         $article->teaser = $request->teaser;
         $article->body = $request->body;
-        $article->tags = trim(strtolower(str_replace('  ', '', str_replace(', ', ',', str_replace(' ,', ',', $request->tags)))));   
-        $article->status = $request->status;   
+        $article->tags = self::formatTags($request->tags);   
+        $article->status = 'private';   
+        return $article;
+    }
 
-        $article->image = $article->image;
+    // Compile category text data
+    public function compileArticleTextData($request){        
+        $article = self::getArticle($request->hex);
+        $article->title = $request->title;
+        $article->slug = Str::slug($request->title);
+        $article->caption = $request->caption;
+        $article->teaser = $request->teaser;
+        $article->body = $request->body;
+        $article->tags = self::formatTags($request->tags); 
+        return $article;
+    }
+
+    // Compile article storage data
+    public function compileArticleStorageData($request){
+        $article = self::getArticle($request->hex);
+        $article->category_id = ($request->category_id) ? $request->category_id : null;
+        return $article;
+    }
+
+    // Compile article image data
+    public function compileArticleImageData($request){
+        $site = new Site();
+        $article = self::getArticle($request->hex); 
         if($request->hasFile('image')){
             $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
         }
+        return $article;
+    }
 
+    // Compile article publishing data
+    public function compileArticlePublishingData($request, $article = null){
+        $article = self::getArticle($request->hex); 
+        $article->status = $request->status;   
         return $article;
     }
 
 
+
+
     // Create article (insert)
     public function createArticle($request){
-        $article = self::compileArticleData($request);
+        $article = self::compileArticleCreationData($request);
         $article->save();
     }
 
-    // Save article (update)
-    public function saveArticle($request, $article){
-        $article = self::compileArticleData($request, $article);
+    // Save article text (update)
+    public function saveArticleText($request){
+        $article = self::compileArticleTextData($request);
+        $article->save();
+    }
+
+    // Save article storage (update)
+    public function saveArticleStorage($request){
+        $article = self::compileArticleStorageData($request);
+        $article->save();
+        return false;
+    }
+
+    // Save article image (update)
+    public function saveArticleImage($request){
+        $article = self::compileArticleImageData($request);
+        $article->save();
+    }
+
+    // Save article publishing (update)
+    public function saveArticlePublishing($request){
+        $article = self::compileArticlePublishingData($request);
         $article->save();
     }
 

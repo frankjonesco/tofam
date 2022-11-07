@@ -195,28 +195,6 @@ class ArticleController extends Controller
         ]);
     }
 
-    // ARTICLES: EDIT STORAGE
-    public function editStorage(Article $article){   
-        return view('dashboard.articles.edit-storage', [
-            'article' => $article,
-            'categories' => Site::publicCategories(),
-        ]);
-    }
-
-    // ARTICLES: EDIT IMAGE
-    public function editImage(Article $article){   
-        return view('dashboard.articles.edit-image', [
-            'article' => $article,
-        ]);
-    }
-
-    // ARTICLES: EDIT PUBLISHING
-    public function editPublishing(Article $article){   
-        return view('dashboard.articles.edit-publishing', [
-            'article' => $article,
-        ]);
-    }
-
     // ARTICLES: UPDATE GENERAL
     public function updateText(Request $request){
         
@@ -229,39 +207,49 @@ class ArticleController extends Controller
             'tags.regex' => 'Only alphanumeric characters and commas are allowed in \'tags\'',
             'tags.nullable' => 'Null'
         ]);
-
-        $article = Article::where('hex', $request->hex)->first();
-
+    
         // Save changes to this article
-        $article->saveArticle($request, $article);
+        $this->article->saveArticleText($request);
 
-        return redirect('dashboard/articles/'.$article->hex.'/edit/text')->with('message', 'Aricle text updated!');
+        return redirect('dashboard/articles/'.$request->hex.'/edit/text')->with('message', 'Aricle text updated!');
+    }
+
+    // ARTICLES: EDIT STORAGE
+    public function editStorage(Article $article){   
+        return view('dashboard.articles.edit-storage', [
+            'article' => $article,
+            'categories' => Site::publicCategories(),
+        ]);
     }
 
     // ARTICLES: UPDATE STORAGE
     public function updateStorage(Request $request){
 
-        $article = Article::where('hex', $request->hex)->first();
-        $article->category_id = $request->category_id;
-        
-        $article->save();
+        $this->article->saveArticleStorage($request);
 
-        return redirect('dashboard/articles/'.$article->hex.'/edit/storage')->with('message', 'Aricle storage updated!');
+        return redirect('dashboard/articles/'.$request->hex.'/edit/storage')->with('message', 'Aricle storage updated!');
+    }
+
+    // ARTICLES: EDIT IMAGE
+    public function editImage(Article $article){   
+        return view('dashboard.articles.edit-image', [
+            'article' => $article,
+        ]);
     }
 
     // ARTICLES: UPDATE IMAGE
     public function updateImage(Request $request){
 
-        $site = new Site();
-        $article = Article::where('hex', $request->hex)->first();
-        
-        if($request->hasFile('image')){
-            $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
-        }
-        
-        $article->save();
+        $this->article->saveArticleImage($request);
 
-        return redirect('dashboard/articles/'.$article->hex.'/edit/image')->with('message', 'Aricle image updated!');
+        return redirect('dashboard/articles/'.$request->hex.'/edit/image')->with('message', 'Aricle image updated!');
+    }
+
+    // ARTICLES: EDIT PUBLISHING
+    public function editPublishing(Article $article){   
+        return view('dashboard.articles.edit-publishing', [
+            'article' => $article,
+        ]);
     }
 
     // ARTICLES: UPDATE PUBLISHING
@@ -272,7 +260,7 @@ class ArticleController extends Controller
         
         $article->save();
 
-        return redirect('dashboard/articles/'.$article->hex.'/edit/status')->with('message', 'Aricle publishing updated!');
+        return redirect('dashboard/articles/'.$article->hex.'/edit/publishing')->with('message', 'Aricle publishing updated!');
     }
 
 
