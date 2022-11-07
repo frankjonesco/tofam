@@ -43,6 +43,8 @@ class Site extends Model
         return User::orderBy('id', 'ASC')->where('blocked', '!=', 1)->orWhereNull('blocked')->get();
     }
 
+    
+    // CATEGORIES
 
     // Get public categories
     public static function allCategories(){
@@ -59,6 +61,26 @@ class Site extends Model
         return Category::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get();
     }
 
+
+    // INDUSTRIES
+
+    // Get public industries
+    public static function allIndustries(){
+        return Industry::orderBy('name', 'ASC')->paginate(8);
+    }
+
+    // Get public industries
+    public static function publicIndustries(){
+        return Industry::where('status', 'public')->orderBy('name', 'ASC')->get();
+    }
+
+    // Get public industries
+    public static function MyIndustries(){
+        return Industry::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->paginate(8);
+    }
+
+
+    // ARTICLES
 
     // Get all articles with exploaded tags
     public static function allArticles(){

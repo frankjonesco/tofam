@@ -46,7 +46,8 @@ class IndustrySeeder extends Seeder
                     'slug' => Str::slug($old_industry->name),
                     'color_id' => $site->randomColor(\App\Models\Config::where('id', 1)->first()->color_swatch_id),
                     'created_at' => date('Y-m-d H:i:s', $old_industry->created),
-                    'updated_at' => date('Y-m-d H:i:s', $old_industry->updated)
+                    'updated_at' => date('Y-m-d H:i:s', $old_industry->updated),
+                    'status' => 'public'
                 ];
             }
         }

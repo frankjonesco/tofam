@@ -146,21 +146,6 @@ class CategoryController extends Controller
         return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'Category text updated!');
     }
 
-    // CATEGORIES: UPDATE IMAGE
-    public function updateImage(Request $request){
-
-        $site = new Site();
-        $category = Category::where('hex', $request->hex)->first();
-        
-        if($request->hasFile('image')){
-            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
-        }
-        
-        $category->save();
-
-        return redirect('dashboard/categories/'.$category->hex.'/edit/image')->with('message', 'Category image updated!');
-    }
-
     // CATEGORIES: EDIT IMAGE
     public function editImage(Category $category){   
         return view('dashboard.categories.edit-image', [
@@ -168,13 +153,18 @@ class CategoryController extends Controller
         ]);
     }
 
-    // CATEGORIES: UPDATE PUBLISHING
-    public function updatePublishing(Request $request){
+    // CATEGORIES: UPDATE IMAGE
+    public function updateImage(Request $request, Category $category){
 
-        $category = Category::where('hex', $request->hex)->first();
-        $category->status = $request->status;
-        
-        $category->save();
+        $category = $category->saveImage($request);
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/image')->with('message', 'Category image updated!');
+    }
+
+    // CATEGORIES: UPDATE PUBLISHING
+    public function updatePublishing(Request $request, Category $category){
+
+        $category = $category->savePublishing($request);
 
         return redirect('dashboard/categories/'.$category->hex.'/edit/publishing')->with('message', 'Category publishing updated!');
     }

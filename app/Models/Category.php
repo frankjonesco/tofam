@@ -58,50 +58,6 @@ class Category extends Model
     }
 
 
-
-    // DATA HANDLERS
-
-    // Compile category data
-    public function compileCreationData($request){
-        $site = new Site();
-        $category = new Category();
-        $category->hex = self::uniqueHex($site);
-        $category->user_id = auth()->user()->id;
-        $category->name = ucfirst($request->name);
-        $category->slug = Str::slug($request->name);
-        $category->description = $request->description;
-        $category->color = $site->randomColor();
-        $category->status = 'private';
-        return $category;
-    }
-
-     // Compile category text data
-     public function compileTextData($request){        
-        $category = self::get($request->hex);
-        $category->name = ucfirst($request->name);
-        $category->slug = Str::slug($request->name);
-        $category->description = $request->description;
-        return $category;
-    }
-
-    // Compile category image data
-    public function compileImageData($request){
-        $site = new Site();
-        $category = self::get($request->hex); 
-        if($request->hasFile('image')){
-            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
-        }
-        return $category;
-    }
-
-    // Compile category publishing data
-    public function compilePublishingData($request, $category = null){
-        $category = self::get($request->hex); 
-        $category->status = $request->status;   
-        return $category;
-    }
-
-
     // DATA HANDLING CALL METHODS
 
     // Create article (insert)
@@ -133,11 +89,46 @@ class Category extends Model
     }
 
 
-    
+    // DATA HANDLERS
 
+    // Compile category data
+    public function compileCreationData($request){
+        $site = new Site();
+        $category = new Category();
+        $category->hex = self::uniqueHex($site);
+        $category->user_id = auth()->user()->id;
+        $category->name = ucfirst($request->name);
+        $category->slug = Str::slug($request->name);
+        $category->description = $request->description;
+        $category->color_id = $site->randomColor();
+        $category->status = 'private';
+        return $category;
+    }
 
+     // Compile category text data
+     public function compileTextData($request){        
+        $category = self::get($request->hex);
+        $category->name = ucfirst($request->name);
+        $category->slug = Str::slug($request->name);
+        $category->description = $request->description;
+        return $category;
+    }
 
+    // Compile category image data
+    public function compileImageData($request){
+        $site = new Site();
+        $category = self::get($request->hex); 
+        if($request->hasFile('image')){
+            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
+        }
+        return $category;
+    }
 
+    // Compile category publishing data
+    public function compilePublishingData($request, $category = null){
+        $category = self::get($request->hex); 
+        $category->status = $request->status;   
+        return $category;
+    }
 
-    
 }

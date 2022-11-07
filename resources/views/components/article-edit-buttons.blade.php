@@ -1,7 +1,7 @@
 {{-- Buttons bar --}}
 <x-buttons-bar>
-    <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
-        <i class="fa-solid fa-arrow-left"></i> Back
+    <a class="btn btn-primary btn-sm" href="/dashboard/articles">
+        <i class="fa-solid fa-arrow-left"></i> Library
     </a>
 
     <a class="btn btn-info btn-sm" href="/dashboard/articles/{{$article->hex}}">

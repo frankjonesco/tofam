@@ -35,7 +35,7 @@ class CategorySeeder extends Seeder
                 'slug' => Str::slug($row->name),
                 'description' => null,
                 'image' => $row->image,
-                'color' => $row->color,
+                'color_id' => $row->color,
                 'created_at' => date('Y-m-d H:i:s', $row->created),
                 'status' => 'public'
             ];

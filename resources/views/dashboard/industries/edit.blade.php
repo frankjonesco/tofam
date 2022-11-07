@@ -50,6 +50,19 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
+                {{-- Industry status --}}
+                <label for="status">Status</label>
+                <select 
+                    name="status" 
+                    class="form-select mb-3"
+                >
+                    <option value="private" {{(old('status') || $industry->status) == 'private' ? 'selected' : null}}>Private</option>
+                    <option value="public" {{(old('status') || $industry->status) == 'public' ? 'selected' : null}}>Public</option>
+                </select>
+                @error('status')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
+
                 <button type="submit" class="btn btn-success btn-sm">
                     <i class="fa-regular fa-floppy-disk"></i> Save changes
                 </button>

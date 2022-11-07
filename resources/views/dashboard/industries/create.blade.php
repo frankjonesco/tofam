@@ -35,7 +35,7 @@
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 
-                {{-- Category description --}}
+                {{-- Industry description --}}
                 <label for="description">Description</label>
                 <textarea 
                     name="description"
@@ -44,6 +44,19 @@
                     placeholder="Description"
                 >{{old('description')}}</textarea>
                 @error('description')
+                    <p class="text-danger">{{$message}}</p>
+                @enderror
+
+                {{-- Industry status --}}
+                <label for="status">Status</label>
+                <select 
+                    name="status" 
+                    class="form-select mb-3"
+                >
+                    <option value="private" {{old('status') == 'private' ? 'selected' : null}}>Private</option>
+                    <option value="public" {{old('status') == 'public' ? 'selected' : null}}>Public</option>
+                </select>
+                @error('status')
                     <p class="text-danger">{{$message}}</p>
                 @enderror
 

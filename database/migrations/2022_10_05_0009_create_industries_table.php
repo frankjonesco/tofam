@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('color_id')->nullable();
             $table->timestamps();
+            $table->string('status');
         });
     }
 

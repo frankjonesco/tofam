@@ -6,6 +6,8 @@
                     <x-industry-card :industry="$industry" />
                 </div>
             @endforeach
+
+            {{ $industries->links() }}
         </div>
     </div>
 </x-admin-card>

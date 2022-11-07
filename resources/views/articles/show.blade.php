@@ -171,7 +171,7 @@
             
         @else
             <p>There are no articles to display.</p>
-        @endif
+    
 
 
     </x-card>

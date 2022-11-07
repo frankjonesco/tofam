@@ -1,4 +1,5 @@
 <x-admin-card>
+    {{-- Article edit buttons --}}
     <x-article-edit-buttons :article="$article"/>
 
     {{-- Static message --}}
@@ -21,10 +22,8 @@
                 <h3>{{$article->caption}}</h3>
                 <h5>{{$article->teaser}}</h5>
 
-                
                 {{-- Article tags --}}
                 <x-article-tags :tags="$article->tags" />
-                    
 
                 <div class="d-flex justify-content-between">
                     <p>{{$article->user->full_name}}</p>
@@ -35,12 +34,6 @@
 
                 <p>Views: {{$article->views}}</p>
                 <p>Likes: <span id="likeCount">{{$article->likes}}</span></p>
-
-                
-                
-
-                    
-                
 
             </div>
         </div>

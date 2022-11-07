@@ -6,8 +6,8 @@
                 <i class="fa-solid fa-arrow-left"></i> Back
             </a>
             @auth
-                <a class="btn btn-success btn-sm" href="/dashboard/categories/{{$category->hex}}/edit">
-                    <i class="fa-solid fa-pencil"></i> Edit category
+                <a class="btn btn-success btn-sm" href="/dashboard/categories/{{$category->hex}}">
+                    <i class="fa-solid fa-dashboard"></i> View in dashboard
                 </a>  
                 
             @endauth

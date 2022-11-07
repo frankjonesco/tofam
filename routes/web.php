@@ -10,6 +10,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -181,6 +182,35 @@ Route::controller(CategoryController::class)->group(function(){
 
 /*
 |--------------------------------------------------------------------------
+| Routes for IndustryController
+|--------------------------------------------------------------------------
+*/
+
+// Auth routes for IndustryController
+Route::controller(IndustryController::class)->middleware('auth')->group(function(){
+    // Admin: Show all
+    Route::get('/dashboard/industries', 'adminIndex');
+
+    // Admin: Show logged in user's industries
+    Route::get('/dashboard/industries/mine', 'mine');
+
+    // Admin: Create new industry
+    Route::get('/dashboard/industries/create', 'create');
+
+    // Admin: Store new industry
+    Route::post('/dashboard/industries/store', 'store');  
+    
+    // Admin: Store new industry
+    Route::get('/dashboard/industries/{industry}/edit', 'edit'); 
+    
+    // Admin: Store new industry
+    Route::PUT('/dashboard/industries/update', 'update'); 
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
 | Routes for UserController
 |--------------------------------------------------------------------------
 */
@@ -259,35 +289,8 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // DASHBOARD: CATEGORES
 
-        
-
-
-
     // DASHBOARD: INDUSTRIES
-
-        // Industries: Show all
-        Route::get('/dashboard/industries', 'industriesIndex');
-
-        // Industries: Show logged in user's industries
-        Route::get('/dashboard/industries/mine', 'industriesMine');
-
-        // Industries: Create new industry
-        Route::get('/dashboard/industries/create', 'industriesCreate');
-
-        // Industries: Store new industry
-        Route::post('/dashboard/industries/store', 'industriesStore'); 
-
-        // Industries: Edit
-        Route::get('/dashboard/industries/{industry}/edit', 'industriesEdit');
-
-        // Industries: Update
-        Route::put('/dashboard/industries/update', 'industriesUpdate');
-
-        // Industries: Show single category
-        Route::get('/dashboard/industries/{industry}', 'industriesShow');
-
-
-
+    
     // DASHBOARD: ARTICLES
 
         
