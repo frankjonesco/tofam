@@ -19,7 +19,7 @@
         @if(Session::has('searchTerm') && Route::currentRouteName())
             <p>Showing {{$count}} articles for search term '{{Session::get('searchTerm')}}'</p>
 
-        @elseif($articles->show_tag_results)
+        @elseif(isset($articles->show_tag_results) && $articles->show_tag_results === true)
             <p>Showing {{$count}} articles with tag '{{$tag}}'</p>
         @endif
 

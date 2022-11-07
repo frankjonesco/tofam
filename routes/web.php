@@ -105,14 +105,24 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
 
 // Public routes for ArticleController
 Route::controller(ArticleController::class)->group(function(){
+    // Public: View all articles
     Route::get('/articles', 'index');
+
+    // Public: View articles with tag
     Route::get('/articles/tags/{term}', 'tags')->name('articlesSearchTagsRetrieve');
+
+    // Public: Search and retrieve article with search term
     Route::get('/articles/search/{term}', 'searchRetrieve')->name('articlesSearchRetrieve');
     Route::post('/articles/search', 'search');
+
+    // Public: Save article like & dislike
     Route::post('/articles/like', 'like');
     Route::post('/articles/unlike', 'unlike');
-    Route::get('/articles/{article}/{slug}', 'show');
+
+    // Public: Show single article
     Route::get('/articles/{article}', 'show');
+    Route::get('/articles/{article}/{slug}', 'show');
+    
 });
 
 

@@ -34,16 +34,10 @@
                     <h3>{{$article->caption}}</h3>
                     <h5>{{$article->teaser}}</h5>
 
+                    
                     {{-- Article tags --}}
-                    @if($article->tags && is_array($article->tags))
-                        <div class="mt-1 mb-3">
-                            @foreach($article->tags as $tag)
-                                <a href="/tags/{{$tag}}" style="text-decoration:none;">
-                                    <span class="badge bg-primary">{{$tag}}</span>
-                                </a>
-                            @endforeach
-                        </div>
-                    @endif
+                    <x-article-tags :tags="$article->tags" />
+                        
 
                     <div class="d-flex justify-content-between">
                         <p>{{$article->user->full_name}}</p>

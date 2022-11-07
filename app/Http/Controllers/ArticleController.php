@@ -63,11 +63,13 @@ class ArticleController extends Controller
     }
 
     // SHOW SINGLE ARTICLE
-    public function show(Article $article, $slug = null, Site $site){
+    public function show(Article $article, Site $site){
         // Increment the number of views
         $article->addView($article);
+        
         // Explode this article's tags to an array
-        $article->tagsToArrayFromOne($article->tags);
+        $article->tags = $article->tagsToArrayFromOne($article->tags);
+
         // Return 0 if article->like is NULL
         $article->likes = $article->likes ?? 0;
         // Load the view
