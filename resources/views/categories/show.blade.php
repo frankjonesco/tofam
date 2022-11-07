@@ -9,10 +9,7 @@
                 <a class="btn btn-success btn-sm" href="/dashboard/categories/{{$category->hex}}/edit">
                     <i class="fa-solid fa-pencil"></i> Edit category
                 </a>  
-                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal">
-                    <i class="fa-solid fa-trash"></i> Delete
-                </button>
-                <x-popup-modal :category="$category" />
+                
             @endauth
         </x-buttons-bar>
         <h1>Category: {{$category->name}}</h1>
@@ -25,7 +22,6 @@
                     @endforeach
                 </div>
             </div>
-            {{ $articles->links() }}
         @else
             <p>There are no articles to display.</p>
         @endif

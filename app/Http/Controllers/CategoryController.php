@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
 
     private $site;
@@ -30,21 +31,21 @@ class CategoryController extends BaseController
 
     // SHOW SINGLE CATEGORY
     public function show(Category $category){
-        return view('companies.index', [
+        return view('categories.show', [
             'category' => $category,
-            'companies' => $category->getCompanies($category)
+            'articles' => $category->publicArticles()
         ]);
     }
 
 
     // SHOW CREATE ARTICLE FORM
-    public function create(){
+    public function createOld(){
         return view('dashboard.categories.create');
     }
 
 
     // STORE CATEGORY
-    public function store(Request $request, Category $category){
+    public function storeOld(Request $request, Category $category){
         // Validate form fields
         $request->validate([
             'name' => 'required',
@@ -59,7 +60,7 @@ class CategoryController extends BaseController
 
 
     // SHOW CATEGORY EDIT FORM
-    public function edit(Category $category){
+    public function editOld(Category $category){
         return view('dashboard.categories.edit', [
             'category' => $category
         ]);
@@ -67,7 +68,7 @@ class CategoryController extends BaseController
 
 
     // UPDATE CATEGORY
-    public function update(Request $request, Category $category){
+    public function updateOld(Request $request, Category $category){
         // Validate form fields
        $request->validate([
             'name' => 'required',
@@ -80,6 +81,110 @@ class CategoryController extends BaseController
         return redirect('categories')->with('message', 'Category updated!');
     }
 
+
+    
+
+
+
+
+
+    // CATEGORIES: INDEX
+    public function adminIndex(){
+        return view('dashboard.categories.index', [
+            'categories' => Site::allCategories()
+        ]);
+    }
+
+    // CATEGORIES: MINE
+    public function mine(){
+        return view('dashboard.categories.index', [
+            'categories' => Site::myCategories()
+        ]);
+    }
+
+    // CATEGORIES: SHOW
+    public function adminShow(Category $category){
+        return view('dashboard.categories.show', [
+            'category' => $category,
+        ]);
+    }
+
+    // CATEGORIES: CREATE
+    public function create(){
+        return view('dashboard.categories.create');
+    }
+
+    // CATEGORIES: STORE
+    public function store(Request $request, Category $category){
+
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $category = $category->createCategory($request);
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'New category created!');
+    }
+
+    // CATEGORIES: EDIT TEXT
+    public function editText(Category $category){
+        return view('dashboard.categories.edit-text', [
+            'category' => $category
+        ]);
+    }
+
+    // CATEGORIES: UPDATE TEXT
+    public function updateText(Request $request, Category $category){
+        
+        // Validate form fields 
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $category = $category->saveText($request);
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'Category text updated!');
+    }
+
+    // CATEGORIES: UPDATE IMAGE
+    public function updateImage(Request $request){
+
+        $site = new Site();
+        $category = Category::where('hex', $request->hex)->first();
+        
+        if($request->hasFile('image')){
+            $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
+        }
+        
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/image')->with('message', 'Category image updated!');
+    }
+
+    // CATEGORIES: EDIT IMAGE
+    public function editImage(Category $category){   
+        return view('dashboard.categories.edit-image', [
+            'category' => $category,
+        ]);
+    }
+
+    // CATEGORIES: UPDATE PUBLISHING
+    public function updatePublishing(Request $request){
+
+        $category = Category::where('hex', $request->hex)->first();
+        $category->status = $request->status;
+        
+        $category->save();
+
+        return redirect('dashboard/categories/'.$category->hex.'/edit/publishing')->with('message', 'Category publishing updated!');
+    }
+
+    // CATEGORIES: EDIT PUBLISHING
+    public function editPublishing(Category $category){   
+        return view('dashboard.categories.edit-publishing', [
+            'category' => $category,
+        ]);
+    }
 
     // DELETE CATEGORY
     public function destroy(Category $category){

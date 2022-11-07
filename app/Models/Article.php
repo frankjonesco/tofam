@@ -65,6 +65,7 @@ class Article extends Model
         return $articles;
     }
 
+    // Get single article by hex
     public function get($hex){
         if($hex){
             return Article::where('hex', $hex)->first();
@@ -74,7 +75,7 @@ class Article extends Model
 
     
 
-    // Accessor for retrieving and formatting 'created_at'
+    // Get article image thumbnail (if available)
     public function getThumbnail($article){
         if($article->image){
             $path = public_path('images/articles/'.$article->hex);
@@ -172,38 +173,7 @@ class Article extends Model
     }
 
 
-    // DATA HANDLING CALL METHODS
-
-    // Create article (insert)
-    public function createArticle($request){
-        $article = self::compileArticleCreationData($request);
-        $article->save();
-    }
-
-    // Save article text (update)
-    public function saveArticleText($request){
-        $article = self::compileArticleTextData($request);
-        $article->save();
-    }
-
-    // Save article storage (update)
-    public function saveArticleStorage($request){
-        $article = self::compileArticleStorageData($request);
-        $article->save();
-        return false;
-    }
-
-    // Save article image (update)
-    public function saveArticleImage($request){
-        $article = self::compileArticleImageData($request);
-        $article->save();
-    }
-
-    // Save article publishing (update)
-    public function saveArticlePublishing($request){
-        $article = self::compileArticlePublishingData($request);
-        $article->save();
-    }
+    // BOOLEAN CHECKERS
 
     // Check user is article owner
     public function userIsOwner($article){
@@ -223,10 +193,44 @@ class Article extends Model
     }
 
 
+    // DATA HANDLING CALL METHODS
+
+    // Create article (insert)
+    public function createArticle($request){
+        $article = self::compileArticleCreationData($request);
+        $article->save();
+    }
+
+    // Save article text (update)
+    public function saveText($request){
+        $article = self::compileArticleTextData($request);
+        $article->save();
+    }
+
+    // Save article storage (update)
+    public function saveStorage($request){
+        $article = self::compileStorageData($request);
+        $article->save();
+        return false;
+    }
+
+    // Save article image (update)
+    public function saveImage($request){
+        $article = self::compileImageData($request);
+        $article->save();
+    }
+
+    // Save article publishing (update)
+    public function savePublishing($request){
+        $article = self::compilePublishingData($request);
+        $article->save();
+    }
+
+
     // DATA HANDLERS
 
     // Compile article data
-    public function compileArticleCreationData($request, $article = null){
+    public function compileCreationData($request, $article = null){
         $site = new Site();
         $article = new Article();
         $article->hex = self::uniqueHex($site);    
@@ -242,7 +246,7 @@ class Article extends Model
     }
 
     // Compile category text data
-    public function compileArticleTextData($request){        
+    public function compileTextData($request){        
         $article = self::get($request->hex);
         $article->title = $request->title;
         $article->slug = Str::slug($request->title);
@@ -254,14 +258,14 @@ class Article extends Model
     }
 
     // Compile article storage data
-    public function compileArticleStorageData($request){
+    public function compileStorageData($request){
         $article = self::get($request->hex);
         $article->category_id = ($request->category_id) ? $request->category_id : null;
         return $article;
     }
 
     // Compile article image data
-    public function compileArticleImageData($request){
+    public function compileImageData($request){
         $site = new Site();
         $article = self::get($request->hex); 
         if($request->hasFile('image')){
@@ -271,7 +275,7 @@ class Article extends Model
     }
 
     // Compile article publishing data
-    public function compileArticlePublishingData($request, $article = null){
+    public function compilePublishingData($request, $article = null){
         $article = self::get($request->hex); 
         $article->status = $request->status;   
         return $article;

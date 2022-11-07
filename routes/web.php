@@ -139,34 +139,34 @@ Route::controller(ArticleController::class)->group(function(){
 // Auth routes for CategoryController
 Route::controller(CategoryController::class)->middleware('auth')->group(function(){
     // Admin: Show all
-    Route::get('/dashboard/categories', 'categoriesIndex');
+    Route::get('/dashboard/categories', 'adminIndex');
 
     // Admin: Show logged in user's categories
-    Route::get('/dashboard/categories/mine', 'categoriesMine');
+    Route::get('/dashboard/categories/mine', 'mine');
 
     // Admin: Create new category
-    Route::get('/dashboard/categories/create', 'categoriesCreate');
+    Route::get('/dashboard/categories/create', 'create');
 
     // Admin: Store new category
-    Route::post('/dashboard/categories/store', 'categoriesStore');        
+    Route::post('/dashboard/categories/store', 'store');        
 
     // Admin: Edit publishing
-    Route::get('/dashboard/categories/{category}/edit/publishing', 'categoriesEditPublishing');
-    Route::put('/dashboard/categories/update/publishing', 'categoriesUpdatePublishing');
+    Route::get('/dashboard/categories/{category}/edit/publishing', 'editPublishing');
+    Route::put('/dashboard/categories/update/publishing', 'updatePublishing');
 
     // Admin: Edit image
-    Route::get('/dashboard/categories/{category}/edit/image', 'categoriesEditImage');
-    Route::put('/dashboard/categories/update/image', 'categoriesUpdateImage');
-
-    // Admin: Delete
-    Route::delete('/dashboard/categories/{category}/delete', 'categoryDestroy');
+    Route::get('/dashboard/categories/{category}/edit/image', 'editImage');
+    Route::put('/dashboard/categories/update/image', 'updateImage');
 
     // Admin: Edit text
-    Route::get('/dashboard/categories/{category}/edit/text', 'categoriesEditText');
-    Route::put('/dashboard/categories/update/text', 'categoriesUpdateText');
+    Route::get('/dashboard/categories/{category}/edit/text', 'editText');
+    Route::put('/dashboard/categories/update/text', 'updateText');
+
+    // Admin: Delete
+    Route::delete('/dashboard/categories/{category}/delete', 'destroy');
 
     // Admin: Show single category
-    Route::get('/dashboard/categories/{category}', 'categoriesShow');
+    Route::get('/dashboard/categories/{category}', 'adminShow');
 });
 
 // Public routes for CategoryController

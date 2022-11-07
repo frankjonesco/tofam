@@ -1,6 +1,6 @@
 {{-- Buttons bar --}}
 <x-buttons-bar>
-    <a class="btn btn-primary btn-sm" href="{{url()->previous()}}">
+    <a class="btn btn-primary btn-sm" href="/dashboard/categories">
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
 
@@ -15,4 +15,10 @@
     <a class="btn btn-primary btn-sm" href="/dashboard/categories/{{$category->hex}}/edit/publishing">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>
+
+    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal">
+        <i class="fa-solid fa-trash"></i> Delete
+    </button>
+    <x-popup-modal :category="$category" />
+    
 </x-buttons-bar>

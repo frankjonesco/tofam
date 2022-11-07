@@ -4,6 +4,10 @@
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
 
+    <a class="btn btn-info btn-sm" href="/dashboard/articles/{{$article->hex}}">
+        <i class="fa-solid fa-eye"></i> View
+    </a>
+
     <a class="btn btn-success btn-sm" href="/dashboard/articles/{{$article->hex}}/edit/text">
         <i class="fa-solid fa-list"></i> Edit general
     </a>

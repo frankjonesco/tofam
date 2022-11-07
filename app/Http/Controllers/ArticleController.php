@@ -132,7 +132,7 @@ class ArticleController extends Controller
     // ARTICLES: MINE
     public function mine(){
         return view('dashboard.articles.mine', [
-            'articles' => Article::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get(),
+            'articles' => $this->site->myArticles(),
         ]);
     }
 
@@ -189,7 +189,7 @@ class ArticleController extends Controller
         ]);
     
         // Save changes to this article
-        $this->article->saveArticleText($request);
+        $this->article->saveText($request);
 
         return redirect('dashboard/articles/'.$request->hex.'/edit/text')->with('message', 'Aricle text updated!');
     }
@@ -205,7 +205,7 @@ class ArticleController extends Controller
     // ARTICLES: UPDATE STORAGE
     public function updateStorage(Request $request){
 
-        $this->article->saveArticleStorage($request);
+        $this->article->saveStorage($request);
 
         return redirect('dashboard/articles/'.$request->hex.'/edit/storage')->with('message', 'Aricle storage updated!');
     }
@@ -220,7 +220,7 @@ class ArticleController extends Controller
     // ARTICLES: UPDATE IMAGE
     public function updateImage(Request $request){
 
-        $this->article->saveArticleImage($request);
+        $this->article->saveImage($request);
 
         return redirect('dashboard/articles/'.$request->hex.'/edit/image')->with('message', 'Aricle image updated!');
     }
@@ -238,7 +238,7 @@ class ArticleController extends Controller
         $article = Article::where('hex', $request->hex)->first();
         $article->status = $request->status;
         
-        $article->save();
+        $article->savePublishing();
 
         return redirect('dashboard/articles/'.$article->hex.'/edit/publishing')->with('message', 'Aricle publishing updated!');
     }

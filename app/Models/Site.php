@@ -19,6 +19,9 @@ class Site extends Model
     
     // Get random color ID
     public function randomColor($color_swatch_id = null, $field = 'fill_id'){
+        $color_swatch_id = $color_swatch_id ?? Config::where('id', 1)->first()->color_swatch_id;
+        
+
         return Color::where('color_swatch_id', $color_swatch_id)->inRandomOrder()->first()->$field;
     }
 
@@ -42,8 +45,18 @@ class Site extends Model
 
 
     // Get public categories
+    public static function allCategories(){
+        return Category::orderBy('name', 'ASC')->get();
+    }
+
+    // Get public categories
     public static function publicCategories(){
         return Category::where('status', 'public')->orderBy('name', 'ASC')->get();
+    }
+
+    // Get public categories
+    public static function MyCategories(){
+        return Category::where('user_id', auth()->user()->id)->orderBy('name', 'ASC')->get();
     }
 
 
@@ -64,6 +77,17 @@ class Site extends Model
         }
         return $articles;
     }
+
+    // Get all public articles with exploaded tags
+    public static function myArticles(){
+        $articles = Article::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+        foreach($articles as $key => $article){
+            $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
+        }
+        return $articles;
+    }
+
+    
 
     // Get other public articles with exploaded tags
     public static function otherPublicArticles($hex){

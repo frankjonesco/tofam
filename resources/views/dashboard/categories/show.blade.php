@@ -1,4 +1,7 @@
 <x-admin-card>
+
+    <x-category-edit-buttons :category="$category"/>
+    
     {{-- {{dd($category->articles)}} --}}
     <h1>Category: {{$category->name}}</h1>
 
