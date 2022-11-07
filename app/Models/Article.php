@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,10 +17,21 @@ class Article extends Model
         return 'hex';
     }
 
+
+    // MODEL RELATIONSHIPS
+
     // Relationship to category
     public function category(){
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    // Relationship to user
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+
+    // ACCESSORS
 
     // Accessor for retrieving and formatting 'created_at'
     public function getCreatedAtAttribute($value){
@@ -38,10 +48,8 @@ class Article extends Model
         return Str::limit($this->body, 200);
     }
 
-    // Relationship to user
-    public function user(){
-        return $this->belongsTo(User::class, 'user_id');
-    }
+
+    // RETRIEVAL METHODS  
 
     // Get all public articls
     public static function getArticles(string $status){
@@ -63,8 +71,6 @@ class Article extends Model
         }
         return false;
     }
-
-    
 
     // Accessor for retrieving and formatting 'created_at'
     public function getThumbnail($article){
@@ -147,6 +153,76 @@ class Article extends Model
         return $site->uniqueHex('articles');
     }
 
+    // Format tags
+    public function formatTags($tags){
+        $tags = explode(',', $tags);
+        $new_tags = [];
+        foreach($tags as $tag){
+            $tag = trim($tag);
+            if($tag){
+                $tag = str_replace('  ', ' ', $tag);
+                $tag = str_replace('  ', ' ', $tag);
+                $tag = str_replace('  ', ' ', $tag);
+                $new_tags[] = $tag;
+            }
+        }
+        return implode(',', $new_tags);
+    }
+
+
+    // DATA HANDLING CALL METHODS
+
+    // Create article (insert)
+    public function createArticle($request){
+        $article = self::compileArticleCreationData($request);
+        $article->save();
+    }
+
+    // Save article text (update)
+    public function saveArticleText($request){
+        $article = self::compileArticleTextData($request);
+        $article->save();
+    }
+
+    // Save article storage (update)
+    public function saveArticleStorage($request){
+        $article = self::compileArticleStorageData($request);
+        $article->save();
+        return false;
+    }
+
+    // Save article image (update)
+    public function saveArticleImage($request){
+        $article = self::compileArticleImageData($request);
+        $article->save();
+    }
+
+    // Save article publishing (update)
+    public function saveArticlePublishing($request){
+        $article = self::compileArticlePublishingData($request);
+        $article->save();
+    }
+
+    // Check user is article owner
+    public function userIsOwner($article){
+        if($article->user_id == auth()->user()->id){
+            return true;
+        }
+        return false;
+    }
+
+    public function checkOwnerDeleteOrDie($article){
+        if(self::userIsOwner($article)){
+            $article->delete();
+            return true;
+        }
+        return false;
+        
+    }
+
+
+    // DATA HANDLERS
+
     // Compile article data
     public function compileArticleCreationData($request, $article = null){
         $site = new Site();
@@ -200,75 +276,9 @@ class Article extends Model
     }
 
 
+    
 
-
-    // Create article (insert)
-    public function createArticle($request){
-        $article = self::compileArticleCreationData($request);
-        $article->save();
-    }
-
-    // Save article text (update)
-    public function saveArticleText($request){
-        $article = self::compileArticleTextData($request);
-        $article->save();
-    }
-
-    // Save article storage (update)
-    public function saveArticleStorage($request){
-        $article = self::compileArticleStorageData($request);
-        $article->save();
-        return false;
-    }
-
-    // Save article image (update)
-    public function saveArticleImage($request){
-        $article = self::compileArticleImageData($request);
-        $article->save();
-    }
-
-    // Save article publishing (update)
-    public function saveArticlePublishing($request){
-        $article = self::compileArticlePublishingData($request);
-        $article->save();
-    }
-
-    // Check user is article owner
-    public function userIsOwner($article){
-        if($article->user_id == auth()->user()->id){
-            return true;
-        }
-        return false;
-    }
-
-    public function checkOwnerDeleteOrDie($article){
-        if(self::userIsOwner($article)){
-            $article->delete();
-            return true;
-        }
-        return false;
-        
-    }
-
-    public function formatTags($tags){
-
-        $tags = explode(',', $tags);
-
-        $new_tags = [];
-
-        foreach($tags as $tag){
-            $tag = trim($tag);
-            if($tag){
-                $tag = str_replace('  ', ' ', $tag);
-                $tag = str_replace('  ', ' ', $tag);
-                $tag = str_replace('  ', ' ', $tag);
-                $new_tags[] = $tag;
-            }
-        }
-
-        return implode(',', $new_tags);
-
-    }
+    
 
     
     
