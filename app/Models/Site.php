@@ -74,6 +74,28 @@ class Site extends Model
         return $other_articles;
     }
 
+    // Get public articles that have a specific tag
+    public function publicArticlesWithTag($tag){
+        $articles = Article::where([['tags', 'like', '%'.$tag.'%'], ['status', 'public']])->paginate(6);
+        foreach($articles as $key => $article){
+            $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
+        }
+        return $articles;
+    }
+
+    // Get public articles that are similar to our search term
+    public function similarPublicArticles($term){
+        $articles = Article::where('title', 'like', '%'.$term.'%')
+            ->orWhere('body', 'like', '%'.$term.'%')
+            ->orWhere('tags', 'like', '%'.$term.'%')->where('status', 'public')->paginate(6);
+        foreach($articles as $key => $article){
+            $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
+        }
+        return $articles;
+    }
+    
+
+    
 
     // Handle image upload
     public function handleImageUpload($request, $directory, $hex){  

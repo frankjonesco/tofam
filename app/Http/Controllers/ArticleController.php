@@ -33,13 +33,13 @@ class ArticleController extends Controller
     }
 
     // SHOW ARTICLE THAT HAVE THIS TAG
-    public function tags($term){
-        $articles = Article::where('tags', 'like', '%'.$term.'%')->paginate(3);
-        foreach($articles as $key => $article){
-            $articles[$key]['tags'] = explode(',', $article->tags);
-        }
+    public function tags($tag){
+        $articles = $this->site->publicArticlesWithTag($tag);
+        $articles->show_tag_results = true;
         return view('articles.index', [
-            'articles' => $articles
+            'articles' => $articles,
+            'count' => $articles->total(),
+            'tag' => $tag
         ]);
     }
 
@@ -51,15 +51,11 @@ class ArticleController extends Controller
 
     // SEARCH ARTICLES RESULTS
     public function searchRetrieve($term){
+        // If session variable set, set it again for the next page load
         if(Session::has('searchTerm')){
             Session::flash('searchTerm', $term);
         }
-        $articles = Article::where('title', 'like', '%'.$term.'%')
-            ->orWhere('body', 'like', '%'.$term.'%')
-            ->orWhere('tags', 'like', '%'.$term.'%')->paginate(3);
-        foreach($articles as $key => $article){
-            $articles[$key]['tags'] = explode(',', $article->tags);
-        }
+        $articles = $this->site->similarPublicArticles($term);
         return view('articles.index', [
             'articles' => $articles,
             'count' => $articles->total()

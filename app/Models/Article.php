@@ -72,6 +72,8 @@ class Article extends Model
         return false;
     }
 
+    
+
     // Accessor for retrieving and formatting 'created_at'
     public function getThumbnail($article){
         if($article->image){

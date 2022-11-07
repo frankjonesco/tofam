@@ -106,7 +106,7 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
 // Public routes for ArticleController
 Route::controller(ArticleController::class)->group(function(){
     Route::get('/articles', 'index');
-    Route::get('/articles/tags/{term}', 'tags');
+    Route::get('/articles/tags/{term}', 'tags')->name('articlesSearchTagsRetrieve');
     Route::get('/articles/search/{term}', 'searchRetrieve')->name('articlesSearchRetrieve');
     Route::post('/articles/search', 'search');
     Route::post('/articles/like', 'like');
