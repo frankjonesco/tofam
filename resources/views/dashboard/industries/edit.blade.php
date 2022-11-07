@@ -1,5 +1,5 @@
 <x-admin-card>
-
+    <x-industry-edit-buttons :industry="$industry"/>
         <h1>Edit industry</h1>
         <div class="w-100 justify-content-center">
             <form action="/dashboard/industries/update" method="POST" class="w-50">

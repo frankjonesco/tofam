@@ -1,4 +1,3 @@
-{{-- Buttons bar --}}
 <x-buttons-bar>
     <a class="btn btn-primary btn-sm" href="/dashboard/categories">
         <i class="fa-solid fa-arrow-left"></i> Back

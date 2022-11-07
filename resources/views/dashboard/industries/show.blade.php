@@ -1,5 +1,5 @@
 <x-admin-card>
-    {{-- {{dd($category->articles)}} --}}
+    <x-industry-edit-buttons :industry="$industry"/>
     <h1>Industry: {{$industry->name}}</h1>
 
     <div class="row">

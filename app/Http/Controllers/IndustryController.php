@@ -69,6 +69,6 @@ class IndustryController extends Controller
     // ADMIN: DELETE
     public function destroy(Industry $industry){
         $industry->delete();
-        return redirect('industries')->with('message', 'Industry deleted!');
+        return redirect('dashboard/industries')->with('message', 'Industry deleted!');
     }
 }

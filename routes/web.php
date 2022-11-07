@@ -198,13 +198,19 @@ Route::controller(IndustryController::class)->middleware('auth')->group(function
     Route::get('/dashboard/industries/create', 'create');
 
     // Admin: Store new industry
-    Route::post('/dashboard/industries/store', 'store');  
+    Route::post('/dashboard/industries/store', 'store');
     
     // Admin: Store new industry
-    Route::get('/dashboard/industries/{industry}/edit', 'edit'); 
+    Route::get('/dashboard/industries/{industry}/edit', 'edit');
     
     // Admin: Store new industry
-    Route::PUT('/dashboard/industries/update', 'update'); 
+    Route::PUT('/dashboard/industries/update', 'update');
+
+    // Admin: Store new industry
+    Route::DELETE('/dashboard/industries/{industry}/delete', 'destroy');
+
+    // Admin: Store new industry
+    Route::get('/dashboard/industries/{industry}', 'adminShow');
 });
 
 

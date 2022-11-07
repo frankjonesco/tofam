@@ -88,6 +88,31 @@
     </div>
 @endif
 
+<!-- Delete industry -->
+@if(isset($industry))
+    <div class="modal fade" id="deleteIndustryModal" tabindex="-1" aria-labelledby="deleteIndustryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteIndustryModalLabel">Delete category?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{$industry->name}}
+                </div>
+                <div class="modal-footer">
+                    <form action="/dashboard/industries/{{$industry->hex}}/delete" method="POST" class="inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 <!-- Delete article -->
 @if(isset($article))
     <div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
