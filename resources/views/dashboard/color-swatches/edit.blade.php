@@ -14,9 +14,11 @@
         <div class="w-100">
 
             {{-- Form for editing colors --}}
-            <form action="/dashboard/color-swatches/{{$color_swatch->hex}}/update" method="POST">
+            <form action="/dashboard/color-swatches/update" method="POST">
                 @csrf
                 @method('PUT')
+
+                <input type="hidden" name="hex" value="{{$color_swatch->hex}}">
 
                 <h1>Edit color swatch</h1>
 

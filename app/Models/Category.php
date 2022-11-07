@@ -32,7 +32,7 @@ class Category extends Model
 
     // RETRIEVAL METHODS
 
-    // Find unique hex for articles
+    // Find unique hex for categories
     public function uniqueHex($site, string $field = 'hex', int $length = 11){
         return $site->uniqueHex('articles');
     }

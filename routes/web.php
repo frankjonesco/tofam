@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ColorSwatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -250,6 +251,40 @@ Route::controller(UserController::class)->group(function(){
 
 /*
 |--------------------------------------------------------------------------
+| Routes for ColorSwatchController
+|--------------------------------------------------------------------------
+*/
+
+// All dashboard routes must be authenticated
+Route::controller(ColorSwatchController::class)->middleware('auth')->group(function(){
+    // Color swatches: Show all
+    Route::get('/dashboard/color-swatches', 'adminIndex');
+
+    // Color swatches: Create new swatch
+    Route::get('/dashboard/color-swatches/create', 'create');
+
+    // Color swatches: Store new swatch
+    Route::post('/dashboard/color-swatches/store', 'store');
+
+    // Color swatches: Use this swatch
+    Route::get('/dashboard/color-swatches/{color_swatch}/use', 'use');
+
+    // Color swatches: Edit swatch
+    Route::get('/dashboard/color-swatches/{color_swatch}/edit', 'edit');
+
+    // Color swatches: Update swatch
+    Route::put('/dashboard/color-swatches/update', 'update');
+
+    // Color swatches: Delete swatch
+    Route::delete('/dashboard/color-swatches/{color_swatch}/delete', 'destroy');
+
+    // Color swatches: Show single swatch
+    Route::get('/dashboard/color-swatches/{color_swatch}', 'adminShow');
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | Routes for DashboardController
 |--------------------------------------------------------------------------
 */
@@ -266,32 +301,6 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
 
     // DASHBOARD: COLOR SWATCHES
-
-        // Color swatches: Show all
-        Route::get('/dashboard/color-swatches', 'colorSwatchIndex');
-
-        // Color swatches: Create new swatch
-        Route::get('/dashboard/color-swatches/create', 'colorSwatchCreate');
-
-        // Color swatches: Store new swatch
-        Route::post('/dashboard/color-swatches/store', 'colorSwatchStore');
-
-        // Color swatches: Show single swatch
-        Route::get('/dashboard/color-swatches/{hex}', 'colorSwatchShow');
-
-        // Color swatches: Use this swatch
-        Route::get('/dashboard/color-swatches/{hex}/use', 'colorSwatchUse');
-
-        // Color swatches: Edit swatch
-        Route::get('/dashboard/color-swatches/{hex}/edit', 'colorSwatchEdit');
-
-        // Color swatches: Update swatch
-        Route::put('/dashboard/color-swatches/{hex}/update', 'colorSwatchUpdate');
-
-        // Color swatches: Delete swatch
-        Route::delete('/dashboard/color-swatches/{hex}/delete', 'colorSwatchDestroy');
-
-
 
     // DASHBOARD: CATEGORES
 

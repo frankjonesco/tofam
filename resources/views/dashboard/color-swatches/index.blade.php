@@ -7,7 +7,13 @@
             <a href="/dashboard/color-swatches/create" class="btn btn-primary">Create new swatch</a>
         </div>
     </div>
-    <h5 class="mb-5">You can select different color swatches to use on the site. Colors are assigned to categories and users etc. </h5>
+    <h5 class="mb-5">
+        @if(count($color_swatches) < 1)
+            There are currently no color swatches available. <a href="/dashboard/color-swatches/create">Click here</a> to create a new swatch.
+        @else
+            You can select different color swatches to use on the site. Colors are assigned to categories and users etc.
+        @endif
+    </h5>
     <div class="row">
         @foreach($color_swatches as $color_swatch)
             <div class="col-3">

@@ -109,8 +109,6 @@ class Site extends Model
         return $articles;
     }
 
-    
-
     // Get other public articles with exploaded tags
     public static function otherPublicArticles($hex){
         $other_articles = Article::where('status', 'public')->where('hex', '!=' , $hex)->orderBy(DB::raw('RAND()'))->take(3)->get();
@@ -139,7 +137,17 @@ class Site extends Model
         }
         return $articles;
     }
-    
+
+
+    // Color swatches
+
+    public function allColorSwatches(){
+        return ColorSwatch::get();
+    }
+
+    public function getColorSwatch($hex){
+        return ColorSwatch::where('hex', $hex)->first();
+    }
 
     
 
