@@ -120,8 +120,11 @@ Route::controller(ArticleController::class)->group(function(){
     Route::post('/articles/unlike', 'unlike');
 
     // Public: Show single article
-    Route::get('/articles/{article}', 'show');
     Route::get('/articles/{article}/{slug}', 'show');
+    Route::get('/articles/{article}', 'show');
+
+    // Admin: Show single article
+    Route::get('/dashboard/articles/{article}', 'adminShow');
     
 });
 
@@ -135,7 +138,35 @@ Route::controller(ArticleController::class)->group(function(){
 
 // Auth routes for CategoryController
 Route::controller(CategoryController::class)->middleware('auth')->group(function(){
-    
+    // Admin: Show all
+    Route::get('/dashboard/categories', 'categoriesIndex');
+
+    // Admin: Show logged in user's categories
+    Route::get('/dashboard/categories/mine', 'categoriesMine');
+
+    // Admin: Create new category
+    Route::get('/dashboard/categories/create', 'categoriesCreate');
+
+    // Admin: Store new category
+    Route::post('/dashboard/categories/store', 'categoriesStore');        
+
+    // Admin: Edit publishing
+    Route::get('/dashboard/categories/{category}/edit/publishing', 'categoriesEditPublishing');
+    Route::put('/dashboard/categories/update/publishing', 'categoriesUpdatePublishing');
+
+    // Admin: Edit image
+    Route::get('/dashboard/categories/{category}/edit/image', 'categoriesEditImage');
+    Route::put('/dashboard/categories/update/image', 'categoriesUpdateImage');
+
+    // Admin: Delete
+    Route::delete('/dashboard/categories/{category}/delete', 'categoryDestroy');
+
+    // Admin: Edit text
+    Route::get('/dashboard/categories/{category}/edit/text', 'categoriesEditText');
+    Route::put('/dashboard/categories/update/text', 'categoriesUpdateText');
+
+    // Admin: Show single category
+    Route::get('/dashboard/categories/{category}', 'categoriesShow');
 });
 
 // Public routes for CategoryController
@@ -228,35 +259,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
     // DASHBOARD: CATEGORES
 
-        // Categories: Show all
-        Route::get('/dashboard/categories', 'categoriesIndex');
-
-        // Categories: Show logged in user's categories
-        Route::get('/dashboard/categories/mine', 'categoriesMine');
-
-        // Categories: Create new category
-        Route::get('/dashboard/categories/create', 'categoriesCreate');
-
-        // Categories: Store new category
-        Route::post('/dashboard/categories/store', 'categoriesStore');        
-
-        // Categories: Edit publishing
-        Route::get('/dashboard/categories/{category}/edit/publishing', 'categoriesEditPublishing');
-        Route::put('/dashboard/categories/update/publishing', 'categoriesUpdatePublishing');
-
-        // Categories: Edit image
-        Route::get('/dashboard/categories/{category}/edit/image', 'categoriesEditImage');
-        Route::put('/dashboard/categories/update/image', 'categoriesUpdateImage');
-
-        // Categories: Delete
-        Route::delete('/dashboard/categories/{category}/delete', 'categoryDestroy');
-
-        // Categories: Edit text
-        Route::get('/dashboard/categories/{category}/edit/text', 'categoriesEditText');
-        Route::put('/dashboard/categories/update/text', 'categoriesUpdateText');
-
-        // Categories: Show single category
-        Route::get('/dashboard/categories/{category}', 'categoriesShow');
+        
 
 
 

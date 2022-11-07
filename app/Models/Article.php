@@ -65,7 +65,7 @@ class Article extends Model
         return $articles;
     }
 
-    public function getArticle($hex){
+    public function get($hex){
         if($hex){
             return Article::where('hex', $hex)->first();
         }
@@ -243,7 +243,7 @@ class Article extends Model
 
     // Compile category text data
     public function compileArticleTextData($request){        
-        $article = self::getArticle($request->hex);
+        $article = self::get($request->hex);
         $article->title = $request->title;
         $article->slug = Str::slug($request->title);
         $article->caption = $request->caption;
@@ -255,7 +255,7 @@ class Article extends Model
 
     // Compile article storage data
     public function compileArticleStorageData($request){
-        $article = self::getArticle($request->hex);
+        $article = self::get($request->hex);
         $article->category_id = ($request->category_id) ? $request->category_id : null;
         return $article;
     }
@@ -263,7 +263,7 @@ class Article extends Model
     // Compile article image data
     public function compileArticleImageData($request){
         $site = new Site();
-        $article = self::getArticle($request->hex); 
+        $article = self::get($request->hex); 
         if($request->hasFile('image')){
             $article->image = $site->handleImageUpload($request, 'articles', $article->hex);
         }
@@ -272,7 +272,7 @@ class Article extends Model
 
     // Compile article publishing data
     public function compileArticlePublishingData($request, $article = null){
-        $article = self::getArticle($request->hex); 
+        $article = self::get($request->hex); 
         $article->status = $request->status;   
         return $article;
     }

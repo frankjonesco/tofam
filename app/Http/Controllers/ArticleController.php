@@ -136,6 +136,13 @@ class ArticleController extends Controller
         ]);
     }
 
+    // ARTICLES: INDEX
+    public function adminShow(Article $article){
+        return view('dashboard.articles.show', [
+            'article' => $article,
+        ]);
+    }
+
     // SHOW CREATE ARTICLE FORM
     public function create(){
         $categories = $this->site->publicCategories();
