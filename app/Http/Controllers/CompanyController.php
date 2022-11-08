@@ -242,6 +242,13 @@ class CompanyController extends Controller
         ]);
     }
 
+    // ADMIN: EDIT RANKINGS
+    public function editRankings(Company $company){
+        return view('dashboard.companies.edit-rankings', [
+            'company' => $company
+        ]);
+    }
+
     // ADMIN: EDIT PUBLISHING
     public function editPublishingInformation(Company $company){   
         return view('dashboard.companies.edit-publishing-information', [

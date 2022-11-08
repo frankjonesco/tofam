@@ -26,6 +26,9 @@
     <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/contacts">
         <i class="fa-solid fa-users"></i> Contacts
     </a>
+    <a class="btn btn-warning btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/rankings">
+        <i class="fa-solid fa-line-chart"></i> Rankings
+    </a>
     <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing-information">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>

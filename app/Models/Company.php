@@ -27,6 +27,11 @@ class Company extends Model
         return $this->hasMany(Contact::class, 'company_id');
     }
 
+    // Relationship to rankings
+    public function rankings(){
+        return $this->hasMany(Ranking::class, 'company_id');
+    }
+
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

@@ -63,9 +63,12 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
     Route::get('/dashboard/companies/create', 'create');
     Route::post('dashboard/companies/store', 'store');
 
-    // Companies: Edit publishing
+    // Companies: Edit publishing information
     Route::get('/dashboard/companies/{company}/edit/publishing-information', 'editPublishingInformation');
     Route::put('/dashboard/companies/update/publishing-information', 'updatePublishingInformation');
+
+    // Companies: Edit rankings
+    Route::get('/dashboard/companies/{company}/edit/rankings', 'editRankings');
 
     // Companies: Edit contacts
     Route::get('/dashboard/companies/{company}/edit/contacts', 'editContacts');

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Ranking extends Model
 {
     use HasFactory;
+
+    
+    // MODEL RELATIONSHIPS
+
+    // Relationship to company
+    public function company(){
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 }
