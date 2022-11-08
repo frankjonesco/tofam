@@ -235,6 +235,13 @@ class CompanyController extends Controller
         return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('Reply sent!');
     }
 
+    // ADMIN: EDIT CONTACTS
+    public function editContacts(Company $company){
+        return view('dashboard.companies.edit-contacts', [
+            'company' => $company
+        ]);
+    }
+
     // ADMIN: EDIT PUBLISHING
     public function editPublishingInformation(Company $company){   
         return view('dashboard.companies.edit-publishing-information', [

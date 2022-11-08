@@ -23,6 +23,9 @@
     <a class="btn btn-danger btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/comments">
         <i class="fa-regular fa-comment"></i> Comments
     </a>
+    <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/contacts">
+        <i class="fa-solid fa-users"></i> Contacts
+    </a>
     <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing-information">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>
