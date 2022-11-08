@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             IndustrySeeder::class,
             CompanySeeder::class,
             CommentSeeder::class,
+            ContactSeeder::class,
         ]);
     }
 }

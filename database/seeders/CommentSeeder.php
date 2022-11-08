@@ -45,11 +45,7 @@ class CommentSeeder extends Seeder
                     ];
                 }
             }
-
         }
-
-        
-
         Comment::insert($new_comments);
     }
 }
