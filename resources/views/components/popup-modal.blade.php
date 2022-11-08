@@ -137,3 +137,29 @@
         </div>
     </div> 
 @endif
+
+<!-- Delete comment -->
+@if(isset($comments))
+    @foreach($comments as $comment)
+        <div class="modal fade" id="deleteCommentModal_{{$comment->id}}" tabindex="-1" aria-labelledby="deleteCommentModalLabel_{{$comment->id}}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteCommentModalLabel_{{$comment->id}}">Delete comment?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+            
+                    <div class="modal-footer" style="border-top:none;">
+                        <form action="/dashboard/companies/{{$comment->company->hex}}/comments/delete" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    @endforeach
+@endif

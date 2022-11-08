@@ -15,6 +15,12 @@ class Company extends Model
         return 'hex';
     }
 
+    // MODEL RELATIONSHIPS
+
+    // Relationship to comments
+    public function comments(){
+        return $this->hasMany(Comment::class, 'resource_id');
+    }
 
     // Relationship to user
     public function user(){
@@ -193,6 +199,16 @@ class Company extends Model
         return $site->uniqueHex('companies');
     }
 
+    // Get comments
+    public function getComments(){
+        $comments = Comment::where(['resource_type' => 'company', 'resource_id' => $this->id, 'parent_id' => null])->get();
+        foreach($comments as $key => $comment){
+            $nested_comments = Comment::where(['resource_type' => 'company', 'resource_id' => $comment->resource_id, 'parent_id' => $comment->id])->get();
+            $comments[$key]['nested_comments'] = $nested_comments;
+        }
+        return $comments;
+    }
+
 
 
 
@@ -269,6 +285,26 @@ class Company extends Model
         $this->matchbird_partner = $request->matchbird_partner;
         $this->save();
         return $this;
+    }
+
+    // Create comment (insert)
+    public function createComment($request){
+        $company_id = $this->id;
+        $comment = Comment::create([
+            'user_id' => auth()->user()->id,
+            'parent_id' => null,
+            'resource_type' => 'company',
+            'resource_id' => $company_id,
+            'title' => $request->title,
+            'body' => $request->body
+        ]);
+        return $comment;
+    }
+
+    // Delete comment (delete)
+    public function destroyComment($request){
+        $comment = Comment::find($request->comment_id);
+        $comment->delete();    
     }
 
     // Save publishing information (update)

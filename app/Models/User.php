@@ -51,9 +51,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-    * User Relationships
-    */
+    
+    // MODEL RELATIONSHIPS
 
     // Relationship to articles
     public function articles(){
@@ -73,6 +72,11 @@ class User extends Authenticatable
     // Relationship to country
     public function country(){
         return $this->belongsTo(Country::class, 'country_iso', 'iso');
+    }
+
+    // Relationship to comments
+    public function comments(){
+        return $this->hasMany(User::class, 'user_id');
     }
 
     // Relationship to country

@@ -14,13 +14,16 @@
     <a class="btn btn-danger btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/address">
         <i class="fa-solid fa-location-dot"></i> Edit address
     </a>
-    <a class="btn btn-warning btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/family">
-        <i class="fa-solid fa-users"></i> Edit family information
+    <a class="btn btn-warning btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/family-details">
+        <i class="fa-solid fa-users"></i> Edit family details   
     </a>
-    <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/details">
+    <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/further-details">
         <i class="fa-solid fa-address-card"></i> Edit further details
     </a>
-    <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing">
+    <a class="btn btn-danger btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/comments">
+        <i class="fa-regular fa-comment"></i> Comments
+    </a>
+    <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing-information">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>
 </x-buttons-bar>

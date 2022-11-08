@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Category;
 use App\Models\Industry;
@@ -166,7 +167,7 @@ class CompanyController extends Controller
 
     // ADMIN: EDIT FAMILY DETAILS
     public function editFamilyDetails(Company $company){   
-        return view('dashboard.companies.edit-family', [
+        return view('dashboard.companies.edit-family-details', [
             'company' => $company
         ]);
     }
@@ -175,12 +176,12 @@ class CompanyController extends Controller
     public function updateFamilyDetails(Request $request, Site $site){
         $company = $site->getCompany($request->hex);
         $company->saveFamilyDetails($request);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/family')->with('message', 'Company family information updated!');
+        return redirect('dashboard/companies/'.$company->hex.'/edit/family-details')->with('message', 'Company family information updated!');
     }
 
     // ADMIN: EDIT FURTHER DETAILS
     public function editFurtherDetails(Company $company){   
-        return view('dashboard.companies.edit-details', [
+        return view('dashboard.companies.edit-further-details', [
             'company' => $company
         ]);
     }
@@ -189,12 +190,54 @@ class CompanyController extends Controller
     public function updateFurtherDetails(Request $request, Site $site){
         $company = $site->getCompany($request->hex);
         $company->saveFurtherDetails($request);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/details')->with('message', 'Company further detils updated!');
+        return redirect('dashboard/companies/'.$company->hex.'/edit/further-details')->with('message', 'Company further detils updated!');
+    }
+
+    // ADMIN: EDIT COMMENTS
+    public function editComments(Company $company){
+        return view('dashboard.companies.edit-comments', [
+            'company' => $company,
+            'comments' => $company->getComments()
+        ]);
+    }
+
+    // ADMIN: UPDATE COMMENTS
+    public function addComment(Request $request, Company $company, Site $site){
+        $request->validate(
+            [
+                'body' => 'required'
+            ],
+            [
+                'body.required' => 'Type some text into the comment box.'
+            ]
+        );
+        $company->createComment($request);
+        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('message', 'New comment added!');
+    }
+
+    // ADMIN: DELETE COMMENT
+    public function destroyComment(Request $request, Company $company){
+        $company->destroyComment($request);
+        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('message', 'Your comment was deleted!');
+    }
+
+    // ADMIN: REPLY TO COMMENT
+    public function replyToComment(Request $request, Company $company, Site $site){
+
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'parent_id' => $request->comment_id,
+            'resource_type' => 'company',
+            'resource_id' => $company->id,
+            'body' => $request->reply_body,
+        ]);
+
+        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('Reply sent!');
     }
 
     // ADMIN: EDIT PUBLISHING
     public function editPublishingInformation(Company $company){   
-        return view('dashboard.companies.edit-publishing', [
+        return view('dashboard.companies.edit-publishing-information', [
             'company' => $company
         ]);
     }
@@ -203,6 +246,6 @@ class CompanyController extends Controller
     public function updatePublishingInformation(Request $request, Site $site){
         $company = $site->getCompany($request->hex);
         $company->savePublishingInformation($request);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/publishing')->with('message', 'Company publishing information updated!');
+        return redirect('dashboard/companies/'.$company->hex.'/edit/publishing-information')->with('message', 'Company publishing information updated!');
     }
 }

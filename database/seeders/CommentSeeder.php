@@ -39,7 +39,7 @@ class CommentSeeder extends Seeder
                         'parent_id' => $old_comment->parent_id,
                         'resource_type' => $old_comment->resource_type,
                         'resource_id' => $resource_id,
-                        'comment' => $old_comment->comment,
+                        'body' => $old_comment->comment,
                         'created_at' => date('Y-m-d H:i:s', $old_comment->created),
                         'updated_at' => date('Y-m-d H:i:s', $old_comment->updated),
                     ];

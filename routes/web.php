@@ -64,16 +64,22 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
     Route::post('dashboard/companies/store', 'store');
 
     // Companies: Edit publishing
-    Route::get('/dashboard/companies/{company}/edit/publishing', 'editPublishingInformation');
-    Route::put('/dashboard/companies/update/publishing', 'updatePublishingInformation');
+    Route::get('/dashboard/companies/{company}/edit/publishing-information', 'editPublishingInformation');
+    Route::put('/dashboard/companies/update/publishing-information', 'updatePublishingInformation');
 
     // Companies: Edit further details
-    Route::get('/dashboard/companies/{company}/edit/details', 'editFurtherDetails');
-    Route::put('/dashboard/companies/update/details', 'updateFurtherDetails');
+    Route::get('/dashboard/companies/{company}/edit/further-details', 'editFurtherDetails');
+    Route::put('/dashboard/companies/update/further-details', 'updateFurtherDetails');
+
+    // Companies: Edit comments
+    Route::get('/dashboard/companies/{company}/edit/comments', 'editComments');
+    Route::post('/dashboard/companies/{company}/comments/add', 'addComment');
+    Route::delete('/dashboard/companies/{company}/comments/delete', 'destroyComment');
+    Route::post('/dashboard/companies/{company}/comments/reply', 'replyToComment');
 
     // Companies: Edit family information
-    Route::get('/dashboard/companies/{company}/edit/family', 'editFamilyDetails');
-    Route::put('/dashboard/companies/update/family', 'updateFamilyDetails');
+    Route::get('/dashboard/companies/{company}/edit/family-details', 'editFamilyDetails');
+    Route::put('/dashboard/companies/update/family-details', 'updateFamilyDetails');
 
     // Companies: Edit address
     Route::get('/dashboard/companies/{company}/edit/address', 'editAddress');
