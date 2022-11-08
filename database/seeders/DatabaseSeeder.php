@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             IndustrySeeder::class,
             CompanySeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }
