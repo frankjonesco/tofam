@@ -5,7 +5,8 @@
         name="search" 
         class="form-control form-control-lg" 
         placeholder="Search..." 
-        @if(Session::has('searchTerm') && ((Route::currentRouteName() == 'searchRetrieve') || (Route::currentRouteName() == 'dashboardSearchRetrieve')))
+        @if(Session::has('searchTerm') && ((Route::currentRouteName() == 'searchRetrieve') || (Route::currentRouteName() == 'adminSearchRetrieve')))
             value="{{ Session::get('searchTerm') }}"
-        @endif>
+        @endif
+    >
 </form>

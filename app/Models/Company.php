@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -181,4 +182,142 @@ class Company extends Model
         }
         return false;
     }
+
+
+
+    // RETRIEVAL METHODS
+
+    // Find unique hex for categories
+    public function uniqueHex(){
+        $site = new Site();
+        return $site->uniqueHex('companies');
+    }
+
+
+
+
+
+
+
+    // DATA HANDLING CALL METHODS
+
+    // Create company (insert)
+    public function createCompany($request){
+        $company = self::compileCreationData($request);
+        $company->save();
+        return $company;
+    }
+
+    // Save general (update)
+    public function saveGeneral($request){
+        $company = self::compileGeneralData($request);
+        $company->save();
+        return $company;
+    }
+
+    // Save category IDs (update)
+    public function saveCategoryIds($request){
+        $site = new Site();
+        $this->category_ids = $site->formatCsvTextInput($request->categories_array);
+        $this->save();
+        return $this;
+    }
+
+    // Save industry IDs (update)
+    public function saveIndustryIds($request){
+        $site = new Site();
+        $this->industry_ids = $site->formatCsvTextInput($request->industries_array);
+        $this->save();
+        return $this;
+    }
+
+    // Save image (update)
+    public function saveImage($request){
+        $site = new Site();
+        $this->image = $site->handleImageUpload($request, 'companies', $request->hex);
+        $this->save();
+        return $this;
+    }
+
+    // Save address (update)
+    public function saveAddress($request){
+        $this->address_building_name = $request->address_building_name;
+        $this->address_number = $request->address_number;
+        $this->address_street = $request->address_street;
+        $this->address_city = $request->address_city;
+        $this->address_state = $request->address_state;
+        $this->address_zip = $request->address_zip;
+        $this->address_phone = $request->address_phone;
+        $this->save();
+        return $this;
+    }
+
+    // Save family details (update)
+    public function saveFamilyDetails($request){
+        $this->family_business = $request->family_business;
+        $this->family_name = $request->family_name;
+        $this->family_generations = $request->family_generations;
+        $this->family_executive = $request->family_executive;
+        $this->save();
+        return $this;
+    }
+
+    // Save further details (update)
+    public function saveFurtherDetails($request){
+        $this->female_executive = $request->female_executive;
+        $this->stock_listed = $request->stock_listed;
+        $this->matchbird_partner = $request->matchbird_partner;
+        $this->save();
+        return $this;
+    }
+
+    // Save publishing information (update)
+    public function savePublishingInformation($request){
+        $this->force_slug = Str::slug($request->force_slug);
+        $this->tofam_status = $request->tofam_status;
+        $this->status = $request->status;
+        $this->save();
+        return $this;
+    }
+    
+
+
+
+
+    // DATA HANDLERS
+
+    // Compile company data
+    public function compileCreationData($request){
+        $slug = $request->trading_name == false ?? $request->registered_name;
+        $company = Company::create([
+            'hex' => self::uniqueHex(),
+            'user_id' => auth()->user()->id,
+            'registered_name' => $request->registered_name,
+            'trading_name' => $request->trading_name,
+            'slug' => Str::slug($slug),
+            'parent_organization' => $request->parent_organization,
+            'description' => $request->description,
+            'website' => $request->website,
+            'founded_in' => $request->founded_in,
+            'founded_by' => $request->founded_by,
+            'headquarters' => $request->headquarters,
+        ]);
+        return $company;
+    }
+
+
+    public function compileGeneralData($request){
+        $company = $this;
+        $company->registered_name = $request->registered_name;
+        $company->trading_name = $request->trading_name;
+        $company->parent_organization = $request->parent_organization;
+        $company->website = $request->website;
+        $company->description = $request->description;
+        $company->founded_in = $request->founded_in;
+        $company->founded_by = $request->founded_by;
+        $company->headquarters = $request->headquarters;
+        return $company;
+    }
+
+
 }

@@ -139,12 +139,36 @@ class Site extends Model
     }
 
 
-    // Color swatches
+    // COMPANIES
 
+    // Get single company by hex
+    public function getCompany($hex){
+        return Company::where('hex', $hex)->first();
+    }
+
+    // All companies
+    public function allCompanies(){
+        return Company::orderBy('registered_name', 'ASC')->paginate(8);
+    }
+
+    // Get all companies that are similar to our search term
+    public function allSimilarCompanies($term){
+        $companies = Company::where('registered_name', 'like', '%'.$term.'%')
+            ->orWhere('trading_name', 'like', '%'.$term.'%')
+            ->orWhere('description', 'like', '%'.$term.'%')
+            ->paginate(6);
+        return $companies;
+    }
+
+
+    // COLOR SWATCHES
+
+    // Get all color swatches
     public function allColorSwatches(){
         return ColorSwatch::get();
     }
 
+    // Get single color swatch by hex
     public function getColorSwatch($hex){
         return ColorSwatch::where('hex', $hex)->first();
     }
@@ -202,6 +226,23 @@ class Site extends Model
 
     public static function validateUrl($url){
         return false;
+    }
+
+
+
+    // FORMATTERS
+    
+    // Format comma separated value text input
+    public function formatCsvTextInput($values){
+        $values = explode(',', $values);
+        $formatted_values = [];
+        foreach($values as $value){
+            $value = trim($value);
+            if($value){
+                $formatted_values[] = $value;
+            }
+        }
+        return implode(',', $formatted_values);
     }
 }
 

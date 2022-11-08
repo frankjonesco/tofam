@@ -4,6 +4,7 @@
 
     <h1>Edit storage</h1>
 
+
     <h5>Organize your companies into categories and industries. </h5>
     <div class="w-100 justify-content-center">
         <form action="/dashboard/companies/update/storage" method="POST">
@@ -110,7 +111,6 @@
             </div>
             <input id="industriesArray" name="industries_array" type="hidden" class="form-control mb-3" value="{{$company->industry_ids ? $company->industry_ids.',' : null}}">
             <input id="deletedIndustriesArray" name="deleted_industries_array" type="hidden" class="form-control" value="">
-
 
             <button type="submit" class="btn btn-success btn-sm mt-5">
                 <i class="fa-regular fa-floppy-disk"></i> Save changes

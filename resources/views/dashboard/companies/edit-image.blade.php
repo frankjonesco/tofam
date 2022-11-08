@@ -21,6 +21,12 @@
                 <p class="text-danger">{{$message}}</p>
             @enderror
 
+            <img 
+                src="{{$company->image ? asset('images/companies/'.$company->hex.'/tn-'.$company->image) : asset('images/no-image.png')}}" 
+                alt=""
+                class="mb-3 w-100"
+            >
+ 
             <button type="submit" class="btn btn-success btn-sm">
                 <i class="fa-regular fa-floppy-disk"></i> Upload & save image
             </button>

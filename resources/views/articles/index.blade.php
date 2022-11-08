@@ -16,7 +16,7 @@
 
         @include('partials._search-articles')
         
-        @if(Session::has('searchTerm') && Route::currentRouteName())
+        @if(Session::has('searchTerm') && Route::currentRouteName() == 'articlesSearchRetrieve')
             <p>Showing {{$count}} articles for search term '{{Session::get('searchTerm')}}'</p>
 
         @elseif(isset($articles->show_tag_results) && $articles->show_tag_results === true)

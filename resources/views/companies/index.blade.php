@@ -4,7 +4,7 @@
 
         @include('partials._search-companies')
         
-        @if(Session::has('searchTerm') && Route::currentRouteName() == 'searchRetrieve')
+        @if(Session::has('searchTerm') && Route::currentRouteName() == 'companiesSearchRetrieve')
             <p>Showing {{$count}} results for search term '{{Session::get('searchTerm')}}'</p>
         @endif
 

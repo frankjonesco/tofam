@@ -106,8 +106,9 @@ class Category extends Model
     }
 
      // Compile category text data
-     public function compileTextData($request){        
-        $category = self::get($request->hex);
+     public function compileTextData($request){     
+        $site = new Site();   
+        $category = $site->getCategory($request->hex);
         $category->name = ucfirst($request->name);
         $category->slug = Str::slug($request->name);
         $category->description = $request->description;
@@ -117,7 +118,7 @@ class Category extends Model
     // Compile category image data
     public function compileImageData($request){
         $site = new Site();
-        $category = self::get($request->hex); 
+        $category = $site->getCategory($request->hex); 
         if($request->hasFile('image')){
             $category->image = $site->handleImageUpload($request, 'categories', $category->hex);
         }
@@ -126,7 +127,8 @@ class Category extends Model
 
     // Compile category publishing data
     public function compilePublishingData($request, $category = null){
-        $category = self::get($request->hex); 
+        $site = new Site();
+        $category = $site->getCategory($request->hex); 
         $category->status = $request->status;   
         return $category;
     }

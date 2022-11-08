@@ -52,6 +52,48 @@ Route::controller(SiteController::class)->group(function(){
 // Auth routes for CompanyController
 Route::controller(CompanyController::class)->middleware('auth')->group(function() {
 
+    // Companies: Show all
+    Route::get('/dashboard/companies', 'adminIndex');
+
+    // Companies: Search
+    Route::get('/dashboard/companies/search/{term}', 'adminSearchRetrieve')->name('adminSearchRetrieve');
+    Route::post('/dashboard/companies/search', 'adminSearch');
+
+    // Companies: Create/Store (add a new company)
+    Route::get('/dashboard/companies/create', 'create');
+    Route::post('dashboard/companies/store', 'store');
+
+    // Companies: Edit publishing
+    Route::get('/dashboard/companies/{company}/edit/publishing', 'editPublishingInformation');
+    Route::put('/dashboard/companies/update/publishing', 'updatePublishingInformation');
+
+    // Companies: Edit further details
+    Route::get('/dashboard/companies/{company}/edit/details', 'editFurtherDetails');
+    Route::put('/dashboard/companies/update/details', 'updateFurtherDetails');
+
+    // Companies: Edit family information
+    Route::get('/dashboard/companies/{company}/edit/family', 'editFamilyDetails');
+    Route::put('/dashboard/companies/update/family', 'updateFamilyDetails');
+
+    // Companies: Edit address
+    Route::get('/dashboard/companies/{company}/edit/address', 'editAddress');
+    Route::put('/dashboard/companies/update/address', 'updateAddress');
+
+    // Companies: Change image 
+    Route::get('/dashboard/companies/{company}/edit/image', 'editImage');
+    Route::put('/dashboard/companies/update/image', 'updateImage');
+
+    // Companies: Edit storage
+    Route::get('/dashboard/companies/{company}/edit/storage', 'editStorage');
+    Route::put('/dashboard/companies/update/storage', 'updateStorage');
+
+    // Companies: Edit general
+    Route::get('/dashboard/companies/{company}/edit/general', 'editGeneral');
+    Route::put('/dashboard/companies/update/general', 'updateGeneral');
+
+    // Companies: Show single company
+    Route::get('/dashboard/companies/{company}/{slug}', 'adminShow');
+    Route::get('/dashboard/companies/{company}', 'adminShow');
 });
 
 // Public routes for ArticleController
@@ -292,13 +334,10 @@ Route::controller(ColorSwatchController::class)->middleware('auth')->group(funct
 // All dashboard routes must be authenticated
 Route::controller(DashboardController::class)->middleware('auth')->group(function(){
     
-    
     // DASHBOARD
 
         // Dashboard: Index
         Route::get('/dashboard', 'index')->name('dashboard');
-
-
 
     // DASHBOARD: COLOR SWATCHES
 
@@ -308,53 +347,7 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
     
     // DASHBOARD: ARTICLES
 
-        
-
-    
-
     //  DASHBOARD: COMPANIES
-
-        // Companies: Show all
-        Route::get('/dashboard/companies', 'companiesIndex');
-
-        // Companies: Search
-        Route::get('/dashboard/companies/search/{term}', 'companiesSearchRetrieve')->name('dashboardSearchRetrieve');
-        Route::post('/dashboard/companies/search', 'companiesSearch');
-
-        // Companies: Create/Store (add a new company)
-        Route::get('/dashboard/companies/create', 'companiesCreate');
-        Route::post('dashboard/companies/store', 'companiesStore');
-
-        // Companies: Edit publishing
-        Route::get('/dashboard/companies/{company}/edit/publishing', 'companiesEditPublishing');
-        Route::put('/dashboard/companies/update/publishing', 'companiesUpdatePublishing');
-
-        // Companies: Edit further details
-        Route::get('/dashboard/companies/{company}/edit/details', 'companiesEditDetails');
-        Route::put('/dashboard/companies/update/details', 'companiesUpdateDetails');
-
-        // Companies: Edit family information
-        Route::get('/dashboard/companies/{company}/edit/family', 'companiesEditFamily');
-        Route::put('/dashboard/companies/update/family', 'companiesUpdateFamily');
-
-        // Companies: Edit address
-        Route::get('/dashboard/companies/{company}/edit/address', 'companiesEditAddress');
-        Route::put('/dashboard/companies/update/address', 'companiesUpdateAddress');
-
-        // Companies: Change image 
-        Route::get('/dashboard/companies/{company}/edit/image', 'companiesEditImage');
-        Route::put('/dashboard/companies/update/image', 'companiesUpdateImage');
-
-        // Companies: Edit storage
-        Route::get('/dashboard/companies/{company}/edit/storage', 'companiesEditStorage');
-        Route::put('/dashboard/companies/update/storage', 'companiesUpdateStorage');
-
-        // Companies: Edit general
-        Route::get('/dashboard/companies/{company}/edit/general', 'companiesEditGeneral');
-        Route::put('/dashboard/companies/update/general', 'companiesUpdateGeneral');
-
-        // Companies: Show single company
-        Route::get('/dashboard/companies/{company}', 'companiesShow');
 
 });
 

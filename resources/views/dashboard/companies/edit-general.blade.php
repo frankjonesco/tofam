@@ -1,13 +1,12 @@
 <x-admin-card>
-    
     <x-company-edit-buttons :company="$company" />
-
     <h1>Edit general information</h1>
     <div class="w-100 justify-content-center">
         <form action="/dashboard/companies/update/general" method="POST" class="w-50">
             @csrf
             @method('PUT')
 
+            {{-- Hex --}}
             <input type="hidden" name="hex" value="{{$company->hex}}">
 
             {{-- Registered name --}}
@@ -49,6 +48,32 @@
                 <p class="text-danger">{{$message}}</p>
             @enderror
 
+            {{-- Founded in --}}
+            <label for="founded_in">Founded in</label>
+            <input 
+                type="text"
+                name="founded_in"
+                class="form-control mb-3"
+                placeholder="YYYY"
+                value="{{old('founded_in') ?? $company->founded_in}}"
+            >
+            @error('founded_in')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
+            {{-- Founded by --}}
+            <label for="founded_by">Founded by</label>
+            <input 
+                type="text"
+                name="founded_by"
+                class="form-control mb-3"
+                placeholder="Founded by"
+                value="{{old('founded_by') ?? $company->founded_by}}"
+            >
+            @error('founded_by')
+                <p class="text-danger">{{$message}}</p>
+            @enderror
+
             {{-- Headquarters --}}
             <label for="headquarters">Headquarters</label>
             <input 
@@ -85,32 +110,6 @@
                 placeholder="Description"
             >{{old('description') ?? $company->description}}</textarea>
             @error('description')
-                <p class="text-danger">{{$message}}</p>
-            @enderror
-
-            {{-- Founded in --}}
-            <label for="founded_in">Founded in</label>
-            <input 
-                type="text"
-                name="founded_in"
-                class="form-control mb-3"
-                placeholder="YYYY"
-                value="{{old('founded_in') ?? $company->founded_in}}"
-            >
-            @error('founded_in')
-                <p class="text-danger">{{$message}}</p>
-            @enderror
-
-            {{-- Founded by --}}
-            <label for="founded_by">Founded by</label>
-            <input 
-                type="text"
-                name="founded_by"
-                class="form-control mb-3"
-                placeholder="Founded by"
-                value="{{old('founded_by') ?? $company->founded_by}}"
-            >
-            @error('founded_by')
                 <p class="text-danger">{{$message}}</p>
             @enderror
 

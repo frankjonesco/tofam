@@ -50,12 +50,12 @@ class ArticleController extends Controller
     }
 
     // SEARCH ARTICLES RESULTS
-    public function searchRetrieve($term){
+    public function searchRetrieve($term, Site $site){
         // If session variable set, set it again for the next page load
         if(Session::has('searchTerm')){
             Session::flash('searchTerm', $term);
         }
-        $articles = $this->site->similarPublicArticles($term);
+        $articles = $site->similarPublicArticles($term);
         return view('articles.index', [
             'articles' => $articles,
             'count' => $articles->total()
