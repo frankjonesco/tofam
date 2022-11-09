@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Ranking;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class RankingSeeder extends Seeder
 {
@@ -27,14 +28,17 @@ class RankingSeeder extends Seeder
             $user_id = null;
             if($old_ranking->user_id){
                 $user = User::where('old_id', $old_ranking->user_id)->first();
-                $user_id = $user ? $user->id : null;
+                $user_id = (empty($user)) ? null : $user->id;
             }
+
+            $user_id = null;
 
             if($old_ranking->company_id){
                 $company = Company::where('old_id', $old_ranking->company_id)->first();
-                if($company){
+                if(empty($company) == false){
                     $company_id = $company->id;
                     $new_rankings[] = [
+                        'hex' => Str::random(11),
                         'user_id' => $user_id,
                         'company_id' => $company_id,
                         'year' => $old_ranking->year,
@@ -44,12 +48,16 @@ class RankingSeeder extends Seeder
                         'training_rate' => $old_ranking->training_rate,
                         'confirmed_by_company' => ($old_ranking->source == 1) ?? null,
                         'note' => ($old_ranking->note == null) ? 'Imported from transfer - '.date('F d, Y', time()) : $old_ranking->note,
-                        'created_at' => date('Y-m-d H:i:s', $old_ranking->created),
-                        'updated_at' => date('Y-m-d H:i:s', $old_ranking->updated),
+                        // 'created_at' => date('Y-m-d H:i:s', $old_ranking->created),
+                        // 'updated_at' => date('Y-m-d H:i:s', $old_ranking->updated),
                     ];
                 }
             }
         }
-        Ranking::insert($new_rankings);
+
+        foreach($new_rankings as $new_ranking){
+            Ranking::create($new_ranking);
+        }
+
     }
 }

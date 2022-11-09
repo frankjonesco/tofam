@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('rankings', function (Blueprint $table) {
             $table->id();
+            $table->string('hex', 11)->unique();
             $table->foreignId('user_id')->nullable();
             $table->foreignId('company_id');
             $table->integer('year');
