@@ -20,10 +20,10 @@
     <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/further-details">
         <i class="fa-solid fa-address-card"></i> Edit further details
     </a>
-    <a class="btn btn-danger btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/comments">
+    <a class="btn btn-danger btn-sm" href="/dashboard/companies/{{$company->hex}}/comments">
         <i class="fa-regular fa-comment"></i> Comments
     </a>
-    <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/contacts">
+    <a class="btn btn-info btn-sm" href="/dashboard/companies/{{$company->hex}}/contacts">
         <i class="fa-solid fa-users"></i> Contacts
     </a>
     <a class="btn btn-warning btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/rankings">

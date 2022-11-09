@@ -219,6 +219,11 @@ class Company extends Model
         return $comments;
     }
 
+    // Get single contact for this company
+    public function getContact($contact_hex){
+        return Contact::where(['company_id' => $this->id, 'hex' => $contact_hex])->first();
+    }
+
 
 
 

@@ -127,5 +127,19 @@ class UserSeeder extends Seeder
             }
         }
 
+        // Copy default profile pics (male & female)
+        File::copy(
+            // From
+            public_path('import_images/users/default-profile-pic-male.jpg'),
+            // To
+            public_path('images/users/default-profile-pic-male.jpg')
+        );
+        File::copy(
+            // From
+            public_path('import_images/users/default-profile-pic-female.jpg'),
+            // To
+            public_path('images/users/default-profile-pic-female.jpg')
+        );
+
     }
 }

@@ -71,10 +71,15 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
     Route::get('/dashboard/companies/{company}/edit/rankings', 'editRankings');
 
     // Companies: Edit contacts
-    Route::get('/dashboard/companies/{company}/edit/contacts', 'editContacts');
+    Route::get('/dashboard/companies/{company}/contacts', 'showContacts');
+    Route::get('/dashboard/companies/{company}/contacts/create', 'createContact');
+    Route::post('/dashboard/companies/{company}/contacts/store', 'storeContact');
+    Route::get('/dashboard/companies/{company}/edit/contacts/{contact}', 'editContact');
+    Route::put('dashboard/companies/{company}/contacts/update', 'updateContact');
+    Route::delete('/dashboard/companies/{company}/contacts/delete', 'destroyContact');
 
     // Companies: Edit comments
-    Route::get('/dashboard/companies/{company}/edit/comments', 'editComments');
+    Route::get('/dashboard/companies/{company}/comments', 'editComments');
     Route::post('/dashboard/companies/{company}/comments/add', 'addComment');
     Route::delete('/dashboard/companies/{company}/comments/delete', 'destroyComment');
     Route::post('/dashboard/companies/{company}/comments/reply', 'replyToComment');
@@ -350,16 +355,6 @@ Route::controller(DashboardController::class)->middleware('auth')->group(functio
 
         // Dashboard: Index
         Route::get('/dashboard', 'index')->name('dashboard');
-
-    // DASHBOARD: COLOR SWATCHES
-
-    // DASHBOARD: CATEGORES
-
-    // DASHBOARD: INDUSTRIES
-    
-    // DASHBOARD: ARTICLES
-
-    //  DASHBOARD: COMPANIES
 
 });
 

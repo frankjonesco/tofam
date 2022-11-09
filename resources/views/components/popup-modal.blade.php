@@ -1,5 +1,6 @@
-<!-- Delete user -->
+
 @if(isset($user))
+    <!-- Delete user -->
     <div class="modal fade" id="deleteUserModal{{$user->hex}}" tabindex="-1" aria-labelledby="deleteUserModalLabel{{$user->hex}}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -22,9 +23,9 @@
         </div>
     </div>
 @endif
-<!-- Delete color swatch -->
-@if(isset($colorSwatch))
 
+@if(isset($colorSwatch))
+    <!-- Delete color swatch -->
     <div class="modal fade" id="deleteColorSwatchModal" tabindex="-1" aria-labelledby="deleteColorSwatchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,8 +64,9 @@
     </div> 
 @endif
 
-<!-- Delete category -->
+
 @if(isset($category))
+    <!-- Delete category -->
     <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-labelledby="deleteCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -88,8 +90,9 @@
     </div>
 @endif
 
-<!-- Delete industry -->
+
 @if(isset($industry))
+    <!-- Delete industry -->
     <div class="modal fade" id="deleteIndustryModal" tabindex="-1" aria-labelledby="deleteIndustryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -113,8 +116,9 @@
     </div>
 @endif
 
-<!-- Delete article -->
+
 @if(isset($article))
+    <!-- Delete article -->
     <div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="deleteArticleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -138,8 +142,9 @@
     </div> 
 @endif
 
-<!-- Delete comment -->
+
 @if(isset($comments))
+    <!-- Delete comment -->
     @foreach($comments as $comment)
         <div class="modal fade" id="deleteCommentModal_{{$comment->id}}" tabindex="-1" aria-labelledby="deleteCommentModalLabel_{{$comment->id}}" aria-hidden="true">
             <div class="modal-dialog">
@@ -154,6 +159,50 @@
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    @endforeach
+@endif
+
+
+@if(isset($contacts))
+    <!-- Delete contacts -->
+    @foreach($contacts as $contact)
+        <div class="modal fade" id="deleteContactModal_{{$contact->hex}}" tabindex="-1" aria-labelledby="deleteContactModalLabel_{{$contact->hex}}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteContactModalLabel_{{$contact->hex}}">Delete contact?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <div>    
+                                    <img 
+                                        src="{{asset('images/users/default-profile-pic-male.jpg')}}" 
+                                        class="card-img-top" 
+                                        alt="{{$contact->hex}}"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-9 align-self-center">
+                                <p>{{$contact->formal_name}}</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="modal-footer">
+                        <form action="/dashboard/companies/{{$contact->company->hex}}/contacts/delete" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="contact_hex" value="{{$contact->hex}}">
                             <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
                         </form>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

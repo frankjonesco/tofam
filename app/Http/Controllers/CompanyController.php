@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Site;
 use App\Models\Comment;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Models\Category;
 use App\Models\Industry;
 use App\Rules\SoftUrlRule;
@@ -212,13 +213,13 @@ class CompanyController extends Controller
             ]
         );
         $company->createComment($request);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('message', 'New comment added!');
+        return redirect('dashboard/companies/'.$company->hex.'/comments')->with('message', 'New comment added!');
     }
 
     // ADMIN: DELETE COMMENT
     public function destroyComment(Request $request, Company $company){
         $company->destroyComment($request);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('message', 'Your comment was deleted!');
+        return redirect('dashboard/companies/'.$company->hex.'/comments')->with('message', 'Your comment was deleted!');
     }
 
     // ADMIN: REPLY TO COMMENT
@@ -232,14 +233,58 @@ class CompanyController extends Controller
             'body' => $request->reply_body,
         ]);
 
-        return redirect('dashboard/companies/'.$company->hex.'/edit/comments')->with('Reply sent!');
+        return redirect('dashboard/companies/'.$company->hex.'/comments')->with('Reply sent!');
     }
 
-    // ADMIN: EDIT CONTACTS
-    public function editContacts(Company $company){
-        return view('dashboard.companies.edit-contacts', [
+    // ADMIN: SHOW CONTACTS
+    public function showContacts(Company $company){
+        return view('dashboard.companies.show-contacts', [
             'company' => $company
         ]);
+    }
+
+    // ADMIN: CREATE CONTACT
+    public function createContact(Company $company){
+        return view('dashboard.companies.create-contact', [
+            'company' => $company
+        ]);
+    }
+
+    // ADMIN: STORE CONTACT
+    public function storeContact(Request $request, Company $company, Contact $contact){
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required'
+        ]);
+        $contact->createContact($request, $company);
+        return redirect('dashboard/companies/'.$company->hex.'/contacts')->with('message', 'Contact created!');
+    }
+
+    // ADMIN: EDIT CONTACT
+    public function editContact(Company $company, Contact $contact){
+        return view('dashboard.companies.edit-contact', [
+            'company' => $company,
+            'contact' => $contact
+        ]);
+    }
+
+    // ADMIN: UPDATE CONTACT
+    public function updateContact(Request $request, Site $site){
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required'
+        ]);
+        $company = $site->getCompany($request->company_hex);
+        $contact = $company->getContact($request->contact_hex);
+        $contact->saveContact($request, $contact);
+        return redirect('dashboard/companies/'.$company->hex.'/edit/contacts')->with('message', 'Contact updated!');
+    }
+
+    // ADMIN: DELETE CONTACT
+    public function destroyContact(Request $request, Company $company){
+        $contact = $company->getContact($request->contact_hex);
+        $contact->delete();
+        return redirect('dashboard/companies/'.$company->hex.'/contacts')->with('message', 'Contact deleted!');
     }
 
     // ADMIN: EDIT RANKINGS

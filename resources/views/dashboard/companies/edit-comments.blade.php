@@ -48,25 +48,21 @@
 
         </form>
     </div>
+
+    <x-popup-modal :comments="$company->comments" />
+
+    <script>
+        function showReplyForm(comment_id){
+            document.getElementById('replyForm_' + comment_id).style.display='block';
+            document.getElementById('btnShowReplyForm_' + comment_id).style.display='none';
+            document.getElementById('btnHideReplyForm_' + comment_id).style.display='inline-block';
+        }
+        function hideReplyForm(comment_id){
+            document.getElementById('replyForm_' + comment_id).style.display='none';
+            document.getElementById('btnShowReplyForm_' + comment_id).style.display='inline-block';
+            document.getElementById('btnHideReplyForm_' + comment_id).style.display='none';
+        }
+    </script>
+
 </x-admin-card>
 
-<x-popup-modal :comments="$company->comments" />
-
-
-
-<script>
-
-    function showReplyForm(comment_id){
-        document.getElementById('replyForm_' + comment_id).style.display='block';
-        document.getElementById('btnShowReplyForm_' + comment_id).style.display='none';
-        document.getElementById('btnHideReplyForm_' + comment_id).style.display='inline-block';
-    }
-
-    function hideReplyForm(comment_id){
-        document.getElementById('replyForm_' + comment_id).style.display='none';
-        document.getElementById('btnShowReplyForm_' + comment_id).style.display='inline-block';
-        document.getElementById('btnHideReplyForm_' + comment_id).style.display='none';
-    }
-
-    
-</script>
