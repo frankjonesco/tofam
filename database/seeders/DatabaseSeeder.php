@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             RankingSeeder::class,
             CommentSeeder::class,
             ContactSeeder::class,
+            AssociationSeeder::class
         ]);
     }
 }
