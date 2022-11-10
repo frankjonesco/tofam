@@ -212,3 +212,34 @@
         </div> 
     @endforeach
 @endif
+
+@if(isset($rankings))
+    <!-- Delete comment -->
+    @foreach($rankings as $ranking)
+        <div class="modal fade" id="deleteRankingModal_{{$ranking->hex}}" tabindex="-1" aria-labelledby="deleteRankingModalLabel_{{$ranking->hex}}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteRankingModalLabel_{{$ranking->hex}}">Delete Ranking?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <h5 class="text-center">Year: {{$ranking->year}}</h5>
+                        <h6 class="text-center">{{$ranking->company->handle}}</h6>
+                    </div>
+            
+                    <div class="modal-footer">
+                        <form action="/dashboard/companies/{{$ranking->company->hex}}/rankings/delete" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="ranking_hex" value="{{$ranking->hex}}">
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    @endforeach
+@endif

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Symfony\Component\Translation\Dumper\YamlFileDumper;
 
 class Company extends Model
 {
@@ -29,7 +30,7 @@ class Company extends Model
 
     // Relationship to rankings
     public function rankings(){
-        return $this->hasMany(Ranking::class, 'company_id');
+        return $this->hasMany(Ranking::class, 'company_id')->orderBy('year', 'DESC');
     }
 
     // Relationship to user
@@ -224,6 +225,12 @@ class Company extends Model
         return Contact::where(['company_id' => $this->id, 'hex' => $contact_hex])->first();
     }
 
+    // Get single ranking for this company
+    public function getRanking($ranking_hex){
+        return Ranking::where(['company_id' => $this->id, 'hex' => $ranking_hex])->first();
+    }
+
+
 
 
 
@@ -320,6 +327,28 @@ class Company extends Model
     public function destroyComment($request){
         $comment = Comment::find($request->comment_id);
         $comment->delete();    
+    }
+
+    // Create ranking (update)
+    public function createRanking($ranking){
+        $site = new Site();
+        $ranking['hex'] = $site->uniqueHex('rankings');
+        $ranking['user_id'] = auth()->user()->id;
+        $ranking['company_id'] = $this->id;
+        $ranking = Ranking::create($ranking);
+        return $ranking;
+    }
+
+    // Save ranking (update)
+    public function saveRanking($request){
+        $ranking = self::getRanking($request->ranking_hex);
+        $ranking->year = $request->year;
+        $ranking->turnover = $request->turnover;
+        $ranking->employees = $request->employees;
+        $ranking->training_rate = $request->training_rate;
+        $ranking->confirmed_by_company = $request->confirmed_by_company;
+        $ranking->save();
+        return $ranking;
     }
 
     // Save publishing information (update)

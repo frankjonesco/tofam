@@ -2,7 +2,7 @@
     <x-company-edit-buttons :company="$company" />
     <h1>Edit contact information</h1>
     <div class="w-100 justify-content-center">
-        <form action="/dashboard/companies/update/contact" method="POST" class="w-50">
+        <form action="/dashboard/companies/{{$company->hex}}/contacts/update" method="POST" class="w-50">
             @csrf
             @method('PUT')
 

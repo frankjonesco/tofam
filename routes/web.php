@@ -68,13 +68,19 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
     Route::put('/dashboard/companies/update/publishing-information', 'updatePublishingInformation');
 
     // Companies: Edit rankings
-    Route::get('/dashboard/companies/{company}/edit/rankings', 'editRankings');
+    Route::get('/dashboard/companies/{company}/rankings', 'showRankings');
+    Route::get('/dashboard/companies/{company}/rankings/create', 'createRanking');
+    Route::post('/dashboard/companies/{company}/rankings/store', 'storeRanking');
+    Route::get('/dashboard/companies/{company}/rankings/edit/{ranking}', 'editRanking');
+    Route::put('dashboard/companies/{company}/rankings/update', 'updateRanking');
+    Route::delete('/dashboard/companies/{company}/rankings/delete', 'destroyRanking');
+    
 
     // Companies: Edit contacts
     Route::get('/dashboard/companies/{company}/contacts', 'showContacts');
     Route::get('/dashboard/companies/{company}/contacts/create', 'createContact');
     Route::post('/dashboard/companies/{company}/contacts/store', 'storeContact');
-    Route::get('/dashboard/companies/{company}/edit/contacts/{contact}', 'editContact');
+    Route::get('/dashboard/companies/{company}/contacts/edit/{contact}', 'editContact');
     Route::put('dashboard/companies/{company}/contacts/update', 'updateContact');
     Route::delete('/dashboard/companies/{company}/contacts/delete', 'destroyContact');
 

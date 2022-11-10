@@ -9,6 +9,11 @@ class Ranking extends Model
 {
     use HasFactory;
 
+    // Set route key name
+    public function getRouteKeyName(){
+        return 'hex';
+    }
+
     
     // MODEL RELATIONSHIPS
 

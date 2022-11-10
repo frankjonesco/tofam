@@ -6,11 +6,13 @@ use App\Models\Site;
 use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Ranking;
 use App\Models\Category;
 use App\Models\Industry;
-use App\Rules\SoftUrlRule;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Rules\SoftUrlRule;
+use App\Rules\RankingYearIsUnique;
 use Illuminate\Support\Facades\Session;
 
 class CompanyController extends Controller
@@ -277,7 +279,7 @@ class CompanyController extends Controller
         $company = $site->getCompany($request->company_hex);
         $contact = $company->getContact($request->contact_hex);
         $contact->saveContact($request, $contact);
-        return redirect('dashboard/companies/'.$company->hex.'/edit/contacts')->with('message', 'Contact updated!');
+        return redirect('dashboard/companies/'.$company->hex.'/contacts')->with('message', 'Contact updated!');
     }
 
     // ADMIN: DELETE CONTACT
@@ -287,11 +289,64 @@ class CompanyController extends Controller
         return redirect('dashboard/companies/'.$company->hex.'/contacts')->with('message', 'Contact deleted!');
     }
 
-    // ADMIN: EDIT RANKINGS
-    public function editRankings(Company $company){
-        return view('dashboard.companies.edit-rankings', [
+    // ADMIN: SHOW RANKINGS
+    public function showRankings(Company $company){
+        return view('dashboard.companies.show-rankings', [
+            'company' => $company,
+        ]);
+    }
+
+    // ADMIN: CREATE RANKING
+    public function createRanking(Company $company){
+        return view('dashboard.companies.create-ranking', [
             'company' => $company
         ]);
+    }
+
+    // ADMIN: UDATE RANKING
+    public function storeRanking(Request $request, Company $company){
+        $form_data = $request->validate(
+            [
+                'year' =>  ['required', 'numeric', 'digits:4', 'min:1900', 'max:'.(date('Y')), new RankingYearIsUnique($company->id)],
+                'turnover' => 'numeric|nullable',
+                'employees' => 'numeric|nullable',
+                'training_rate' => ['regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$^', 'nullable'],
+            ],
+            [
+                'year.max' => 'You cannot add a year in the future.',
+                'training_rate.regex' => 'Only use numerical and decimal values for \'training rate\''
+            ]    
+        );
+        $form_data['turnover'] = $request->turnover;
+        $form_data['employees'] = $request->employees;
+        $form_data['training_rate'] = $request->training_rate;
+        $form_data['confirmed_by_company'] = $request->confirmed_by_company;
+        $company->createRanking($form_data);
+        return redirect('dashboard/companies/'.$company->hex.'/rankings')->with('message', 'New ranking added!');
+    }
+
+    // ADMIN: EDIT RANKING
+    public function editRanking(Company $company, Ranking $ranking){
+        return view('dashboard.companies.edit-ranking', [
+            'company' => $company,
+            'ranking' => $ranking
+        ]);
+    }
+
+    // ADMIN: UPDATE RANKING
+    public function updateRanking(Request $request, Company $company){
+        $request->validate([
+            'year' => 'required'
+        ]);
+        $company->saveRanking($request);
+        return redirect('dashboard/companies/'.$company->hex.'/rankings')->with('message', 'Ranking updated!');
+    }
+
+    // ADMIN: DELETE RANKING
+    public function destroyRanking(Request $request, Company $company){
+        $ranking = $company->getRanking($request->ranking_hex);
+        $ranking->delete();
+        return redirect('dashboard/companies/'.$company->hex.'/rankings')->with('message', 'Ranking deleted!');
     }
 
     // ADMIN: EDIT PUBLISHING

@@ -21,7 +21,7 @@
             <p>{{$contact->mobile}}</p>
 
             <a 
-                href="/dashboard/companies/{{$contact->company->hex}}/edit/contacts/{{$contact->hex}}" 
+                href="/dashboard/companies/{{$contact->company->hex}}/contacts/edit/{{$contact->hex}}" 
                 class="btn btn-success btn-sm mt-auto me-auto"
             >
                 <i class="fa-solid fa-pen-to-square"></i> 
