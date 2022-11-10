@@ -33,6 +33,11 @@ class Company extends Model
         return $this->hasMany(Ranking::class, 'company_id')->orderBy('year', 'DESC');
     }
 
+    // Relationship to associations
+    public function associations(){
+        return $this->hasMany(Association::class, 'company_id');
+    }
+
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
@@ -228,6 +233,11 @@ class Company extends Model
     // Get single ranking for this company
     public function getRanking($ranking_hex){
         return Ranking::where(['company_id' => $this->id, 'hex' => $ranking_hex])->first();
+    }
+
+    // Get single association for this company
+    public function getAssociation($association_id){
+        return Association::where(['company_id' => $this->id, 'id' => $association_id])->first();
     }
 
 

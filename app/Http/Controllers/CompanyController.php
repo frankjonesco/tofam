@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Ranking;
 use App\Models\Category;
 use App\Models\Industry;
+use App\Rules\SoftUrlRule;
+use App\Models\Association;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Rules\SoftUrlRule;
 use App\Rules\RankingYearIsUnique;
 use Illuminate\Support\Facades\Session;
 
@@ -347,6 +349,68 @@ class CompanyController extends Controller
         $ranking = $company->getRanking($request->ranking_hex);
         $ranking->delete();
         return redirect('dashboard/companies/'.$company->hex.'/rankings')->with('message', 'Ranking deleted!');
+    }
+
+    // ADMIN: EDIT ASSOCIATION
+    public function editAssociations(Company $company, Site $site){
+
+        $existing_association_ids = $site->collectionToCsvOfColumn($company->associations, 'article_id');
+        if($existing_association_ids){
+            $existing_association_ids = $existing_association_ids.',';
+        }
+        return view('dashboard.companies.edit-association', [
+            'company' => $company,
+            'articles' => $site->allArticles('title', 'ASC'),
+            'existing_associations' => $company->associations,
+            'existing_association_ids' => $existing_association_ids
+        ]);
+    }
+
+    // ADMIN: UPDADTE STORAGE
+    public function updateAssociations(Request $request, Company $company, Site $site){
+
+
+        
+
+        $article_ids = trim($request->articles_array, ',');
+        $article_ids = explode(',', $article_ids);
+        
+        
+        foreach($article_ids as $key => $article_id){
+            if(!empty($article_id)){
+                if(Association::where(['article_id' => $article_id, 'company_id' => $company->id])->doesntExist()){
+                    $association = [
+                        'article_id' => $article_id,
+                        'company_id' => $company->id,
+                        'user_id' => auth()->user()->id
+                    ];
+                    Association::create($association);
+                }
+            }
+        }
+
+        $deleted_article_ids = trim($request->deleted_articles_array, ',');
+        $deleted_article_ids = explode(',', $deleted_article_ids);
+        foreach($deleted_article_ids as $key => $deleted_article_id){
+            if(Association::where(['article_id' => $deleted_article_id, 'company_id' => $company->id])->exists()){
+                $association = Association::where(['article_id' => $deleted_article_id, 'company_id' => $company->id]);
+                $association->delete();
+            }
+        }
+
+       
+        
+        
+        
+
+        return redirect('/dashboard/companies/'.$company->hex.'/associations')->with('message', 'Associations updated!');
+    }
+
+    // ADMIN: DELETE ASSOCIATION
+    public function destroyAssociation(Request $request, Company $company){
+        $association = $company->getAssociation($request->association_id);
+        $association->delete();
+        return redirect('dashboard/companies/'.$company->hex.'/associations')->with('message', 'Association removed!');
     }
 
     // ADMIN: EDIT PUBLISHING

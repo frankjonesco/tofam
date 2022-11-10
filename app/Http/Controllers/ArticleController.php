@@ -219,10 +219,15 @@ class ArticleController extends Controller
 
     // ARTICLES: UPDATE IMAGE
     public function updateImage(Request $request){
-
         $this->article->saveImage($request);
-
         return redirect('dashboard/articles/'.$request->hex.'/edit/image')->with('message', 'Aricle image updated!');
+    }
+
+    // ARTICLES: SHOW ASSOCIATIONS
+    public function showAssociations(Article $article){
+        return view('dashboard.articles.show-associations', [
+            'article' => $article
+        ]);
     }
 
     // ARTICLES: EDIT PUBLISHING

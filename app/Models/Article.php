@@ -25,6 +25,11 @@ class Article extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    // Relationship to associations
+    public function associations(){
+        return $this->hasMany(Association::class, 'article_id');
+    }
+
     // Relationship to user
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

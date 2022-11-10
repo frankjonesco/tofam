@@ -83,8 +83,8 @@ class Site extends Model
     // ARTICLES
 
     // Get all articles with exploaded tags
-    public static function allArticles(){
-        $articles = Article::latest()->get();
+    public static function allArticles($column = 'created_at', $sort = 'DESC'){
+        $articles = Article::orderBy($column, $sort)->get();
         foreach($articles as $key => $article){
             $articles[$key]['tags'] = Article::tagsToArrayFromOne($article->tags);
         }
@@ -243,6 +243,16 @@ class Site extends Model
             }
         }
         return implode(',', $formatted_values);
+    }
+
+
+    public function collectionToCsvOfColumn($rows, $column = 'id'){
+        $idsCsv = null;
+        foreach($rows as $row){
+            $idsCsv .= $row->$column.',';
+        }
+        $idsCsv = trim($idsCsv, ',');
+        return $idsCsv;
     }
 }
 

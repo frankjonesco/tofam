@@ -243,3 +243,33 @@
         </div> 
     @endforeach
 @endif
+
+@if(isset($associations))
+    <!-- Delete comment -->
+    @foreach($associations as $association)
+        <div class="modal fade" id="deleteAssociationModal_{{$association->id}}" tabindex="-1" aria-labelledby="deleteAssociationModalLabel_{{$association->id}}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAssociationModalLabel_{{$association->id}}">Remove association?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <h5 class="text-center">{{$association->article->title}}</h5>
+                    </div>
+            
+                    <div class="modal-footer">
+                        <form action="/dashboard/companies/{{$association->company->hex}}/associations/delete" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="association_id" value="{{$association->id}}">
+                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Confirm delete</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    @endforeach
+@endif

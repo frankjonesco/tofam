@@ -67,6 +67,12 @@ Route::controller(CompanyController::class)->middleware('auth')->group(function(
     Route::get('/dashboard/companies/{company}/edit/publishing-information', 'editPublishingInformation');
     Route::put('/dashboard/companies/update/publishing-information', 'updatePublishingInformation');
 
+    // Companies: Edit Associations
+    Route::get('/dashboard/companies/{company}/associations', 'editAssociations');
+    Route::put('/dashboard/companies/{company}/associations/update', 'updateAssociations');
+    Route::delete('/dashboard/companies/{company}/associations/delete', 'destroyAssociation');
+    
+
     // Companies: Edit rankings
     Route::get('/dashboard/companies/{company}/rankings', 'showRankings');
     Route::get('/dashboard/companies/{company}/rankings/create', 'createRanking');
@@ -152,6 +158,9 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
     // Admin: Edit publishing
     Route::get('/dashboard/articles/{article}/edit/publishing', 'editPublishing');
     Route::put('/dashboard/articles/update/publishing', 'updatePublishing');
+
+    // Admin: Edit Associations
+    Route::get('/dashboard/articles/{article}/associations', 'showAssociations');
 
     // Admin: Edit image
     Route::get('/dashboard/articles/{article}/edit/image', 'editImage');
