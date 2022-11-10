@@ -146,9 +146,14 @@ class Site extends Model
         return Company::where('hex', $hex)->first();
     }
 
-    // All companies
-    public function allCompanies(){
-        return Company::orderBy('registered_name', 'ASC')->paginate(8);
+    public static function allCompanies($column = 'created_at', $sort = 'DESC'){
+        $companies = Company::orderBy($column, $sort)->get();
+        return $companies;
+    }
+
+    public static function allCompaniesPaginated($column = 'registered_name', $sort = 'ASC'){
+        $companies = Company::orderBy($column, $sort)->paginate(20);
+        return $companies;
     }
 
     // Get all companies that are similar to our search term
@@ -246,13 +251,19 @@ class Site extends Model
     }
 
 
-    public function collectionToCsvOfColumn($rows, $column = 'id'){
+    public function collectionColumnToCsv($rows, $column = 'id'){
         $idsCsv = null;
         foreach($rows as $row){
             $idsCsv .= $row->$column.',';
         }
         $idsCsv = trim($idsCsv, ',');
         return $idsCsv;
+    }
+
+    public function trimExplodeCsv($csv){
+        $csv = trim($csv, ',');
+        $csv_as_array = explode(',', $csv);
+        return $csv_as_array;
     }
 }
 

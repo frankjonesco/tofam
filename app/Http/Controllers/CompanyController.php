@@ -62,7 +62,7 @@ class CompanyController extends Controller
     // ADMIN: INDEX
     public function adminIndex(Site $site){
         return view('dashboard.companies.index', [
-            'companies' => $site->allCompanies() 
+            'companies' => $site->allCompaniesPaginated()
         ]);
     }
 
@@ -351,14 +351,14 @@ class CompanyController extends Controller
         return redirect('dashboard/companies/'.$company->hex.'/rankings')->with('message', 'Ranking deleted!');
     }
 
-    // ADMIN: EDIT ASSOCIATION
+    // ADMIN: EDIT ASSOCIATIONS
     public function editAssociations(Company $company, Site $site){
 
-        $existing_association_ids = $site->collectionToCsvOfColumn($company->associations, 'article_id');
+        $existing_association_ids = $site->collectionColumnToCsv($company->associations, 'article_id');
         if($existing_association_ids){
             $existing_association_ids = $existing_association_ids.',';
         }
-        return view('dashboard.companies.edit-association', [
+        return view('dashboard.companies.edit-associations', [
             'company' => $company,
             'articles' => $site->allArticles('title', 'ASC'),
             'existing_associations' => $company->associations,
@@ -366,16 +366,11 @@ class CompanyController extends Controller
         ]);
     }
 
-    // ADMIN: UPDADTE STORAGE
+    // ADMIN: UPDADTE ASSOCIATIONS
     public function updateAssociations(Request $request, Company $company, Site $site){
-
-
-        
-
-        $article_ids = trim($request->articles_array, ',');
-        $article_ids = explode(',', $article_ids);
-        
-        
+        // Article associations to add
+        $article_ids = $site->trimExplodeCsv($request->articles_array);
+        // Add associations if they dont already exist
         foreach($article_ids as $key => $article_id){
             if(!empty($article_id)){
                 if(Association::where(['article_id' => $article_id, 'company_id' => $company->id])->doesntExist()){
@@ -388,21 +383,16 @@ class CompanyController extends Controller
                 }
             }
         }
-
-        $deleted_article_ids = trim($request->deleted_articles_array, ',');
-        $deleted_article_ids = explode(',', $deleted_article_ids);
+        // Article association to delete
+        $deleted_article_ids = $site->trimExplodeCsv($request->deleted_articles_array);
+        // Delete associations if they exist
         foreach($deleted_article_ids as $key => $deleted_article_id){
             if(Association::where(['article_id' => $deleted_article_id, 'company_id' => $company->id])->exists()){
                 $association = Association::where(['article_id' => $deleted_article_id, 'company_id' => $company->id]);
                 $association->delete();
             }
         }
-
-       
-        
-        
-        
-
+        // Redirect
         return redirect('/dashboard/companies/'.$company->hex.'/associations')->with('message', 'Associations updated!');
     }
 

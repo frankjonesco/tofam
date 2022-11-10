@@ -29,6 +29,9 @@
     <a class="btn btn-warning btn-sm" href="/dashboard/companies/{{$company->hex}}/rankings">
         <i class="fa-solid fa-line-chart"></i> Rankings
     </a>
+    <a class="btn btn-secondary btn-sm" href="/dashboard/companies/{{$company->hex}}/associations">
+        <i class="fa-solid fa-line-chart"></i> Associations
+    </a>
     <a class="btn btn-primary btn-sm" href="/dashboard/companies/{{$company->hex}}/edit/publishing-information">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>

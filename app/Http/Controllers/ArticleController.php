@@ -7,6 +7,7 @@ use App\Models\Site;
 use App\Models\Article;
 use App\Models\Category;
 
+use App\Models\Association;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -223,18 +224,55 @@ class ArticleController extends Controller
         return redirect('dashboard/articles/'.$request->hex.'/edit/image')->with('message', 'Aricle image updated!');
     }
 
-    // ARTICLES: SHOW ASSOCIATIONS
-    public function showAssociations(Article $article){
-        return view('dashboard.articles.show-associations', [
-            'article' => $article
-        ]);
-    }
-
     // ARTICLES: EDIT PUBLISHING
     public function editPublishing(Article $article){   
         return view('dashboard.articles.edit-publishing', [
             'article' => $article,
         ]);
+    }
+
+    // ARTICLES: EDIT ASSOCIATIONS
+    public function editAssociations(Article $article, Site $site){
+        $existing_association_ids = $site->collectionColumnToCsv($article->associations, 'company_id');
+        if($existing_association_ids){
+            $existing_association_ids = $existing_association_ids.',';
+        }
+        return view('dashboard.articles.edit-associations', [
+            'article' => $article,
+            'companies' => $site->allCompanies('trading_name', 'ASC'),
+            'existing_associations' => $article->associations,
+            'existing_association_ids' => $existing_association_ids
+        ]);
+    }
+
+    // ARTICLES: UPDADTE ASSOCIATIONS
+    public function updateAssociations(Request $request, Article $article, Site $site){
+        // Company associations to add
+        $company_ids = $site->trimExplodeCsv($request->companies_array);
+        // Add associations if they dont already exist
+        foreach($company_ids as $key => $company_id){
+            if(!empty($company_id)){
+                if(Association::where(['company_id' => $company_id, 'article_id' => $article->id])->doesntExist()){
+                    $association = [
+                        'article_id' => $article->id,
+                        'company_id' => $company_id,
+                        'user_id' => auth()->user()->id
+                    ];
+                    Association::create($association);
+                }
+            }
+        }
+        // Company association to delete
+        $deleted_company_ids = $site->trimExplodeCsv($request->deleted_companies_array);
+        // Delete associations if they exist
+        foreach($deleted_company_ids as $key => $deleted_company_id){
+            if(Association::where(['article_id' => $article->id, 'company_id' => $deleted_company_id])->exists()){
+                $association = Association::where(['article_id' => $article->id, 'company_id' => $deleted_company_id]);
+                $association->delete();
+            }
+        }
+        // Redirect
+        return redirect('/dashboard/articles/'.$article->hex.'/associations')->with('message', 'Associations updated!');
     }
 
     // ARTICLES: UPDATE PUBLISHING

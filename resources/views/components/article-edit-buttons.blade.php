@@ -20,6 +20,10 @@
         <i class="fa-solid fa-image"></i> Change image
     </a>
 
+    <a class="btn btn-warning btn-sm" href="/dashboard/articles/{{$article->hex}}/associations">
+        <i class="fa-solid fa-line-chart"></i> Associations
+    </a>
+
     <a class="btn btn-primary btn-sm" href="/dashboard/articles/{{$article->hex}}/edit/publishing">
         <i class="fa fa-bullhorn"></i> Publishing
     </a>
