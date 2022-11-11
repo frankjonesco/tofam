@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Category;
 use App\Models\Industry;
 use Illuminate\Support\Str;
+use App\Models\TempIndustry;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -75,7 +76,7 @@ class CompanySeeder extends Seeder
                 $industry_ids = [];
                 $old_industry_ids = explode(',', $old_company->industries);
                 foreach($old_industry_ids as $old_industry_id){
-                    $old_industry = Industry::where('old_id', $old_industry_id)->first();
+                    $old_industry = TempIndustry::where('old_id', $old_industry_id)->first();
                     if($old_industry){
                         $industry_ids[] = $old_industry->id;
                     }

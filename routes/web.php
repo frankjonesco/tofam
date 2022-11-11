@@ -161,7 +161,6 @@ Route::controller(ArticleController::class)->middleware('auth')->group(function(
     Route::get('/dashboard/articles/{article}/associations', 'editAssociations');
     Route::put('/dashboard/articles/{article}/associations/update', 'updateAssociations');
 
-
     // Admin: Edit image
     Route::get('/dashboard/articles/{article}/edit/image', 'editImage');
     Route::put('/dashboard/articles/update/image', 'updateImage');

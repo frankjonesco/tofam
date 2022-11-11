@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('hex', 11)->unique();
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('company_id');
+            $table->foreignId('company_id')->onDelete('cascade');
             $table->integer('year');
             $table->boolean('is_latest')->nullable();
             $table->bigInteger('turnover')->nullable();

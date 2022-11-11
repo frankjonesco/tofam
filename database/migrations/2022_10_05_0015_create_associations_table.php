@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('associations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('article_id')->cascade();
-            $table->foreignId('company_id')->cascade();
+            $table->foreignId('article_id')->onDelete('cascade');
+            $table->foreignId('company_id')->onDelete('cascade');
             $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });

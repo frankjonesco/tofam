@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('hex', 11);
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('company_id')->nullable();
+            $table->foreignId('company_id')->nullable()->onDelete('cascade');
             $table->string('salutation')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();

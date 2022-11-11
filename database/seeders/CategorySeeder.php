@@ -33,6 +33,8 @@ class CategorySeeder extends Seeder
                 'user_id' => 1,
                 'name' => $row->name,
                 'slug' => Str::slug($row->name),
+                'english_name' => $row->english_name,
+                'english_slug' => $row->englishurl_name,
                 'description' => null,
                 'image' => $row->image,
                 'color_id' => $row->color,
