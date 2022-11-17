@@ -29,6 +29,11 @@ class Category extends Model
         return $this->hasMany(Company::class, 'category_ids');
     }
 
+    // Relationship to industries
+    public function industries(){
+        return $this->hasMany(Industry::class, 'category_id')->orderBy('name', 'ASC');
+    }
+
 
     // RETRIEVAL METHODS
 

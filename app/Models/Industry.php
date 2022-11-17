@@ -22,6 +22,11 @@ class Industry extends Model
         return $this->hasMany(Company::class, 'industry_ids');
     }
 
+    // Relationship to category
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
 
     // RETRIEVAL METHODS
 

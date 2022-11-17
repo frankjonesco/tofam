@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->string('name');
             $table->string('slug');
+            $table->string('english_name');
+            $table->string('english_slug');
             $table->text('description')->nullable();
             $table->foreignId('color_id')->nullable();
             $table->timestamps();

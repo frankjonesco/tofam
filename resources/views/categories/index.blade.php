@@ -33,6 +33,10 @@
                                     <h5 class="card-title">
                                         {{$category->name}}
                                     </h5>
+
+                                    @foreach($category->industries as $industry)
+                                        {{$industry->name}} ({{$industry->english_name}})<br>
+                                    @endforeach
                                     
                                     
 
