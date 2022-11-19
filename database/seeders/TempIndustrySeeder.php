@@ -44,6 +44,8 @@ class TempIndustrySeeder extends Seeder
                     'user_id' => $user_id,
                     'name' => $old_industry->name,
                     'slug' => Str::slug($old_industry->name),
+                    'english_name' => $old_industry->english_name,
+                    'english_slug' => Str::slug($old_industry->english_name),
                     'color_id' => $site->randomColor(\App\Models\Config::where('id', 1)->first()->color_swatch_id),
                     'created_at' => date('Y-m-d H:i:s', $old_industry->created),
                     'updated_at' => date('Y-m-d H:i:s', $old_industry->updated),

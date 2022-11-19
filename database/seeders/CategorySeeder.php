@@ -27,14 +27,18 @@ class CategorySeeder extends Seeder
         $categories = [];
 
         foreach($input as $row){
+            $site = new Site();
+            $slug = $site->prepSlug($row->name);
+            $english_slug = $site->prepSlug($row->english_name);
+            
             $categories[] = [
                 'old_id' => $row->id,
                 'hex' => Str::random(11),
                 'user_id' => 1,
                 'name' => $row->name,
-                'slug' => Str::slug($row->name),
+                'slug' => Str::slug($slug),
                 'english_name' => $row->english_name,
-                'english_slug' => $row->englishurl_name,
+                'english_slug' => Str::slug($english_slug),
                 'description' => null,
                 'image' => $row->image,
                 'color_id' => $row->color,

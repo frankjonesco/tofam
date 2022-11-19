@@ -31,7 +31,6 @@ class IndustrySeeder extends Seeder
             $new_industry_ids = [];
 
 
-
             // If company has industry_ids
             if($company->industry_ids){
 
@@ -41,12 +40,12 @@ class IndustrySeeder extends Seeder
                 $industry_ids = explode(',', $company->industry_ids);
                 // For each industry_id
                 foreach($industry_ids as $industry_id){
-                    // Get industry
+                    // Get temp industry
                     $industry = TempIndustry::where('id', $industry_id)->first();
                     
-                    // If industry exists
+                    // If temp industry exists
                     if(empty($industry) === false){
-                        // If company has category_ids
+                        // And if company has category_ids
                         if($company->category_ids){
                             // Explode them
                             $category_ids = explode(',', $company->category_ids);
@@ -65,6 +64,8 @@ class IndustrySeeder extends Seeder
                                         'category_id' => null,
                                         'name' => $industry->name,
                                         'slug' => $industry->slug,
+                                        'english_name' => $industry->english_name,
+                                        'english_slug' => $industry->english_slug,
                                         'description' => $industry->description,
                                         'color_id' => $industry->color_id,
                                         'created_at' => $industry->created_at,
@@ -88,6 +89,8 @@ class IndustrySeeder extends Seeder
                                         'category_id' => $category->id,
                                         'name' => $industry->name,
                                         'slug' => $industry->slug,
+                                        'english_name' => $industry->english_name,
+                                        'english_slug' => $industry->english_slug,
                                         'description' => $industry->description,
                                         'color_id' => $industry->color_id,
                                         'created_at' => $industry->created_at,
@@ -112,6 +115,8 @@ class IndustrySeeder extends Seeder
                                 'category_id' => null,
                                 'name' => $industry->name,
                                 'slug' => $industry->slug,
+                                'english_name' => $industry->english_name,
+                                'english_slug' => $industry->english_slug,
                                 'description' => $industry->description,
                                 'color_id' => $industry->color_id,
                                 'created_at' => $industry->created_at,

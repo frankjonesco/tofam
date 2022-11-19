@@ -265,6 +265,18 @@ class Site extends Model
         $csv_as_array = explode(',', $csv);
         return $csv_as_array;
     }
+
+    public function prepSlug($value){
+        $value = strtolower($value);
+        $value = trim($value);
+        $value = str_replace('ä', 'ae', $value);
+        $value = str_replace('ö', 'oe', $value);
+        $value = str_replace('ü', 'ue', $value);
+        $value = str_replace('ß', 'ss', $value);
+        $value = str_replace('/', '-', $value);
+        $value = str_replace('&', 'and', $value);
+        return $value;
+    }
 }
 
 
