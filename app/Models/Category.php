@@ -35,6 +35,14 @@ class Category extends Model
     }
 
 
+    // ACCESSORS
+
+    // Accessor for retrieving and formatting 'company_count'
+    public function getCompanyCountAttribute(){
+        return count(Company::where('category_ids', $this->id)->get());
+    }
+
+
     // RETRIEVAL METHODS
 
     // Find unique hex for categories
@@ -103,10 +111,10 @@ class Category extends Model
         $category->hex = self::uniqueHex($site);
         $category->user_id = auth()->user()->id;
         $category->name = ucfirst($request->name);
-        $category->slug = Str::slug($request->name);
+        $category->slug = Str::slug($site->prepSlug($request->name));
         $category->description = $request->description;
         $category->color_id = $site->randomColor();
-        $category->status = 'private';
+        $category->status = 'public';
         return $category;
     }
 

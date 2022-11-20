@@ -35,7 +35,7 @@
                                     </h5>
 
                                     @foreach($category->industries as $industry)
-                                        {{$industry->name}} ({{$industry->english_name}})<br>
+                                        {{$industry->name}} ({{$industry->english_name}}) - {{count($industry->companies)}}<br>
                                     @endforeach
                                     
                                     

@@ -78,6 +78,7 @@
         nameValue = nameValue.replace('ö', 'oe');
         nameValue = nameValue.replace('ü', 'ue');
         nameValue = nameValue.replace('ß', 'ss');
+        nameValue = nameValue.replace('&', 'and');
 
         nameValue = nameValue.replace(/[^a-zA-Z0-9,;\- ]/g, '');
 

@@ -90,8 +90,13 @@ class CategoryController extends Controller
 
     // ADMIN: INDEX
     public function adminIndex(){
+        $categories = Site::allCategories();
+        // foreach($categories as $key => $category){
+        //     $category[$key][] = 
+        // }
+
         return view('dashboard.categories.index', [
-            'categories' => Site::allCategories()
+            'categories' => $categories
         ]);
     }
 
@@ -123,7 +128,7 @@ class CategoryController extends Controller
 
         $category = $category->createCategory($request);
 
-        return redirect('dashboard/categories/'.$category->hex.'/edit/text')->with('message', 'New category created!');
+        return redirect('dashboard/categories')->with('message', 'New category created!');
     }
 
     // ADMIN: EDIT TEXT
