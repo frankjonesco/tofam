@@ -1,5 +1,5 @@
 import './bootstrap';
-import '../sass/app.scss'
+import '../css/app.css'; 
 
 // Show page content when DOM loaded
 document.addEventListener("DOMContentLoaded", function(event) {
